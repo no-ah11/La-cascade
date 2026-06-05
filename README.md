@@ -55,6 +55,30 @@ Si un fichier est absent, un placeholder élégant s'affiche à sa place.
 
 Tout le texte (capsules, quiz, citations) est dans `data/content.js`. Édite directement les chaînes — pas de build ni de compilation requise.
 
+## Installation hors-ligne (PWA)
+
+L'app est une **PWA** : elle s'installe sur le téléphone et fonctionne sans connexion une fois la première visite faite.
+
+### iPhone (Safari)
+1. Ouvrir https://no-ah11.github.io/La-cascade/ dans Safari
+2. Bouton **Partager** (carré avec flèche) → **Sur l'écran d'accueil**
+3. L'icône Sillans apparaît sur le bureau ; ouvrir, faire défiler une fois toute l'app pour pré-charger
+4. À partir de là, fonctionne hors-ligne (vol avion / forêt sans réseau)
+
+### Android (Chrome)
+1. Ouvrir l'URL dans Chrome
+2. Menu ⋮ → **Installer l'application** (ou bannière qui apparaît)
+3. Lancer depuis l'écran d'accueil, hors-ligne OK après première visite
+
+### Ce qui est mis en cache automatiquement
+- Toutes les pages HTML, CSS, JS, données (content.js)
+- Le logo SVG
+- Les polices Google Fonts (au premier chargement)
+- Les images de capsules sont mises en cache **à la volée** quand tu les visites — donc fais un tour complet des 6 capsules en connexion avant de partir.
+
+### Pousser une mise à jour
+Quand tu modifies le code, incrémente `CACHE_VERSION` dans [service-worker.js](service-worker.js) — sinon les utilisateurs garderont l'ancienne version en cache. Un toast "Nouvelle version disponible" apparaît automatiquement chez les utilisateurs.
+
 ## Lancer en local
 
 ```bash

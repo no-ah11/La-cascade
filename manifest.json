@@ -1,0 +1,21 @@
+{
+  "name": "Sillans-la-Cascade — Le sanctuaire",
+  "short_name": "Sillans",
+  "description": "Visite guidée immersive de Sillans-la-Cascade, à parcourir hors-ligne.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1628",
+  "theme_color": "#0A1628",
+  "lang": "fr",
+  "categories": ["travel", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "assets/icons/logo-sillans.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
