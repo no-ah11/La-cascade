@@ -10,17 +10,19 @@
   <link rel="stylesheet" href="css/animations.css" />
   <style>
     .slider-track { display:flex; width:200%; transition: transform 400ms var(--ease-out); }
-    .slide { width:50%; flex-shrink:0; padding: 0 20px; display:flex; flex-direction:column; align-items:center; }
-    .slide-image { width: 100%; max-width: 340px; aspect-ratio: 1; border-radius: var(--radius-lg); overflow:hidden; background: var(--color-surface); margin-top: 60px; animation: reveal-left 900ms var(--ease-out) forwards; }
-    .skip-btn { position: fixed; top: 20px; right: 20px; padding: 8px 16px; color: var(--color-text-muted); font-size: 14px; z-index: 10; }
-    .color-circles { display:flex; gap: 16px; margin: 40px 0; }
-    .color-circle { width: 56px; height: 56px; border-radius: 50%; opacity: 0; transform: scale(0); animation: color-restore 600ms var(--ease-bounce) forwards; }
+    .slide { width:50%; flex-shrink:0; padding: 0 18px; display:flex; flex-direction:column; align-items:center; }
+    .slide-image { width: 100%; max-width: clamp(220px, 60vw, 340px); aspect-ratio: 1; border-radius: var(--radius-lg); overflow:hidden; background: var(--color-surface); margin-top: clamp(20px, 6vh, 50px); animation: reveal-left 900ms var(--ease-out) forwards; }
+    .skip-btn { position: fixed; top: calc(12px + var(--safe-top)); right: 16px; padding: 6px 14px; color: var(--color-text-muted); font-size: 14px; z-index: 10; }
+    .color-circles { display:flex; gap: 14px; margin: clamp(20px, 6vh, 36px) 0; }
+    .color-circle { width: clamp(40px, 12vw, 56px); aspect-ratio: 1; border-radius: 50%; opacity: 0; transform: scale(0); animation: color-restore 600ms var(--ease-bounce) forwards; }
+    .slide h1 { font-size: clamp(24px, 7vw, 36px) !important; }
+    .slide p { font-size: clamp(14px, 4vw, 16px); }
   </style>
 </head>
 <body class="no-nav">
   <button class="skip-btn" data-nav="accueil.html">Passer</button>
 
-  <div style="overflow:hidden; min-height: 100vh; padding-bottom: 120px;">
+  <div style="overflow:hidden; min-height: 100vh; padding-bottom: calc(110px + var(--safe-bottom));">
     <div class="slider-track" id="slider">
 
       <!-- Slide 1 -->
@@ -92,12 +94,10 @@
     </div>
   </div>
 
-  <div style="position:fixed; bottom:0; left:0; right:0; padding:16px 20px 24px; background: linear-gradient(to top, var(--color-bg) 60%, transparent); z-index:50;">
-    <div style="max-width:480px; margin:0 auto;">
-      <button class="btn-primary" id="next-btn">
-        Suivant <span aria-hidden="true">→</span>
-      </button>
-    </div>
+  <div class="cta-fixed-bottom">
+    <button class="btn-primary" id="next-btn">
+      Suivant <span aria-hidden="true">→</span>
+    </button>
   </div>
 
   <script src="js/navigation.js"></script>

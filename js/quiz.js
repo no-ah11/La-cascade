@@ -27,23 +27,23 @@ function renderQuestion() {
   }).join('');
 
   root.innerHTML = `
-    <div style="display:flex; align-items:center; gap:12px; padding: 20px 0 8px;">
+    <div style="display:flex; align-items:center; gap:12px; padding: calc(12px + var(--safe-top)) 0 6px;">
       <button class="btn-icon-round" id="quiz-back" aria-label="Retour">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div style="flex:1; text-align:center;" class="italic">Question ${quizIndex + 1} / ${window.QUIZ.length}</div>
+      <div style="flex:1; text-align:center; font-size:15px;" class="italic">Question ${quizIndex + 1} / ${window.QUIZ.length}</div>
       <div style="width:44px;"></div>
     </div>
 
-    <div class="quiz-progress">${progressSegs}</div>
+    <div class="quiz-progress" style="margin: 10px 0 16px;">${progressSegs}</div>
 
     <div class="anim-fade-in" id="quiz-content">
-      <div class="card-citation" style="margin-bottom:24px;">
+      <div class="card-citation" style="margin-bottom:14px; padding: 12px 14px;">
         <div class="citation-icon">${getRollierSVG('#4DB8FF')}</div>
-        <div class="citation-text">« ${q.citation_indice} »</div>
+        <div class="citation-text" style="font-size: clamp(14px, 4.2vw, 17px);">« ${q.citation_indice} »</div>
       </div>
 
-      <h2 style="font-size:28px; margin-bottom:24px; line-height:1.25;">${q.question}</h2>
+      <h2 style="font-size: clamp(20px, 5.5vw, 26px); margin-bottom:14px; line-height:1.2;">${q.question}</h2>
 
       <div id="quiz-answers">
         ${q.reponses.map((r, i) => `
@@ -58,12 +58,10 @@ function renderQuestion() {
       <div id="quiz-explanation"></div>
     </div>
 
-    <div style="position:fixed; bottom:0; left:0; right:0; padding:16px 20px; background: linear-gradient(to top, var(--color-bg) 60%, transparent); z-index:50;">
-      <div style="max-width:480px; margin:0 auto;">
-        <button class="btn-primary" id="quiz-continue" style="display:none;" onclick="nextQuestion()">
-          Continuer <span aria-hidden="true">→</span>
-        </button>
-      </div>
+    <div class="cta-fixed-bottom">
+      <button class="btn-primary" id="quiz-continue" style="display:none;" onclick="nextQuestion()">
+        Continuer <span aria-hidden="true">→</span>
+      </button>
     </div>
   `;
 

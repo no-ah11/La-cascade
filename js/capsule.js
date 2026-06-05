@@ -35,39 +35,39 @@ function initCapsule() {
 
   const root = document.getElementById('capsule-root');
   root.innerHTML = `
-    <div class="capsule-hero" style="position:relative; width:100%; height:280px; overflow:hidden;">
+    <div class="capsule-hero" style="position:relative; width:100%; height: clamp(200px, 32vh, 280px); overflow:hidden;">
       ${renderImageOrPlaceholder(capsule.image, capsule.titre, capsule.theme_color)}
       <div style="position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,22,40,0.5) 0%, transparent 30%, rgba(10,22,40,0.6) 70%, var(--color-bg) 100%);"></div>
 
-      <div style="position:absolute; top:20px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="position:absolute; top: calc(12px + var(--safe-top)); left:16px; right:16px; display:flex; justify-content:space-between; align-items:center;">
         <button class="btn-icon-round" data-nav="carte.html" aria-label="Retour">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <div class="italic" style="font-size:16px; color: rgba(255,255,255,0.8);">Capsule ${id} / 6</div>
+        <div class="italic" style="font-size:15px; color: rgba(255,255,255,0.8);">Capsule ${id} / 6</div>
         <div style="width:44px;"></div>
       </div>
 
-      <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; align-items:flex-end; gap:12px;">
+      <div style="position:absolute; bottom:14px; left:18px; right:18px; display:flex; align-items:flex-end; gap:10px;">
         <div class="badge-number lg">${capsule.id}</div>
-        <div style="flex:1;">
-          <h1 style="font-size:30px; margin-bottom:4px; line-height:1.1;">${capsule.titre}</h1>
-          ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style: italic; margin-bottom:6px;">${capsule.sous_titre}</div>` : ''}
-          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:0;">
+          <h1 style="font-size: clamp(22px, 7vw, 30px); margin-bottom:4px; line-height:1.1;">${capsule.titre}</h1>
+          ${capsule.sous_titre ? `<div class="muted" style="font-size:12px; font-style: italic; margin-bottom:4px;">${capsule.sous_titre}</div>` : ''}
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span class="badge" style="color:${capsule.theme_color}; border-color:${capsule.theme_color}40;">${capsule.theme}</span>
-            <span class="muted" style="font-size:13px;">📍 ${capsule.distance} · À proximité</span>
+            <span class="muted" style="font-size:12px;">📍 ${capsule.distance}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container" style="padding-top:20px; padding-bottom:120px;">
-      <div class="card-citation anim-fade-in" style="margin-bottom:20px;">
+    <div class="container" style="padding-top:16px; padding-bottom: calc(96px + var(--safe-bottom));">
+      <div class="card-citation anim-fade-in" style="margin-bottom:16px;">
         <div class="citation-icon">${getRollierSVG(capsule.theme_color)}</div>
         <div class="citation-text">« ${capsule.citation} »</div>
       </div>
 
       <div class="capsule-text anim-fade-in delay-100" style="opacity:0;">
-        ${capsule.texte.split('\n\n').map(p => `<p style="margin-bottom:16px;">${p}</p>`).join('')}
+        ${capsule.texte.split('\n\n').map(p => `<p style="margin-bottom:14px;">${p}</p>`).join('')}
       </div>
 
       <div class="saviez-vous anim-fade-in delay-200" style="opacity:0;">
@@ -75,7 +75,7 @@ function initCapsule() {
         <div class="saviez-vous-text">${capsule.saviez_vous}</div>
       </div>
 
-      <h3 style="margin: 28px 0 12px; font-family: var(--font-body); font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color: var(--color-text-muted);">Médias</h3>
+      <h3 style="margin: 20px 0 10px; font-family: var(--font-body); font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color: var(--color-text-muted);">Médias</h3>
 
       <div class="media-list">
         <button class="media-card anim-fade-in delay-300" style="opacity:0;" onclick="openPhotos(${id})">
@@ -129,12 +129,10 @@ function initCapsule() {
       </div>
     </div>
 
-    <div style="position:fixed; bottom:0; left:0; right:0; padding:16px 20px; background: linear-gradient(to top, var(--color-bg) 60%, transparent); z-index:50;">
-      <div style="max-width:480px; margin:0 auto;">
-        <button class="btn-primary" id="cta-question" disabled style="opacity:0.5;">
-          Répondre à la question <span aria-hidden="true">→</span>
-        </button>
-      </div>
+    <div class="cta-fixed-bottom">
+      <button class="btn-primary" id="cta-question" disabled style="opacity:0.5;">
+        Répondre à la question <span aria-hidden="true">→</span>
+      </button>
     </div>
   `;
 
@@ -148,7 +146,7 @@ function initCapsule() {
         navigateTo(`quiz.html?capsule=${id}`);
       };
     }
-  }, 3000);
+  }, 1200);
 
   const hero = document.querySelector('.capsule-hero');
   window.addEventListener('scroll', () => {

@@ -5,7 +5,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 18px 32px;
+  padding: 15px 28px;
   background: linear-gradient(135deg, #C5F050 0%, #A8E63D 100%);
   color: #0A1628;
   font-weight: 700;
@@ -13,6 +13,9 @@
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-glow-green);
   transition: transform 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+}
+@media (max-height: 700px) {
+  .btn-primary { padding: 13px 24px; font-size: 15px; }
 }
 .btn-primary:active {
   transform: scale(0.97);
@@ -25,7 +28,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 16px 24px;
+  padding: 13px 22px;
   background: var(--color-surface);
   color: var(--color-accent-blue);
   font-weight: 500;
@@ -65,14 +68,34 @@
   color: var(--color-text);
 }
 
+/* ============ CTA fixed bottom (respects safe-area) ============ */
+.cta-fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 18px calc(12px + var(--safe-bottom));
+  background: linear-gradient(to top, var(--color-bg) 60%, rgba(10,22,40,0.85) 85%, transparent);
+  z-index: 50;
+  pointer-events: none;
+}
+.cta-fixed-bottom > * {
+  max-width: 480px;
+  margin: 0 auto;
+  pointer-events: auto;
+}
+
 /* ============ CARDS ============ */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 16px;
   position: relative;
   overflow: hidden;
+}
+@media (min-width: 380px) {
+  .card { padding: 18px; }
 }
 
 .card-with-accent {
@@ -173,15 +196,15 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: var(--nav-height);
-  background: rgba(10, 22, 40, 0.85);
+  height: calc(var(--nav-height) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(10, 22, 40, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0 16px;
   z-index: 100;
 }
 .nav-item {
@@ -210,14 +233,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: calc(12px + var(--safe-top)) 18px 12px;
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
 }
 .page-header h1 {
-  font-size: 32px;
+  font-size: clamp(24px, 7vw, 32px);
   font-weight: 600;
+}
+@media (min-width: 380px) {
+  .page-header { padding: calc(16px + var(--safe-top)) 20px 14px; }
 }
 
 /* ============ COULEURS RESTAUREES ============ */
@@ -269,8 +295,8 @@
   position: relative;
   background: var(--color-surface);
   border-radius: var(--radius-lg);
-  padding: 18px;
-  min-height: 130px;
+  padding: 14px 16px;
+  min-height: 110px;
   overflow: hidden;
   border: 1px solid var(--color-border);
 }
@@ -300,10 +326,10 @@
 }
 .theme-card-title {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: clamp(18px, 5.5vw, 22px);
   font-weight: 600;
   line-height: 1.1;
-  margin-top: 28px;
+  margin-top: 22px;
 }
 
 /* ============ BOTTOM SHEET ============ */
@@ -328,11 +354,11 @@
   background: var(--color-bg);
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  padding: 12px 20px 24px;
+  padding: 10px 18px calc(20px + var(--safe-bottom));
   z-index: 201;
   transform: translateY(100%);
   transition: transform 320ms var(--ease-out);
-  max-height: 88vh;
+  max-height: 85vh;
   overflow-y: auto;
   border-top: 1px solid var(--color-border);
 }
@@ -446,8 +472,8 @@
 .quiz-answer {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
+  gap: 12px;
+  padding: 12px 14px;
   background: var(--color-surface);
   border: 2px solid transparent;
   border-radius: var(--radius-md);
@@ -455,7 +481,7 @@
   transition: all 200ms var(--ease-out);
   width: 100%;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .quiz-answer:hover:not(:disabled) {
   background: var(--color-surface-2);
@@ -475,7 +501,7 @@
   transition: all 200ms var(--ease-out);
 }
 .quiz-answer-text {
-  font-size: 15px;
+  font-size: clamp(13px, 4vw, 15px);
   font-weight: 500;
   flex: 1;
 }
