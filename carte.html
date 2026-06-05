@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="theme-color" content="#0A1628" />
+  <title>Coracia — Carte</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    .map-wrap {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 72px - 80px - 60px);
+      min-height: 480px;
+      overflow: hidden;
+    }
+    #map-svg { width: 100%; height: 100%; display: block; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+    .bottom-sheet.shake { animation: shake 200ms ease-in-out 2; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <h1>Carte</h1>
+    <div class="badge-offline">Hors-ligne</div>
+  </div>
+
+  <div class="map-wrap">
+    <svg id="map-svg" viewBox="0 0 390 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hillGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1A2A40" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#0A1628" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="mapBg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#0D1F38"/>
+          <stop offset="100%" stop-color="#0A1628"/>
+        </linearGradient>
+        <pattern id="dotPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="10" cy="10" r="0.6" fill="#FFFFFF" opacity="0.04"/>
+        </pattern>
+      </defs>
+
+      <rect width="390" height="600" fill="url(#mapBg)"/>
+      <rect width="390" height="600" fill="url(#dotPattern)"/>
+
+      <!-- hills/organic shapes -->
+      <ellipse cx="80" cy="180" rx="90" ry="40" fill="url(#hillGrad)"/>
+      <ellipse cx="290" cy="320" rx="110" ry="50" fill="url(#hillGrad)"/>
+      <ellipse cx="100" cy="430" rx="80" ry="35" fill="url(#hillGrad)"/>
+      <ellipse cx="320" cy="100" rx="70" ry="32" fill="url(#hillGrad)"/>
+
+      <!-- vegetation (sombre) -->
+      <path d="M 0 480 Q 60 460 120 475 T 240 470 Q 290 475 390 460 L 390 600 L 0 600 Z" fill="#0F2535" opacity="0.6"/>
+      <path d="M 0 540 Q 80 530 160 538 T 320 532 Q 360 535 390 530 L 390 600 L 0 600 Z" fill="#0C1F2D" opacity="0.7"/>
+
+      <!-- rivière -->
+      <path d="M 320 -20 Q 280 100 290 200 Q 300 300 220 380 Q 140 460 180 560 Q 200 620 240 640" stroke="#2F4D6B" stroke-width="14" fill="none" opacity="0.5" stroke-linecap="round"/>
+      <path d="M 320 -20 Q 280 100 290 200 Q 300 300 220 380 Q 140 460 180 560 Q 200 620 240 640" stroke="#3D6188" stroke-width="6" fill="none" opacity="0.7" stroke-linecap="round"/>
+      <path d="M 320 -20 Q 280 100 290 200 Q 300 300 220 380 Q 140 460 180 560 Q 200 620 240 640" stroke="#5A8BC0" stroke-width="2" fill="none" opacity="0.6" stroke-linecap="round" stroke-dasharray="0 0"/>
+
+      <!-- tracé du parcours en pointillés -->
+      <path d="M 195 520 L 280 400 L 150 310 L 260 210 L 130 130 L 220 50" stroke="#4DB8FF" stroke-width="1.5" fill="none" stroke-dasharray="4 6" opacity="0.5"/>
+
+      <!-- Locator user dot (en bas) -->
+      <g transform="translate(330, 540)">
+        <circle r="14" fill="#4DB8FF" opacity="0.2"/>
+        <circle r="8" fill="#0A1628" stroke="#4DB8FF" stroke-width="2"/>
+        <circle r="3" fill="#4DB8FF"/>
+      </g>
+
+      <!-- Points seront ajoutés dynamiquement par carte.js -->
+    </svg>
+  </div>
+
+  <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
+  <div class="bottom-sheet" id="sheet"></div>
+
+  <nav class="nav-bar">
+    <a class="nav-item" data-nav="accueil.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      Accueil
+    </a>
+    <a class="nav-item active" href="carte.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+      Carte
+    </a>
+    <a class="nav-item" data-nav="apres-visite.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      Après visite
+    </a>
+  </nav>
+
+  <script src="data/content.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/rollier.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/carte.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initCarte();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="theme-color" content="#0A1628" />
+  <title>Coracia — Accueil</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+  <div class="page-header">
+    <div style="font-family: var(--font-display); font-size:28px; color: var(--color-accent-blue); font-weight:600; font-style: italic;">Coracia</div>
+    <div class="badge-offline">Hors-ligne <span style="font-size:10px; margin-left:2px;">⌄</span></div>
+  </div>
+
+  <div class="container" style="padding-top: 0;">
+
+    <div style="display:flex; justify-content:center; margin: 20px 0 12px;">
+      <div id="rollier-hero" class="anim-levitate" style="width:160px; height:160px;"></div>
+    </div>
+
+    <h1 style="text-align:center; font-size:40px; line-height:1.1; margin-bottom: 28px;">
+      Le sanctuaire<br/>vous attend
+    </h1>
+
+    <div class="card anim-slide-up" style="border-left: 3px solid var(--color-accent-orange); padding: 18px 20px;">
+      <p class="italic" style="font-size:18px; line-height:1.4;">« Approche en silence, voyageur. La forêt écoute. »</p>
+      <div class="muted" style="font-size:14px; margin-top:8px;">— Le Rollier, gardien</div>
+
+      <div style="margin-top: 18px;">
+        <div class="tracked">Couleurs restaurées</div>
+        <div class="couleurs-restaurees">
+          <div class="couleurs-segments" id="couleurs-segments">
+            <div class="couleur-segment" data-key="blue"></div>
+            <div class="couleur-segment" data-key="green"></div>
+            <div class="couleur-segment" data-key="orange"></div>
+            <div class="couleur-segment" data-key="red"></div>
+          </div>
+          <div class="couleurs-score" id="couleurs-score">0 / 4</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary anim-slide-up delay-100" data-nav="carte.html" style="margin-top: 20px; opacity:0;">
+      Commencer la visite <span aria-hidden="true">→</span>
+    </button>
+
+    <h3 style="margin-top: 32px; margin-bottom: 4px; font-family: var(--font-body); font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color: var(--color-text-muted);">Les thèmes du parcours</h3>
+
+    <div class="themes-grid">
+      <div class="theme-card anim-slide-up delay-200" style="--theme-color: #4DB8FF; opacity:0;">
+        <div class="theme-card-number">01</div>
+        <div class="theme-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4DB8FF" stroke-width="1.5"><path d="M12 2.5s5.5 6 5.5 11A5.5 5.5 0 0 1 12 19a5.5 5.5 0 0 1-5.5-5.5C6.5 8.5 12 2.5 12 2.5z"/></svg>
+        </div>
+        <div class="theme-card-title">Eau &amp;<br/>Géologie</div>
+      </div>
+
+      <div class="theme-card anim-slide-up delay-300" style="--theme-color: #A8E63D; opacity:0;">
+        <div class="theme-card-number">02</div>
+        <div class="theme-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#A8E63D" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 4 13C4 8 11 4 11 4s7 4 7 9a7 7 0 0 1-7 7z"/><path d="M11 13v7"/></svg>
+        </div>
+        <div class="theme-card-title">Biodiversité</div>
+      </div>
+
+      <div class="theme-card anim-slide-up delay-400" style="--theme-color: #F5A623; opacity:0;">
+        <div class="theme-card-number">03</div>
+        <div class="theme-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21V14h6v7"/></svg>
+        </div>
+        <div class="theme-card-title">Patrimoine</div>
+      </div>
+
+      <div class="theme-card anim-slide-up delay-500" style="--theme-color: #E05C3A; opacity:0;">
+        <div class="theme-card-number">04</div>
+        <div class="theme-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E05C3A" stroke-width="1.5"><path d="M12 22s8-4 8-12V4l-8-2-8 2v6c0 8 8 12 8 12z"/></svg>
+        </div>
+        <div class="theme-card-title">Gestion<br/>des risques</div>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="nav-bar">
+    <a class="nav-item active" href="accueil.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      Accueil
+    </a>
+    <a class="nav-item" data-nav="carte.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+      Carte
+    </a>
+    <a class="nav-item" data-nav="apres-visite.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      Après visite
+    </a>
+  </nav>
+
+  <script src="data/content.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/rollier.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hero = document.getElementById('rollier-hero');
+      hero.innerHTML = getRollierSVG('#4DB8FF');
+
+      const state = STATE.load();
+      const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');
+      const score = document.getElementById('couleurs-score');
+      let count = 0;
+      segments.forEach(seg => {
+        const key = seg.getAttribute('data-key');
+        if (state.couleurs_unlocked[key]) {
+          seg.classList.add(`filled-${key}`);
+          count++;
+        }
+      });
+      score.textContent = `${count} / 4`;
+    });
+  </script>
+</body>
+</html>
