@@ -50,10 +50,10 @@ function markCapsuleCompleted(id) {
 }
 
 function getThemeKeyByCapsule(id) {
-  if (id === 1 || id === 2) return 'blue';
-  if (id === 3 || id === 5) return 'green';
-  if (id === 4) return 'orange';
-  if (id === 6) return 'red';
+  if (id === 1 || id === 6) return 'orange';
+  if (id === 2 || id === 4) return 'blue';
+  if (id === 3) return 'green';
+  if (id === 5) return 'red';
   return null;
 }
 

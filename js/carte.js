@@ -105,7 +105,7 @@ function openCapsuleSheet(capsule) {
 
   sheet.innerHTML = `
     <div class="sheet-handle"></div>
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
       <div class="badge-number">${capsule.id}</div>
       <div style="flex:1;">
         <h2 style="font-size:24px; margin-bottom:4px;">${capsule.titre}</h2>
@@ -116,6 +116,7 @@ function openCapsuleSheet(capsule) {
         <div class="muted" style="font-size:12px;">À proximité</div>
       </div>
     </div>
+    ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style: italic; margin-bottom: 14px;">${capsule.sous_titre}</div>` : ''}
     <div class="card-citation" style="margin-bottom:16px;">
       <div class="citation-icon">${getRollierSVG(capsule.theme_color)}</div>
       <div class="citation-text">« ${capsule.citation} »</div>

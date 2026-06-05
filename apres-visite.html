@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="theme-color" content="#0A1628" />
-  <title>Coracia — Après visite</title>
+  <title>Sillans-la-Cascade — Après visite</title>
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
@@ -49,8 +49,8 @@
     <div class="card anim-slide-up" style="padding: 18px;">
       <div style="display:flex; align-items:flex-start; gap:16px;">
         <div style="text-align:center;">
-          <div style="width:36px; height:36px; margin-bottom:4px;" id="rec-logo"></div>
-          <div style="font-size:11px; color: var(--color-text-muted); text-transform:uppercase; letter-spacing:0.1em;">améliorer</div>
+          <img src="assets/icons/logo-sillans.svg" alt="Sillans-la-Cascade" width="48" height="42" />
+          <div style="font-size:11px; color: var(--color-text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:4px;">Sillans</div>
         </div>
         <div style="flex:1;">
           <div class="tracked" style="margin-bottom:8px;">Couleurs restaurées</div>
@@ -139,8 +139,6 @@
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('rec-logo').innerHTML = getRollierSVG('#4DB8FF');
-
       const state = STATE.load();
       const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');
       const score = document.getElementById('couleurs-score');

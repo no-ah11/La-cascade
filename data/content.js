@@ -1,123 +1,129 @@
 const CAPSULES = [
   {
     id: 1,
-    titre: "La source sacrée",
-    theme: "Eau & Géologie",
-    theme_color: "#4DB8FF",
-    theme_key: "eau",
-    distance: "50 m",
-    citation: "L'eau qui sourd ici murmure depuis des siècles, voyageur.",
-    texte: `Cette source naturelle est le cœur battant du sanctuaire. Alimentée par les nappes phréatiques de la colline calcaire, elle maintient une température constante de 13°C tout au long de l'année. Les moines médiévaux l'avaient déjà canalisée pour irriguer leurs jardins.
+    titre: "L'église Notre-Dame",
+    sous_titre: "Au niveau de l'église — point de repère",
+    theme: "Patrimoine",
+    theme_color: "#F5A623",
+    theme_key: "patrimoine",
+    distance: "0 m",
+    citation: "Voyageur, ici commence ton chemin. Écoute les cloches du temps.",
+    texte: `L'église Notre-Dame de l'Assomption surplombe Sillans-la-Cascade depuis le XIIᵉ siècle. Reconstruite et remaniée au fil des âges, elle conserve une nef romane caractéristique et un clocher-tour qui a longtemps servi de repère aux paysans de la vallée de la Bresque.
 
-L'eau de source s'infiltre dans le calcaire en surface, se charge en minéraux au fil de son parcours souterrain, et ressurgit ici après plusieurs années de filtration naturelle.`,
-    saviez_vous: "Cette source n'a jamais tari depuis 800 ans, même lors des grandes sécheresses de 2003 et 2022.",
+Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on embrasse d'un seul regard le village médiéval, la plaine cultivée et les collines boisées qui annoncent la garrigue. C'est ici que commence ton circuit.`,
+    saviez_vous: "La cloche de l'église, fondue à la fin du XVIᵉ siècle, sonne encore aujourd'hui les heures du village.",
     image: "assets/images/capsule-1.jpg",
     video: "assets/videos/capsule-1.mp4",
     audio: "assets/videos/capsule-1-audio.mp3",
     schema: "assets/images/capsule-1-schema.jpg",
     photos: ["assets/images/capsule-1-photo-1.jpg", "assets/images/capsule-1-photo-2.jpg", "assets/images/capsule-1-photo-3.jpg"],
     duree_audio: "2 min",
-    pos: { x: 195, y: 520 }
+    pos: { x: 295, y: 90 }
   },
   {
     id: 2,
     titre: "Le tuff",
+    sous_titre: "Roche née de l'eau",
     theme: "Eau & Géologie",
     theme_color: "#4DB8FF",
     theme_key: "eau",
-    distance: "120 m",
+    distance: "150 m",
     citation: "Cette pierre tendre est née de l'eau, goutte après goutte.",
-    texte: `Le tuff se forme lorsque l'eau chargée de calcaire dépose, couche après couche, une roche poreuse autour des mousses et des végétaux. Au fil des siècles, ces dépôts façonnent vasques et cascades.
+    texte: `Le tuff — aussi appelé travertin — se forme lorsque l'eau de la Bresque, chargée de calcaire dissous, dépose ses minéraux couche après couche autour des mousses et des végétaux. Au fil des siècles, ces dépôts façonnent les vasques, les concrétions et les cascades qui font la singularité du site.
 
-Pose la main : la pierre garde la mémoire de l'eau. Tu peux encore distinguer les empreintes de mousses fossilisées dans la roche.`,
-    saviez_vous: "Le tuff est aussi appelé travertin. Les Romains l'utilisaient déjà pour construire leurs aqueducs.",
+Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de mousses fossilisées y dessinent encore la trame du vivant qui l'a fait naître.`,
+    saviez_vous: "À Sillans, le tuff se forme encore aujourd'hui. La cascade fabrique sa propre roche, lentement, à la vitesse de quelques millimètres par siècle.",
     image: "assets/images/capsule-2.jpg",
     video: "assets/videos/capsule-2.mp4",
     audio: "assets/videos/capsule-2-audio.mp3",
     schema: "assets/images/capsule-2-schema.jpg",
     photos: ["assets/images/capsule-2-photo-1.jpg", "assets/images/capsule-2-photo-2.jpg", "assets/images/capsule-2-photo-3.jpg"],
     duree_audio: "2 min",
-    pos: { x: 280, y: 400 }
+    pos: { x: 320, y: 230 }
   },
   {
     id: 3,
-    titre: "La chênaie ancestrale",
+    titre: "Le belvédère",
+    sous_titre: "Zone d'attente — vue sur la cascade",
     theme: "Biodiversité",
     theme_color: "#A8E63D",
     theme_key: "biodiv",
-    distance: "200 m",
-    citation: "Chaque arbre ici est une bibliothèque vivante.",
-    texte: `Cette chênaie de chênes pubescents a plus de trois siècles. Certains spécimens mesurent plus de 18 mètres et abritent des dizaines d'espèces d'insectes, oiseaux et champignons en symbiose.
+    distance: "300 m",
+    citation: "Reste ici en silence. La cascade chante à qui sait l'écouter.",
+    texte: `Le belvédère offre la plus belle perspective sur la cascade et les gorges de la Bresque. C'est aussi un poste d'observation privilégié de la faune locale : martins-pêcheurs filant comme des flèches turquoise, cincles plongeurs marchant sous l'eau, libellules à reflets métalliques.
 
-Le chêne pubescent est l'essence emblématique de la Provence calcaire. Il résiste remarquablement à la sécheresse grâce à ses feuilles duveteuses qui limitent l'évaporation.`,
-    saviez_vous: "Un seul vieux chêne peut abriter plus de 500 espèces d'insectes différentes.",
+Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à peu, les voix plus fines : insectes, chant des fauvettes, frémissement des feuilles. C'est ici que la forêt commence à se confier.`,
+    saviez_vous: "Le martin-pêcheur, ce petit oiseau bleu et orange, peut plonger jusqu'à 1 m de profondeur pour attraper de petits poissons.",
     image: "assets/images/capsule-3.jpg",
     video: "assets/videos/capsule-3.mp4",
     audio: "assets/videos/capsule-3-audio.mp3",
     schema: "assets/images/capsule-3-schema.jpg",
     photos: ["assets/images/capsule-3-photo-1.jpg", "assets/images/capsule-3-photo-2.jpg", "assets/images/capsule-3-photo-3.jpg"],
     duree_audio: "3 min",
-    pos: { x: 150, y: 310 }
+    pos: { x: 270, y: 350 }
   },
   {
     id: 4,
-    titre: "Le moulin des moines",
-    theme: "Patrimoine",
-    theme_color: "#F5A623",
-    theme_key: "patrimoine",
-    distance: "280 m",
-    citation: "Ces pierres ont gardé le silence des siècles.",
-    texte: `Ce moulin à eau du XIIe siècle appartenait à l'abbaye cistercienne voisine. Sa roue à aubes, aujourd'hui disparue, exploitait la force du ruisseau pour moudre le grain et presser les olives.
+    titre: "La Bresque",
+    sous_titre: "La rivière qui fait la cascade",
+    theme: "Eau & Géologie",
+    theme_color: "#4DB8FF",
+    theme_key: "eau",
+    distance: "480 m",
+    citation: "L'eau prend son temps, comme la pierre qu'elle façonne.",
+    texte: `La Bresque prend sa source sur le plateau de Fox-Amphoux et serpente sur près de 30 kilomètres avant de rejoindre l'Argens. À Sillans, elle franchit un seuil de tuff d'une quarantaine de mètres : c'est la fameuse cascade, l'une des plus spectaculaires du Var.
 
-Les moines avaient creusé un canal de dérivation de 400 mètres pour alimenter le moulin même en période de basses eaux. Ce travail hydraulique témoigne d'un savoir-faire remarquable.`,
-    saviez_vous: "Le moulin a fonctionné jusqu'en 1943. Les meules en granit, importées d'Alsace, pèsent chacune 800 kg.",
+Son eau est chargée en calcaire dissous, hérité de la traversée des couches géologiques de la garrigue. C'est ce calcaire qui, en se déposant, sculpte les concrétions du tuff et donne au site sa physionomie si particulière.`,
+    saviez_vous: "La cascade de Sillans mesure environ 42 mètres de hauteur. Son débit peut décupler en quelques heures lors des épisodes méditerranéens d'automne.",
     image: "assets/images/capsule-4.jpg",
     video: "assets/videos/capsule-4.mp4",
     audio: "assets/videos/capsule-4-audio.mp3",
     schema: "assets/images/capsule-4-schema.jpg",
     photos: ["assets/images/capsule-4-photo-1.jpg", "assets/images/capsule-4-photo-2.jpg", "assets/images/capsule-4-photo-3.jpg"],
     duree_audio: "3 min",
-    pos: { x: 260, y: 210 }
+    pos: { x: 200, y: 490 }
   },
   {
     id: 5,
-    titre: "Les espèces protégées",
-    theme: "Biodiversité",
-    theme_color: "#A8E63D",
-    theme_key: "biodiv",
-    distance: "340 m",
-    citation: "La beauté ici est fragile. Marche doucement.",
-    texte: `Ce secteur humide abrite plusieurs espèces strictement protégées par la loi européenne : la Diane (papillon rare), le Triton palmé et l'Agrion de Mercure (libellule). Leur présence indique une eau de très haute qualité.
+    titre: "Le pied des remparts",
+    sous_titre: "Aux pierres du Moyen Âge",
+    theme: "Gestion des risques",
+    theme_color: "#E05C3A",
+    theme_key: "risques",
+    distance: "620 m",
+    citation: "Ces pierres ont vu venir des dangers d'un autre temps.",
+    texte: `Le tracé des remparts médiévaux ceinture encore le vieux Sillans. Bâtis pour défendre le village contre les raids et les troubles de la fin du Moyen Âge, ils dessinent aujourd'hui un parcours minéral entre les maisons et la falaise.
 
-Ces espèces bio-indicatrices sont les sentinelles de la santé du sanctuaire. Leur disparition serait le premier signe d'une dégradation de l'écosystème.`,
-    saviez_vous: "La Diane, ce papillon blanc et rouge, ne vit que dans les sources calcaires propres. Il est absent de 90% de ses habitats historiques.",
+Sous tes pieds, la pierre raconte deux histoires de risques superposés : celui des hommes — guerres, brigands, conflits — et celui de la nature — éboulements, érosion des falaises calcaires, crues de la Bresque. Aujourd'hui, le sanctuaire surveille ces risques par un débroussaillement raisonné et le confortement régulier des murs.`,
+    saviez_vous: "Certaines portions de remparts intègrent des pierres romaines réemployées : les bâtisseurs médiévaux récupéraient les matériaux des ruines antiques alentour.",
     image: "assets/images/capsule-5.jpg",
     video: "assets/videos/capsule-5.mp4",
     audio: "assets/videos/capsule-5-audio.mp3",
     schema: "assets/images/capsule-5-schema.jpg",
     photos: ["assets/images/capsule-5-photo-1.jpg", "assets/images/capsule-5-photo-2.jpg", "assets/images/capsule-5-photo-3.jpg"],
     duree_audio: "3 min",
-    pos: { x: 130, y: 130 }
+    pos: { x: 85, y: 350 }
   },
   {
     id: 6,
-    titre: "Vivre avec le feu",
-    theme: "Gestion des risques",
-    theme_color: "#E05C3A",
-    theme_key: "risques",
-    distance: "420 m",
-    citation: "Le feu est l'ancien maître de cette forêt.",
-    texte: `La Provence vit avec le risque incendie depuis toujours. Ce belvédère offre une vue sur la DFCI (piste de Défense des Forêts Contre l'Incendie) et la citerne de 120 000 litres installée en 2018.
+    titre: "La Grande Rue",
+    sous_titre: "Le cœur du vieux village",
+    theme: "Patrimoine",
+    theme_color: "#F5A623",
+    theme_key: "patrimoine",
+    distance: "750 m",
+    citation: "Marche lentement : chaque pierre garde une histoire.",
+    texte: `La Grande Rue est l'artère historique de Sillans. Pavée de calades, bordée de façades aux volets provençaux, elle a vu défiler des siècles de marchands, d'artisans, de processions et de fêtes votives.
 
-Le sanctuaire applique un débroussaillement raisonné : les zones tampons autour des sentiers sont entretenues tous les deux ans pour ralentir la propagation d'un éventuel feu sans détruire les habitats naturels.`,
-    saviez_vous: "Certaines plantes provençales comme la lavande ont évolué pour favoriser les incendies : leurs huiles essentielles sont inflammables, ce qui élimine leurs concurrents moins résistants.",
+Lève les yeux : sur les linteaux, des cadrans solaires et des dates gravées rappellent qui a bâti, qui a remanié, qui a habité. Les fontaines, alimentées par les eaux du plateau, témoignent d'une époque où l'eau publique était au cœur de la vie quotidienne. Ton circuit s'achève ici, dans le tissu vivant du village.`,
+    saviez_vous: "Plusieurs maisons de la Grande Rue datent du XVIᵉ siècle. Certaines portes encore visibles arborent des décors sculptés Renaissance.",
     image: "assets/images/capsule-6.jpg",
     video: "assets/videos/capsule-6.mp4",
     audio: "assets/videos/capsule-6-audio.mp3",
     schema: "assets/images/capsule-6-schema.jpg",
     photos: ["assets/images/capsule-6-photo-1.jpg", "assets/images/capsule-6-photo-2.jpg", "assets/images/capsule-6-photo-3.jpg"],
-    duree_audio: "3 min",
-    pos: { x: 220, y: 50 }
+    duree_audio: "2 min",
+    pos: { x: 130, y: 170 }
   }
 ];
 
@@ -133,59 +139,59 @@ const QUIZ = [
       { lettre: "C", texte: "Par érosion du vent sur le calcaire", correct: false },
       { lettre: "D", texte: "Par sédimentation marine ancienne", correct: false }
     ],
-    explication: "L'eau minéralisée dépose le calcaire couche par couche autour des végétaux et des mousses."
+    explication: "L'eau de la Bresque, riche en calcaire dissous, dépose ses minéraux couche par couche autour des mousses et des végétaux."
   },
   {
     id: 2,
     capsule_ref: 1,
-    citation_indice: "L'eau a ses propres chemins, invisibles sous nos pieds.",
-    question: "Quelle température constante maintient la source sacrée du sanctuaire ?",
+    citation_indice: "Le clocher du village veille depuis longtemps.",
+    question: "De quel siècle date principalement l'église Notre-Dame de Sillans ?",
     reponses: [
-      { lettre: "A", texte: "7°C", correct: false },
-      { lettre: "B", texte: "13°C", correct: true },
-      { lettre: "C", texte: "18°C", correct: false },
-      { lettre: "D", texte: "22°C", correct: false }
+      { lettre: "A", texte: "Le IXᵉ siècle", correct: false },
+      { lettre: "B", texte: "Le XIIᵉ siècle", correct: true },
+      { lettre: "C", texte: "Le XVIᵉ siècle", correct: false },
+      { lettre: "D", texte: "Le XVIIIᵉ siècle", correct: false }
     ],
-    explication: "La filtration souterraine à travers le calcaire stabilise naturellement la température à 13°C."
+    explication: "L'église est d'origine romane et remonte au XIIᵉ siècle, même si elle a été plusieurs fois remaniée."
   },
   {
     id: 3,
-    capsule_ref: 3,
-    citation_indice: "Les vieux arbres parlent à qui sait les écouter.",
-    question: "Combien d'espèces d'insectes un seul vieux chêne peut-il abriter ?",
+    capsule_ref: 4,
+    citation_indice: "Le saut de la rivière est un moment vertigineux.",
+    question: "Quelle est environ la hauteur de la cascade de Sillans ?",
     reponses: [
-      { lettre: "A", texte: "Environ 50 espèces", correct: false },
-      { lettre: "B", texte: "Environ 150 espèces", correct: false },
-      { lettre: "C", texte: "Plus de 500 espèces", correct: true },
-      { lettre: "D", texte: "Environ 1000 espèces", correct: false }
+      { lettre: "A", texte: "12 mètres", correct: false },
+      { lettre: "B", texte: "25 mètres", correct: false },
+      { lettre: "C", texte: "42 mètres", correct: true },
+      { lettre: "D", texte: "80 mètres", correct: false }
     ],
-    explication: "La complexité structurelle d'un vieux chêne (écorce, cavités, feuilles, glands) crée des centaines de niches écologiques."
+    explication: "La cascade mesure environ 42 m. Elle est l'une des plus spectaculaires du département du Var."
   },
   {
     id: 4,
-    capsule_ref: 5,
-    citation_indice: "Les plus petites créatures sont souvent les plus précieuses.",
-    question: "Que signifie la présence de la Diane (papillon) dans un cours d'eau ?",
+    capsule_ref: 3,
+    citation_indice: "Un éclair bleu file au ras de l'eau.",
+    question: "Quel oiseau coloré, sentinelle des eaux propres, peut s'observer le long de la Bresque ?",
     reponses: [
-      { lettre: "A", texte: "Que l'eau est polluée", correct: false },
-      { lettre: "B", texte: "Que l'eau est de très haute qualité", correct: true },
-      { lettre: "C", texte: "Que la température est élevée", correct: false },
-      { lettre: "D", texte: "Que le cours d'eau est artificiel", correct: false }
+      { lettre: "A", texte: "Le martin-pêcheur", correct: true },
+      { lettre: "B", texte: "L'aigle royal", correct: false },
+      { lettre: "C", texte: "Le grand corbeau", correct: false },
+      { lettre: "D", texte: "La huppe fasciée", correct: false }
     ],
-    explication: "La Diane est une espèce bio-indicatrice : elle ne survit que dans les eaux calcaires très propres, non polluées."
+    explication: "Le martin-pêcheur — petit oiseau bleu et orange — est une espèce bio-indicatrice : il n'occupe que les cours d'eau de très bonne qualité."
   },
   {
     id: 5,
-    capsule_ref: 6,
-    citation_indice: "Certaines plantes ont apprivoisé la flamme elle-même.",
-    question: "Pourquoi certaines plantes provençales favorisent-elles les incendies ?",
+    capsule_ref: 5,
+    citation_indice: "La pierre se souvient des dangers passés.",
+    question: "À quoi servaient principalement les remparts qui ceinturent Sillans ?",
     reponses: [
-      { lettre: "A", texte: "Pour attirer les insectes pollinisateurs", correct: false },
-      { lettre: "B", texte: "Pour se réchauffer en hiver", correct: false },
-      { lettre: "C", texte: "Leurs huiles essentielles inflammables éliminent leurs concurrents", correct: true },
-      { lettre: "D", texte: "Pour libérer leurs graines plus facilement", correct: false }
+      { lettre: "A", texte: "À canaliser les eaux de la Bresque", correct: false },
+      { lettre: "B", texte: "À se protéger des raids et conflits médiévaux", correct: true },
+      { lettre: "C", texte: "À marquer la frontière du domaine royal", correct: false },
+      { lettre: "D", texte: "À soutenir des terrasses de culture", correct: false }
     ],
-    explication: "La lavande et d'autres garrigues ont évolué pour utiliser le feu comme outil concurrentiel — une adaptation remarquable."
+    explication: "Bâtis à la fin du Moyen Âge, les remparts défendaient le village contre les raids et les troubles politiques de l'époque."
   }
 ];
 
@@ -197,10 +203,10 @@ const THEMES = [
 ];
 
 const COULEUR_LABELS = {
-  blue: { nom: "Le Bleu des sources", desc: "Couleur de l'eau pure et de la mémoire géologique." },
-  green: { nom: "Le Vert des vivants", desc: "Couleur du règne végétal et de la biodiversité." },
-  orange: { nom: "L'Ocre des hommes", desc: "Couleur du patrimoine bâti et de l'histoire." },
-  red: { nom: "Le Rouge de la flamme", desc: "Couleur du feu et de la gestion des risques." }
+  blue: { nom: "Le Bleu de la Bresque", desc: "Couleur de l'eau qui sculpte la pierre et fait vivre le sanctuaire." },
+  green: { nom: "Le Vert des gorges", desc: "Couleur du vivant : oiseaux, insectes et végétation des berges." },
+  orange: { nom: "L'Ocre du vieux Sillans", desc: "Couleur du bâti médiéval et de la mémoire des hommes." },
+  red: { nom: "Le Rouge des remparts", desc: "Couleur du feu, des dangers passés et de la vigilance présente." }
 };
 
 const ROLLIER_COLORS = ['#4DB8FF', '#A8E63D', '#F5A623', '#9B6BD8', '#4DE6E6'];

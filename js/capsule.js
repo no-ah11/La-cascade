@@ -50,7 +50,8 @@ function initCapsule() {
       <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; align-items:flex-end; gap:12px;">
         <div class="badge-number lg">${capsule.id}</div>
         <div style="flex:1;">
-          <h1 style="font-size:32px; margin-bottom:6px;">${capsule.titre}</h1>
+          <h1 style="font-size:30px; margin-bottom:4px; line-height:1.1;">${capsule.titre}</h1>
+          ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style: italic; margin-bottom:6px;">${capsule.sous_titre}</div>` : ''}
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
             <span class="badge" style="color:${capsule.theme_color}; border-color:${capsule.theme_color}40;">${capsule.theme}</span>
             <span class="muted" style="font-size:13px;">📍 ${capsule.distance} · À proximité</span>
