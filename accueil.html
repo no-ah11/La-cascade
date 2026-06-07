@@ -19,9 +19,8 @@
 </head>
 <body>
   <div class="page-header">
-    <a href="accueil.html" style="display:flex; align-items:center; gap:10px;">
-      <img src="assets/icons/logo-sillans.svg" alt="Sillans-la-Cascade" width="40" height="36" />
-      <div style="font-family: var(--font-display); font-size:18px; color: var(--color-text); font-weight:600; line-height:1.05;">Sillans-la-<br/>Cascade</div>
+    <a href="accueil.html">
+      <img src="assets/icons/logo-sillans-ecrit.svg" alt="Sillans-la-Cascade" height="44" />
     </a>
     <div class="badge-offline">Hors-ligne <span style="font-size:10px; margin-left:2px;">⌄</span></div>
   </div>
@@ -29,7 +28,7 @@
   <div class="container" style="padding-top: 0;">
 
     <div style="display:flex; justify-content:center; margin: 12px 0 8px;">
-      <div id="rollier-hero" class="anim-levitate" style="width: clamp(96px, 28vw, 140px); aspect-ratio:1;"></div>
+      <img src="assets/icons/logo-sillans.svg" alt="" class="anim-levitate" style="width: clamp(96px, 28vw, 140px);" />
     </div>
 
     <h1 style="text-align:center; font-size: clamp(28px, 9vw, 40px); line-height:1.1; margin-bottom: 18px;">
@@ -111,14 +110,72 @@
     </a>
   </nav>
 
+  <div class="pwa-popup-overlay" id="pwa-popup-overlay">
+    <div class="pwa-popup">
+      <p class="pwa-popup-title">Prépare ton aventure, voyageur — emporte le sanctuaire avec toi.</p>
+      <button class="pwa-popup-btn" id="pwa-popup-btn">Télécharger l'application</button>
+      <div class="pwa-popup-progress-wrap" id="pwa-popup-progress-wrap" style="display:none;">
+        <div class="pwa-popup-progress-bar" id="pwa-popup-progress-bar"></div>
+      </div>
+      <p class="pwa-popup-success" id="pwa-popup-success" style="display:none;">Le sanctuaire est prêt. Tu peux explorer sans connexion. Bonne balade.</p>
+      <p class="pwa-popup-countdown" id="pwa-popup-countdown" style="display:none;"></p>
+    </div>
+  </div>
+
   <script src="data/content.js"></script>
   <script src="js/state.js"></script>
   <script src="js/rollier.js"></script>
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const hero = document.getElementById('rollier-hero');
-      hero.innerHTML = getRollierSVG('#4DB8FF');
+      // Intercept "Commencer la visite" — afficher le pop-up d'installation
+      const visitBtn = document.querySelector('.btn-primary[data-nav="carte.html"]');
+      if (visitBtn) {
+        visitBtn.removeAttribute('data-nav');
+        visitBtn.addEventListener('click', () => {
+          document.getElementById('pwa-popup-overlay').classList.add('open');
+        });
+      }
+
+      // Pop-up : logique du bouton "Télécharger l'application"
+      const popupBtn = document.getElementById('pwa-popup-btn');
+      if (popupBtn) {
+        popupBtn.addEventListener('click', function() {
+          this.style.display = 'none';
+          const wrap = document.getElementById('pwa-popup-progress-wrap');
+          const bar  = document.getElementById('pwa-popup-progress-bar');
+          const success   = document.getElementById('pwa-popup-success');
+          const countdown = document.getElementById('pwa-popup-countdown');
+          wrap.style.display = 'block';
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            bar.style.transition = 'width 3s linear';
+            bar.style.width = '100%';
+          }));
+          setTimeout(() => {
+            wrap.style.display = 'none';
+            success.style.display   = 'block';
+            countdown.style.display = 'block';
+            let secs = 5;
+            countdown.textContent = `Ce message se fermera dans ${secs} seconde(s)`;
+            const timer = setInterval(() => {
+              secs--;
+              countdown.textContent = `Ce message se fermera dans ${secs} seconde(s)`;
+              if (secs <= 0) {
+                clearInterval(timer);
+                setTimeout(() => document.getElementById('pwa-popup-overlay').classList.remove('open'), 600);
+              }
+            }, 1000);
+          }, 3200);
+        });
+      }
+
+      // Nav-bar : effet au clic (scale + couleur #91FF05 pendant 300 ms)
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          this.classList.add('nav-clicked');
+          setTimeout(() => this.classList.remove('nav-clicked'), 300);
+        });
+      });
 
       const state = STATE.load();
       const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');

@@ -218,7 +218,7 @@
   gap: 3px;
   padding: 8px 4px;
   color: var(--color-text-muted);
-  transition: color 200ms var(--ease-out);
+  transition: color 200ms var(--ease-out), transform 200ms var(--ease-out);
   font-size: 11px;
   font-weight: 500;
   text-align: center;
@@ -234,6 +234,11 @@
   width: 22px;
   height: 22px;
   flex-shrink: 0;
+}
+.nav-item.nav-clicked {
+  color: #91FF05;
+  transform: scale(0.88);
+  transition: color 0ms, transform 0ms;
 }
 .nav-item-label {
   display: block;
@@ -756,4 +761,86 @@
   opacity: 1;
   width: 24px;
   border-radius: 4px;
+}
+
+/* ============ PWA INSTALL POPUP ============ */
+.pwa-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms var(--ease-out);
+}
+.pwa-popup-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pwa-popup {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(10, 22, 40, 0.88);
+  border: 1.5px solid #50B1FE;
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateY(12px) scale(0.97);
+  transition: transform 280ms var(--ease-out);
+}
+.pwa-popup-overlay.open .pwa-popup {
+  transform: translateY(0) scale(1);
+}
+.pwa-popup-title {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 4.5vw, 19px);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+.pwa-popup-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: #91FF05;
+  color: #0A1628;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-pill);
+  transition: transform 150ms var(--ease-out);
+}
+.pwa-popup-btn:active {
+  transform: scale(0.97);
+}
+.pwa-popup-progress-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.pwa-popup-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #91FF05;
+  border-radius: var(--radius-pill);
+}
+.pwa-popup-success {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+.pwa-popup-countdown {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: -8px;
 }
