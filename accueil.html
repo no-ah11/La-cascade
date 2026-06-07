@@ -112,12 +112,17 @@
 
   <div class="pwa-popup-overlay" id="pwa-popup-overlay">
     <div class="pwa-popup">
+      <img src="assets/icons/logo-sillans.svg" alt="" class="pwa-popup-icon anim-levitate" />
       <p class="pwa-popup-title">Prépare ton aventure, voyageur — emporte le sanctuaire avec toi.</p>
+      <p class="pwa-popup-subtitle">Accède au site même sans connexion, au cœur de la forêt.</p>
       <button class="pwa-popup-btn" id="pwa-popup-btn">Télécharger l'application</button>
       <div class="pwa-popup-progress-wrap" id="pwa-popup-progress-wrap" style="display:none;">
-        <div class="pwa-popup-progress-bar" id="pwa-popup-progress-bar"></div>
+        <div class="pwa-popup-progress-track">
+          <div class="pwa-popup-progress-bar" id="pwa-popup-progress-bar"></div>
+        </div>
+        <p class="pwa-popup-progress-label">Installation en cours...</p>
       </div>
-      <p class="pwa-popup-success" id="pwa-popup-success" style="display:none;">Le sanctuaire est prêt. Tu peux explorer sans connexion. Bonne balade.</p>
+      <p class="pwa-popup-success" id="pwa-popup-success" style="display:none;">Le sanctuaire est prêt. Bonne balade, voyageur.</p>
       <p class="pwa-popup-countdown" id="pwa-popup-countdown" style="display:none;"></p>
     </div>
   </div>
@@ -156,10 +161,10 @@
             success.style.display   = 'block';
             countdown.style.display = 'block';
             let secs = 5;
-            countdown.textContent = `Ce message se fermera dans ${secs} seconde(s)`;
+            countdown.textContent = `Ce message se fermera dans ${secs} secondes...`;
             const timer = setInterval(() => {
               secs--;
-              countdown.textContent = `Ce message se fermera dans ${secs} seconde(s)`;
+              countdown.textContent = `Ce message se fermera dans ${secs} secondes...`;
               if (secs <= 0) {
                 clearInterval(timer);
                 setTimeout(() => document.getElementById('pwa-popup-overlay').classList.remove('open'), 600);
