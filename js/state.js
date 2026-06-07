@@ -101,6 +101,18 @@ function wasPopupSeen() {
   return localStorage.getItem('popup-install-seen') === '1';
 }
 
+function applyBadgeState() {
+  const badge = document.getElementById('badge-offline');
+  if (!badge || !isInstalled()) return;
+  badge.classList.add('installed');
+  badge.textContent = 'Hors-ligne ✓';
+  badge.setAttribute('data-tooltip', 'Sanctuaire installé — tu es prêt');
+  badge.removeAttribute('role');
+  badge.removeAttribute('tabindex');
+}
+
+document.addEventListener('DOMContentLoaded', applyBadgeState);
+
 if (typeof window !== 'undefined') {
   window.STATE = {
     load: loadState,
@@ -116,6 +128,7 @@ if (typeof window !== 'undefined') {
     markInstalled,
     isInstalled,
     markPopupSeen,
-    wasPopupSeen
+    wasPopupSeen,
+    applyBadgeState
   };
 }

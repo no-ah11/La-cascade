@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <button class="btn-primary anim-slide-up delay-100" data-nav="carte.html" style="margin-top: 14px; opacity:0;">
+    <button class="btn-primary anim-slide-up delay-100" data-nav="parcours.html" style="margin-top: 14px; opacity:0;">
       Commencer la visite <span aria-hidden="true">→</span>
     </button>
 
@@ -159,15 +159,6 @@
       const successEl    = document.getElementById('pwa-popup-success');
       const countdownEl  = document.getElementById('pwa-popup-countdown');
 
-      // — Badge : état persisté
-      function setBadgeInstalled() {
-        badge.classList.add('installed');
-        badge.setAttribute('data-tooltip', 'Sanctuaire installé — tu es prêt');
-        badge.removeAttribute('role');
-        badge.removeAttribute('tabindex');
-      }
-      if (STATE.isInstalled()) setBadgeInstalled();
-
       // — Réinitialisation + ouverture du pop-up
       function openPopup() {
         if (STATE.isInstalled()) return;
@@ -187,16 +178,16 @@
       function closePopup(redirect) {
         STATE.markPopupSeen();
         overlay.classList.remove('open');
-        if (redirect) setTimeout(() => { window.location.href = 'carte.html'; }, 350);
+        if (redirect) setTimeout(() => { window.location.href = 'parcours.html'; }, 350);
       }
 
       // — Bouton "Commencer la visite"
-      const visitBtn = document.querySelector('.btn-primary[data-nav="carte.html"]');
+      const visitBtn = document.querySelector('.btn-primary[data-nav="parcours.html"]');
       if (visitBtn) {
         visitBtn.removeAttribute('data-nav');
         visitBtn.addEventListener('click', () => {
           if (STATE.wasPopupSeen() || STATE.isInstalled()) {
-            window.location.href = 'carte.html';
+            window.location.href = 'parcours.html';
           } else {
             openPopup();
           }
@@ -220,7 +211,7 @@
           successEl.style.display    = 'block';
           countdownEl.style.display  = 'block';
           STATE.markInstalled();
-          setBadgeInstalled();
+          STATE.applyBadgeState();
           let secs = 5;
           countdownEl.textContent = `Ce message se fermera dans ${secs} secondes...`;
           const timer = setInterval(() => {
