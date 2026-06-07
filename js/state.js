@@ -85,6 +85,22 @@ function resetState() {
   localStorage.removeItem(STATE_KEY);
 }
 
+function markInstalled() {
+  localStorage.setItem('app-installed', '1');
+}
+
+function isInstalled() {
+  return localStorage.getItem('app-installed') === '1';
+}
+
+function markPopupSeen() {
+  localStorage.setItem('popup-install-seen', '1');
+}
+
+function wasPopupSeen() {
+  return localStorage.getItem('popup-install-seen') === '1';
+}
+
 if (typeof window !== 'undefined') {
   window.STATE = {
     load: loadState,
@@ -96,6 +112,10 @@ if (typeof window !== 'undefined') {
     unlockCouleur,
     getNextCapsuleId,
     isCapsuleUnlocked,
-    reset: resetState
+    reset: resetState,
+    markInstalled,
+    isInstalled,
+    markPopupSeen,
+    wasPopupSeen
   };
 }

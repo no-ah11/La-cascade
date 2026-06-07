@@ -22,7 +22,7 @@
     <a href="accueil.html">
       <img src="assets/icons/logo-sillans-ecrit.svg" alt="Sillans-la-Cascade" height="44" />
     </a>
-    <div class="badge-offline">Hors-ligne <span style="font-size:10px; margin-left:2px;">⌄</span></div>
+    <div class="badge-offline" id="badge-offline" role="button" tabindex="0" data-tooltip="Clique pour sécuriser ta visite">Hors-ligne</div>
   </div>
 
   <div class="container" style="padding-top: 0;">
@@ -112,18 +112,33 @@
 
   <div class="pwa-popup-overlay" id="pwa-popup-overlay">
     <div class="pwa-popup">
-      <img src="assets/icons/logo-sillans.svg" alt="" class="pwa-popup-icon anim-levitate" />
-      <p class="pwa-popup-title">Prépare ton aventure, voyageur — emporte le sanctuaire avec toi.</p>
-      <p class="pwa-popup-subtitle">Accède au site même sans connexion, au cœur de la forêt.</p>
-      <button class="pwa-popup-btn" id="pwa-popup-btn">Télécharger l'application</button>
-      <div class="pwa-popup-progress-wrap" id="pwa-popup-progress-wrap" style="display:none;">
-        <div class="pwa-popup-progress-track">
-          <div class="pwa-popup-progress-bar" id="pwa-popup-progress-bar"></div>
+
+      <!-- Vue principale -->
+      <div id="pwa-popup-main">
+        <img src="assets/icons/logo-sillans.svg" alt="" class="pwa-popup-icon anim-levitate" />
+        <p class="pwa-popup-title">Prépare ton aventure, voyageur — emporte le sanctuaire avec toi.</p>
+        <p class="pwa-popup-subtitle">Accède au site même sans connexion, au cœur de la forêt.</p>
+        <button class="pwa-popup-btn" id="pwa-popup-btn">Télécharger l'application</button>
+        <div class="pwa-popup-progress-wrap" id="pwa-popup-progress-wrap" style="display:none;">
+          <div class="pwa-popup-progress-track">
+            <div class="pwa-popup-progress-bar" id="pwa-popup-progress-bar"></div>
+          </div>
+          <p class="pwa-popup-progress-label">Installation en cours...</p>
         </div>
-        <p class="pwa-popup-progress-label">Installation en cours...</p>
+        <p class="pwa-popup-success" id="pwa-popup-success" style="display:none;">Le sanctuaire est prêt. Bonne balade, voyageur.</p>
+        <p class="pwa-popup-countdown" id="pwa-popup-countdown" style="display:none;"></p>
+        <button class="pwa-popup-refuse-btn" id="pwa-popup-refuse-btn">Non merci, je préfère rester sans accès hors-ligne</button>
       </div>
-      <p class="pwa-popup-success" id="pwa-popup-success" style="display:none;">Le sanctuaire est prêt. Bonne balade, voyageur.</p>
-      <p class="pwa-popup-countdown" id="pwa-popup-countdown" style="display:none;"></p>
+
+      <!-- Panneau de confirmation -->
+      <div id="pwa-popup-confirm" style="display:none;">
+        <p class="pwa-popup-confirm-text">Le sanctuaire ne sera pas dans ta poche, voyageur.<br/>Tu es certain de vouloir continuer sans installation ?</p>
+        <div class="pwa-popup-confirm-btns">
+          <button id="pwa-popup-confirm-no" class="pwa-popup-confirm-no">Oui, je continue sans</button>
+          <button id="pwa-popup-confirm-yes" class="pwa-popup-confirm-yes">Non, je télécharge</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -133,48 +148,110 @@
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Intercept "Commencer la visite" — afficher le pop-up d'installation
+      const badge        = document.getElementById('badge-offline');
+      const overlay      = document.getElementById('pwa-popup-overlay');
+      const popupMain    = document.getElementById('pwa-popup-main');
+      const popupConfirm = document.getElementById('pwa-popup-confirm');
+      const popupBtn     = document.getElementById('pwa-popup-btn');
+      const refuseBtn    = document.getElementById('pwa-popup-refuse-btn');
+      const progressWrap = document.getElementById('pwa-popup-progress-wrap');
+      const bar          = document.getElementById('pwa-popup-progress-bar');
+      const successEl    = document.getElementById('pwa-popup-success');
+      const countdownEl  = document.getElementById('pwa-popup-countdown');
+
+      // — Badge : état persisté
+      function setBadgeInstalled() {
+        badge.classList.add('installed');
+        badge.setAttribute('data-tooltip', 'Sanctuaire installé — tu es prêt');
+        badge.removeAttribute('role');
+        badge.removeAttribute('tabindex');
+      }
+      if (STATE.isInstalled()) setBadgeInstalled();
+
+      // — Réinitialisation + ouverture du pop-up
+      function openPopup() {
+        if (STATE.isInstalled()) return;
+        popupMain.style.display    = '';
+        popupConfirm.style.display = 'none';
+        popupBtn.style.display     = '';
+        refuseBtn.style.display    = '';
+        progressWrap.style.display = 'none';
+        bar.style.transition       = 'none';
+        bar.style.width            = '0%';
+        successEl.style.display    = 'none';
+        countdownEl.style.display  = 'none';
+        overlay.classList.add('open');
+      }
+
+      // — Fermeture (fade-out) avec clé localStorage + redirection optionnelle
+      function closePopup(redirect) {
+        STATE.markPopupSeen();
+        overlay.classList.remove('open');
+        if (redirect) setTimeout(() => { window.location.href = 'carte.html'; }, 350);
+      }
+
+      // — Bouton "Commencer la visite"
       const visitBtn = document.querySelector('.btn-primary[data-nav="carte.html"]');
       if (visitBtn) {
         visitBtn.removeAttribute('data-nav');
         visitBtn.addEventListener('click', () => {
-          document.getElementById('pwa-popup-overlay').classList.add('open');
+          if (STATE.wasPopupSeen() || STATE.isInstalled()) {
+            window.location.href = 'carte.html';
+          } else {
+            openPopup();
+          }
         });
       }
 
-      // Pop-up : logique du bouton "Télécharger l'application"
-      const popupBtn = document.getElementById('pwa-popup-btn');
-      if (popupBtn) {
-        popupBtn.addEventListener('click', function() {
-          this.style.display = 'none';
-          const wrap = document.getElementById('pwa-popup-progress-wrap');
-          const bar  = document.getElementById('pwa-popup-progress-bar');
-          const success   = document.getElementById('pwa-popup-success');
-          const countdown = document.getElementById('pwa-popup-countdown');
-          wrap.style.display = 'block';
-          requestAnimationFrame(() => requestAnimationFrame(() => {
-            bar.style.transition = 'width 3s linear';
-            bar.style.width = '100%';
-          }));
-          setTimeout(() => {
-            wrap.style.display = 'none';
-            success.style.display   = 'block';
-            countdown.style.display = 'block';
-            let secs = 5;
-            countdown.textContent = `Ce message se fermera dans ${secs} secondes...`;
-            const timer = setInterval(() => {
-              secs--;
-              countdown.textContent = `Ce message se fermera dans ${secs} secondes...`;
-              if (secs <= 0) {
-                clearInterval(timer);
-                setTimeout(() => document.getElementById('pwa-popup-overlay').classList.remove('open'), 600);
-              }
-            }, 1000);
-          }, 3200);
-        });
-      }
+      // — Badge → déclenche le même pop-up
+      badge.addEventListener('click', openPopup);
 
-      // Nav-bar : effet au clic (scale + couleur #91FF05 pendant 300 ms)
+      // — Bouton "Télécharger l'application"
+      popupBtn.addEventListener('click', function() {
+        this.style.display     = 'none';
+        refuseBtn.style.display = 'none';
+        progressWrap.style.display = 'block';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          bar.style.transition = 'width 3s linear';
+          bar.style.width = '100%';
+        }));
+        setTimeout(() => {
+          progressWrap.style.display = 'none';
+          successEl.style.display    = 'block';
+          countdownEl.style.display  = 'block';
+          STATE.markInstalled();
+          setBadgeInstalled();
+          let secs = 5;
+          countdownEl.textContent = `Ce message se fermera dans ${secs} secondes...`;
+          const timer = setInterval(() => {
+            secs--;
+            countdownEl.textContent = `Ce message se fermera dans ${secs} secondes...`;
+            if (secs <= 0) {
+              clearInterval(timer);
+              closePopup(true);
+            }
+          }, 1000);
+        }, 3200);
+      });
+
+      // — Bouton de refus → panneau de confirmation
+      refuseBtn.addEventListener('click', () => {
+        popupMain.style.display    = 'none';
+        popupConfirm.style.display = 'flex';
+      });
+
+      // — Confirmation "Oui, je continue sans" → ferme + redirige
+      document.getElementById('pwa-popup-confirm-no').addEventListener('click', () => {
+        closePopup(true);
+      });
+
+      // — Confirmation "Non, je télécharge" → retour vue principale
+      document.getElementById('pwa-popup-confirm-yes').addEventListener('click', () => {
+        popupConfirm.style.display = 'none';
+        popupMain.style.display    = '';
+      });
+
+      // — Nav-bar : effet au clic (scale + couleur #91FF05 pendant 300 ms)
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
           this.classList.add('nav-clicked');
@@ -182,6 +259,7 @@
         });
       });
 
+      // — Couleurs restaurées
       const state = STATE.load();
       const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');
       const score = document.getElementById('couleurs-score');
