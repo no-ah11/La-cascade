@@ -1,9 +1,29 @@
+let quizCapsuleId = 1;
+let quizQuestions = [];
 let quizIndex = 0;
 let quizScore = 0;
 let quizAnswered = false;
 let usedColors = [];
 
 function initQuiz() {
+  const url = new URLSearchParams(window.location.search);
+  const fromUrl = parseInt(url.get('capsule'));
+  const fromStorage = parseInt(localStorage.getItem('coracia_quiz_capsule'));
+  quizCapsuleId = fromUrl || fromStorage || 1;
+
+  const entry = window.QUIZ.find(q => q.capsule_id === quizCapsuleId);
+
+  if (!entry || !entry.questions || !entry.questions.length) {
+    document.getElementById('quiz-root').innerHTML = `
+      <div style="min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px 20px;">
+        <p style="font-size:18px; margin-bottom:24px; color:var(--color-text);">Quiz indisponible pour cette capsule.</p>
+        <button class="btn-primary" onclick="navigateTo('capsule.html?id=${quizCapsuleId}')">← Retour à la capsule</button>
+      </div>
+    `;
+    return;
+  }
+
+  quizQuestions = entry.questions;
   quizIndex = 0;
   quizScore = 0;
   usedColors = [];
@@ -12,45 +32,56 @@ function initQuiz() {
 
 function renderQuestion() {
   quizAnswered = false;
-  if (quizIndex >= window.QUIZ.length) {
+
+  if (quizIndex >= quizQuestions.length) {
     renderResult();
     return;
   }
 
-  const q = window.QUIZ[quizIndex];
-  const root = document.getElementById('quiz-root');
+  const capsule = window.CAPSULES ? window.CAPSULES.find(c => c.id === quizCapsuleId) : null;
+  const themeColor = capsule ? capsule.theme_color : '#50B1FE';
+  const themeName  = capsule ? capsule.theme : '';
+  const q = quizQuestions[quizIndex];
+  const isLast = quizIndex + 1 === quizQuestions.length;
 
-  const progressSegs = window.QUIZ.map((_, i) => {
-    if (i < quizIndex) return '<div class="quiz-progress-seg done"></div>';
+  const progressSegs = quizQuestions.map((_, i) => {
+    if (i < quizIndex)  return '<div class="quiz-progress-seg done"></div>';
     if (i === quizIndex) return '<div class="quiz-progress-seg active"></div>';
     return '<div class="quiz-progress-seg"></div>';
   }).join('');
 
+  const root = document.getElementById('quiz-root');
   root.innerHTML = `
-    <div style="display:flex; align-items:center; gap:12px; padding: calc(12px + var(--safe-top)) 0 6px;">
-      <button class="btn-icon-round" id="quiz-back" aria-label="Retour">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div style="flex:1; text-align:center; font-size:15px;" class="italic">Question ${quizIndex + 1} / ${window.QUIZ.length}</div>
-      <div style="width:44px;"></div>
+    <div style="position:sticky; top:0; background:var(--color-bg); z-index:10; padding:calc(12px + var(--safe-top)) 0 10px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="btn-icon-round" id="quiz-back" aria-label="Retour">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div style="flex:1; text-align:center; font-size:15px; font-style:italic; color:var(--color-text-muted);">
+          Questions · Capsule ${quizCapsuleId}
+        </div>
+        <span class="badge" style="color:${themeColor}; border-color:${themeColor}40; font-size:11px; white-space:nowrap; flex-shrink:0;">${themeName}</span>
+      </div>
+      <div class="quiz-progress" style="margin:10px 0 0;">${progressSegs}</div>
     </div>
 
-    <div class="quiz-progress" style="margin: 10px 0 16px;">${progressSegs}</div>
-
-    <div class="anim-fade-in" id="quiz-content">
-      <div class="card-citation" style="margin-bottom:14px; padding: 12px 14px;">
-        <div class="citation-icon">${getRollierSVG('#4DB8FF')}</div>
-        <div class="citation-text" style="font-size: clamp(14px, 4.2vw, 17px);">« ${q.citation_indice} »</div>
+    <div class="anim-fade-in" id="quiz-content" style="padding-top:16px; padding-bottom:120px;">
+      <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(80,177,254,0.2); border-radius:16px; padding:20px; margin-bottom:16px;">
+        <div class="muted" style="font-size:12px; margin-bottom:10px; letter-spacing:0.05em;">Question ${quizIndex + 1} / ${quizQuestions.length}</div>
+        <h2 style="font-size:clamp(17px,5vw,20px); font-weight:700; color:var(--color-text); line-height:1.35; margin-bottom:${q.citation_indice ? '10px' : '0'};">${q.question}</h2>
+        ${q.citation_indice ? `<div style="font-size:13px; font-style:italic; color:#50B1FE; line-height:1.4;">« ${q.citation_indice} »</div>` : ''}
       </div>
-
-      <h2 style="font-size: clamp(20px, 5.5vw, 26px); margin-bottom:14px; line-height:1.2;">${q.question}</h2>
 
       <div id="quiz-answers">
         ${q.reponses.map((r, i) => `
-          <button class="quiz-answer" data-index="${i}" onclick="selectAnswer(${i})">
-            <div class="quiz-answer-letter">${r.lettre}</div>
-            <div class="quiz-answer-text">${r.texte}</div>
-            <div class="quiz-answer-result">Bien vu !</div>
+          <button class="quiz-answer" data-index="${i}" onclick="selectAnswer(${i})"
+            style="width:100%; display:flex; align-items:flex-start; gap:12px;
+                   background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15);
+                   border-radius:12px; padding:14px 16px; margin-bottom:10px;
+                   text-align:left; cursor:pointer;
+                   transition:background 200ms, border-color 200ms;">
+            <div style="font-weight:700; color:#50B1FE; flex-shrink:0; min-width:20px;">${r.lettre}</div>
+            <div style="color:var(--color-text); line-height:1.4;">${r.texte}</div>
           </button>
         `).join('')}
       </div>
@@ -60,66 +91,69 @@ function renderQuestion() {
 
     <div class="cta-fixed-bottom">
       <button class="btn-primary" id="quiz-continue" style="display:none;" onclick="nextQuestion()">
-        Continuer <span aria-hidden="true">→</span>
+        ${isLast ? 'Voir mon résultat' : 'Question suivante'} <span aria-hidden="true">→</span>
       </button>
     </div>
   `;
 
-  const backBtn = document.getElementById('quiz-back');
-  if (backBtn) {
-    backBtn.onclick = () => {
-      if (quizIndex > 0) {
-        quizIndex--;
-        renderQuestion();
-      } else {
-        navigateTo('apres-visite.html');
-      }
-    };
-  }
+  document.getElementById('quiz-back').onclick = () => navigateTo(`capsule.html?id=${quizCapsuleId}`);
 }
 
 function selectAnswer(index) {
   if (quizAnswered) return;
   quizAnswered = true;
 
-  const q = window.QUIZ[quizIndex];
+  const q = quizQuestions[quizIndex];
   const answers = document.querySelectorAll('.quiz-answer');
   const selected = q.reponses[index];
 
   answers.forEach((el, i) => {
     el.disabled = true;
-    if (i === index) {
-      el.classList.add(selected.correct ? 'correct' : 'incorrect');
+    el.style.cursor = 'default';
+    if (q.reponses[i].correct) {
+      el.style.background   = 'rgba(145,255,5,0.15)';
+      el.style.borderColor  = '#91FF05';
     }
-    if (q.reponses[i].correct && i !== index) {
-      el.classList.add('correct');
+    if (i === index && !selected.correct) {
+      el.style.background   = 'rgba(224,92,58,0.15)';
+      el.style.borderColor  = '#E05C3A';
     }
   });
 
-  const explanation = document.getElementById('quiz-explanation');
-  explanation.innerHTML = `<div class="quiz-explanation anim-fade-in">${q.explication}</div>`;
+  document.getElementById('quiz-explanation').innerHTML = `
+    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+                border-radius:12px; padding:14px 16px; margin-top:4px;
+                font-size:14px; font-style:italic; color:var(--color-text-muted);
+                line-height:1.5; animation:fadeIn 300ms var(--ease-out) forwards;">
+      ${q.explication}
+    </div>
+  `;
 
   if (selected.correct) {
     quizScore++;
-    const available = window.ROLLIER_COLORS.filter(c => !usedColors.includes(c));
-    const color = available.length ? available[Math.floor(Math.random() * available.length)] : window.ROLLIER_COLORS[Math.floor(Math.random() * window.ROLLIER_COLORS.length)];
-    usedColors.push(color);
-    const msg = window.ROLLIER_FELICITATIONS[quizIndex % window.ROLLIER_FELICITATIONS.length];
-    spawnRollier(msg, color);
+    if (window.ROLLIER_COLORS && window.spawnRollier) {
+      const available = window.ROLLIER_COLORS.filter(c => !usedColors.includes(c));
+      const color = available.length
+        ? available[Math.floor(Math.random() * available.length)]
+        : window.ROLLIER_COLORS[Math.floor(Math.random() * window.ROLLIER_COLORS.length)];
+      usedColors.push(color);
+      const msg = window.ROLLIER_FELICITATIONS[quizIndex % window.ROLLIER_FELICITATIONS.length];
+      spawnRollier(msg, color);
+    }
   }
 
-  const cta = document.getElementById('quiz-continue');
   setTimeout(() => {
-    cta.style.display = 'inline-flex';
-    cta.style.animation = 'slideUp 400ms var(--ease-out) forwards';
-  }, 600);
+    const cta = document.getElementById('quiz-continue');
+    if (cta) {
+      cta.style.display = 'inline-flex';
+      cta.style.animation = 'slideUp 400ms var(--ease-out) forwards';
+    }
+  }, 1500);
 }
 
 function nextQuestion() {
   const content = document.getElementById('quiz-content');
-  if (content) {
-    content.style.animation = 'slide-out-left 300ms var(--ease-out) forwards';
-  }
+  if (content) content.style.animation = 'slide-out-left 300ms var(--ease-out) forwards';
   setTimeout(() => {
     quizIndex++;
     renderQuestion();
@@ -129,50 +163,52 @@ function nextQuestion() {
 }
 
 function renderResult() {
-  const total = window.QUIZ.length;
-  const score = quizScore;
+  const capsule = window.CAPSULES ? window.CAPSULES.find(c => c.id === quizCapsuleId) : null;
+  const themeColor = capsule ? capsule.theme_color : '#50B1FE';
 
-  let message, emoji;
-  if (score === total) { message = "Parfait, voyageur ! Le sanctuaire n'a plus de secrets pour toi."; emoji = "✦"; }
-  else if (score >= 3) { message = "Belle exploration ! Continue à observer le sanctuaire."; emoji = "★"; }
-  else { message = "La forêt garde encore ses mystères... Reviens la visiter."; emoji = "✧"; }
+  // Déverrouillage progressif — marquer quiz terminé quelle que soit la note
+  window.STATE.markCapsuleCompletedQuiz(quizCapsuleId);
 
-  const capsuleId = parseInt(localStorage.getItem('coracia_quiz_capsule')) || 1;
-  const themeKey = window.STATE.getThemeKeyByCapsule(capsuleId);
-  if (themeKey && score >= 3) {
-    window.STATE.markCapsuleCompleted(capsuleId);
+  // Maintenir l'ancien système couleurs (affiché dans apres-visite.html)
+  const themeKey = window.STATE.getThemeKeyByCapsule(quizCapsuleId);
+  if (themeKey && quizScore >= 2) {
+    window.STATE.markCapsuleCompleted(quizCapsuleId);
     window.STATE.unlockCouleur(themeKey);
   }
 
-  const colorMap = { blue: '#4DB8FF', green: '#A8E63D', orange: '#F5A623', red: '#E05C3A' };
-  const burstColor = colorMap[themeKey] || '#4DB8FF';
+  window.STATE.update({ quiz_score: { correct: quizScore, total: quizQuestions.length } });
 
-  window.STATE.update({ quiz_score: { correct: score, total: total } });
+  const { message, logoPath } = window.STATE.handleQuizResult(quizCapsuleId, quizScore);
 
-  const root = document.getElementById('quiz-root');
-  root.innerHTML = `
-    <div style="min-height: 90vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 40px 20px; text-align:center; position:relative;">
-      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:200px; height:200px; border-radius:50%; background: ${burstColor}; opacity:0; animation: color-burst 1.2s var(--ease-out) forwards;"></div>
+  const isLast  = quizCapsuleId === 6;
+  const ctaLabel  = isLast ? 'Voir mon bilan' : 'Capsule suivante';
+  const ctaTarget = isLast ? 'apres-visite.html' : `capsule.html?id=${quizCapsuleId + 1}`;
 
-      <div style="font-size:48px; margin-bottom:16px; opacity:0; animation: fadeIn 500ms var(--ease-out) 400ms forwards; position:relative; z-index:2;">${emoji}</div>
+  document.getElementById('quiz-root').innerHTML = `
+    <div style="min-height:90vh; display:flex; flex-direction:column; align-items:center;
+                justify-content:center; padding:40px 20px; text-align:center;">
 
-      <div style="font-family: var(--font-display); font-weight:700; font-size:64px; color: ${burstColor}; opacity:0; animation: slideUp 600ms var(--ease-out) 600ms forwards; position:relative; z-index:2;">${score}/${total}</div>
+      <img src="${logoPath}" alt="" class="anim-levitate"
+        style="width:80px; height:80px; display:block; margin-bottom:24px;
+               opacity:0; animation:fadeIn 500ms var(--ease-out) 200ms forwards;" />
 
-      <h2 style="margin-top:20px; font-size:24px; opacity:0; animation: fadeIn 500ms var(--ease-out) 900ms forwards; position:relative; z-index:2;">${message}</h2>
+      <div style="font-family:var(--font-display); font-weight:700; font-size:72px;
+                  color:${themeColor}; line-height:1; margin-bottom:8px;
+                  opacity:0; animation:slideUp 600ms var(--ease-out) 400ms forwards;">
+        ${quizScore}<span style="font-size:36px; opacity:0.6;"> / ${quizQuestions.length}</span>
+      </div>
 
-      ${themeKey && score >= 3 ? `
-        <div style="margin-top:32px; padding:20px; background: var(--color-surface); border-radius: var(--radius-lg); border:1px solid ${burstColor}40; opacity:0; animation: slideUp 600ms var(--ease-out) 1200ms forwards; position:relative; z-index:2;">
-          <div class="tracked" style="margin-bottom:8px;">Couleur restaurée</div>
-          <div style="font-family: var(--font-display); font-size:22px; color: ${burstColor};">${window.COULEUR_LABELS[themeKey].nom}</div>
-          <div class="muted" style="font-size:13px; margin-top:6px;">${window.COULEUR_LABELS[themeKey].desc}</div>
-        </div>
-      ` : ''}
+      <p style="font-size:clamp(14px,4vw,17px); font-style:italic; line-height:1.6;
+                color:var(--color-text); max-width:280px; margin-bottom:36px;
+                white-space:pre-line;
+                opacity:0; animation:fadeIn 500ms var(--ease-out) 700ms forwards;">
+        ${message}
+      </p>
 
-      <button class="btn-primary" style="margin-top:36px; opacity:0; animation: fadeIn 500ms var(--ease-out) 1400ms forwards; position:relative; z-index:2;" onclick="navigateTo('apres-visite.html')">
-        Voir ma progression <span aria-hidden="true">→</span>
-      </button>
-      <button class="btn-ghost" style="margin-top:12px; opacity:0; animation: fadeIn 500ms var(--ease-out) 1500ms forwards; position:relative; z-index:2;" onclick="navigateTo('carte.html')">
-        Retour à la carte
+      <button class="btn-primary"
+        style="opacity:0; animation:fadeIn 500ms var(--ease-out) 1000ms forwards;"
+        onclick="navigateTo('${ctaTarget}')">
+        ${ctaLabel} <span aria-hidden="true">→</span>
       </button>
     </div>
   `;
