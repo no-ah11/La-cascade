@@ -158,6 +158,26 @@
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const completed = STATE.getCompletedCapsules();
+      const items = document.querySelectorAll('.parcours-item');
+      items.forEach((item, index) => {
+        const capsuleId = index + 1;
+        const statusEl = item.querySelector('.parcours-status');
+        if (completed.includes(capsuleId)) {
+          item.classList.remove('locked');
+          statusEl.className = 'parcours-status visited';
+          statusEl.textContent = '✓ Visité';
+        } else if (STATE.isCapsuleAccessible(capsuleId)) {
+          item.classList.remove('locked');
+          statusEl.className = 'parcours-status nearby';
+          statusEl.textContent = '📍 À proximité';
+        } else {
+          item.classList.add('locked');
+          statusEl.className = 'parcours-status locked-s';
+          statusEl.textContent = '🔒 Verrouillé';
+        }
+      });
+
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
           this.classList.add('nav-clicked');

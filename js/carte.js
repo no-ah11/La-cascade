@@ -2,9 +2,6 @@ function initCarte() {
   const svg = document.getElementById('map-svg');
   if (!svg) return;
 
-  const state = window.STATE.load();
-  const nextId = window.STATE.getNextCapsuleId();
-
   window.CAPSULES.forEach(capsule => {
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.classList.add('map-point');
@@ -12,9 +9,11 @@ function initCarte() {
     group.setAttribute('transform', `translate(${capsule.pos.x}, ${capsule.pos.y})`);
     group.style.cursor = 'pointer';
 
-    const isCompleted = state.capsules_completed.includes(capsule.id);
-    const isActive = capsule.id === nextId;
-    const isLocked = !isActive && !isCompleted;
+    const completed = window.STATE.getCompletedCapsules();
+    const isCompleted = completed.includes(capsule.id);
+    const isAccessible = window.STATE.isCapsuleAccessible(capsule.id);
+    const isActive = isAccessible && !isCompleted;
+    const isLocked = !isAccessible;
 
     if (isActive) {
       const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -90,10 +89,10 @@ function initCarte() {
     svg.appendChild(group);
   });
 
-  if (nextId) {
-    const activeCapsule = window.CAPSULES.find(c => c.id === nextId);
-    if (activeCapsule) openCapsuleSheet(activeCapsule);
-  }
+  const nextAccessible = window.CAPSULES.find(c =>
+    window.STATE.isCapsuleAccessible(c.id) && !window.STATE.getCompletedCapsules().includes(c.id)
+  );
+  if (nextAccessible) openCapsuleSheet(nextAccessible);
 }
 
 function openCapsuleSheet(capsule) {
@@ -101,7 +100,7 @@ function openCapsuleSheet(capsule) {
   const overlay = document.getElementById('sheet-overlay');
   if (!sheet) return;
 
-  const isCompleted = window.STATE.load().capsules_completed.includes(capsule.id);
+  const isCompleted = window.STATE.getCompletedCapsules().includes(capsule.id);
 
   sheet.innerHTML = `
     <div class="sheet-handle"></div>
