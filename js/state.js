@@ -101,17 +101,24 @@ function wasPopupSeen() {
   return localStorage.getItem('popup-install-seen') === '1';
 }
 
-function applyBadgeState() {
+function applyInstalledState() {
   const badge = document.getElementById('badge-offline');
-  if (!badge || !isInstalled()) return;
-  badge.classList.add('installed');
-  badge.textContent = 'Hors-ligne ✓';
-  badge.setAttribute('data-tooltip', 'Sanctuaire installé — tu es prêt');
-  badge.removeAttribute('role');
-  badge.removeAttribute('tabindex');
+  if (badge) {
+    badge.classList.add('installed');
+    badge.textContent = 'Hors-ligne ✓';
+    badge.setAttribute('data-tooltip', 'Sanctuaire installé — tu es prêt');
+    badge.removeAttribute('role');
+    badge.removeAttribute('tabindex');
+    badge.style.pointerEvents = 'none';
+    badge.style.cursor = 'default';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', applyBadgeState);
+function applyBadgeState() { applyInstalledState(); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (isInstalled()) applyInstalledState();
+});
 
 function getCoraciaLogo(n) {
   if (n <= 0) return 'assets/icons/Coracia_fatigué.svg';
@@ -204,6 +211,7 @@ if (typeof window !== 'undefined') {
     isInstalled,
     markPopupSeen,
     wasPopupSeen,
+    applyInstalledState,
     applyBadgeState,
     getCoraciaLogo,
     handleQuizResult,
@@ -211,4 +219,9 @@ if (typeof window !== 'undefined') {
     getCompletedCapsules,
     isCapsuleAccessible
   };
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window.deferredInstallPrompt = e;
+  });
 }

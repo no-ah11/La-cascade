@@ -198,20 +198,37 @@
       badge.addEventListener('click', openPopup);
 
       // — Bouton "Télécharger l'application"
-      popupBtn.addEventListener('click', function() {
-        this.style.display     = 'none';
-        refuseBtn.style.display = 'none';
+      popupBtn.addEventListener('click', async function() {
+        const btn = this;
+        btn.style.display          = 'none';
+        refuseBtn.style.display    = 'none';
         progressWrap.style.display = 'block';
         requestAnimationFrame(() => requestAnimationFrame(() => {
           bar.style.transition = 'width 3s linear';
           bar.style.width = '100%';
         }));
+
+        if (window.deferredInstallPrompt) {
+          const prompt = window.deferredInstallPrompt;
+          window.deferredInstallPrompt = null;
+          prompt.prompt();
+          const { outcome } = await prompt.userChoice;
+          if (outcome === 'dismissed') {
+            bar.style.transition       = 'none';
+            bar.style.width            = '0%';
+            progressWrap.style.display = 'none';
+            btn.style.display          = '';
+            refuseBtn.style.display    = '';
+            return;
+          }
+        }
+
         setTimeout(() => {
           progressWrap.style.display = 'none';
           successEl.style.display    = 'block';
           countdownEl.style.display  = 'block';
           STATE.markInstalled();
-          STATE.applyBadgeState();
+          STATE.applyInstalledState();
           let secs = 5;
           countdownEl.textContent = `Ce message se fermera dans ${secs} secondes...`;
           const timer = setInterval(() => {
