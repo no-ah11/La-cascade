@@ -40,7 +40,7 @@ function initCapsule() {
       <div style="position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,22,40,0.5) 0%, transparent 30%, rgba(10,22,40,0.6) 70%, var(--color-bg) 100%);"></div>
 
       <div style="position:absolute; top: calc(12px + var(--safe-top)); left:16px; right:16px; display:flex; justify-content:space-between; align-items:center;">
-        <button class="btn-icon-round" data-nav="carte.html" aria-label="Retour">
+        <button class="btn-icon-round" onclick="navigateTo('carte.html')" aria-label="Retour">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="italic" style="font-size:15px; color: rgba(255,255,255,0.8);">Capsule ${id} / 6</div>
@@ -125,6 +125,14 @@ function initCapsule() {
             <div class="media-card-subtitle">Comprendre en un coup d'œil</div>
           </div>
           <div class="media-card-arrow">→</div>
+        </button>
+      </div>
+
+      <div style="text-align:right; padding:4px 0 8px;">
+        <button onclick="navigateTo('carte.html')"
+          style="font-size:11px; font-style:italic; color:rgba(255,255,255,0.25);
+                 background:none; border:none; cursor:pointer; padding:0;">
+          Passer les questions →
         </button>
       </div>
     </div>
