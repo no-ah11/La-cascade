@@ -193,7 +193,9 @@ function renderResult() {
 
   window.STATE.update({ quiz_score: { correct: quizScore, total: quizQuestions.length } });
 
-  const { message, logoPath } = window.STATE.handleQuizResult(quizCapsuleId, quizScore);
+  const { message } = window.STATE.handleQuizResult(quizCapsuleId, quizScore);
+  const couleursMaj = parseInt(localStorage.getItem('coracia_couleurs') || '0');
+  const logoPath = window.STATE.getCoraciaLogo(couleursMaj);
 
   const isLast  = quizCapsuleId === 6;
   const ctaLabel  = isLast ? 'Voir mon bilan' : 'Capsule suivante';

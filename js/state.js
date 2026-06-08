@@ -121,11 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function getCoraciaLogo(n) {
-  if (n <= 0) return 'assets/icons/Coracia_fatigué.svg';
-  if (n === 1) return 'assets/icons/Coracia_1_sur_4.svg';
-  if (n === 2) return 'assets/icons/Coracia_2_sur_4.svg';
-  if (n === 3) return 'assets/icons/Coracia_3_sur_4.svg';
-  return 'assets/icons/Coracia_4_sur_4.svg';
+  if (n <= -1) return 'assets/icons/Coracia fatigué.svg';
+  if (n === 0)  return 'assets/icons/logo-sillans.svg';
+  if (n === 1)  return 'assets/icons/Coracia 1 sur 4.svg';
+  if (n === 2)  return 'assets/icons/Coracia 2 sur 4.svg';
+  if (n === 3)  return 'assets/icons/Coracia 3 sur 4.svg';
+  return 'assets/icons/logo-sillans.svg';
 }
 
 function handleQuizResult(capsule_id, score) {

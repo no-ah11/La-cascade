@@ -28,7 +28,7 @@
   <div class="container" style="padding-top: 0;">
 
     <div style="display:flex; justify-content:center; margin: 12px 0 8px;">
-      <img src="assets/icons/logo-sillans.svg" alt="" class="anim-levitate" style="width: clamp(96px, 28vw, 140px);" />
+      <img src="assets/icons/logo-sillans.svg" id="hero-logo" alt="" class="anim-levitate" style="width: clamp(96px, 28vw, 140px);" />
     </div>
 
     <h1 style="text-align:center; font-size: clamp(28px, 9vw, 40px); line-height:1.1; margin-bottom: 18px;">
@@ -280,6 +280,14 @@
         }
       });
       score.textContent = `${count} / 4`;
+
+      // — Logo Coracia dynamique selon progression
+      const completedCapsules = STATE.getCompletedCapsules();
+      if (completedCapsules.length > 0) {
+        const couleurs = parseInt(localStorage.getItem('coracia_couleurs') || '0');
+        const heroLogo = document.getElementById('hero-logo');
+        if (heroLogo) heroLogo.src = STATE.getCoraciaLogo(couleurs);
+      }
     });
   </script>
 </body>
