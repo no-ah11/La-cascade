@@ -5,6 +5,21 @@ let quizScore = 0;
 let quizAnswered = false;
 let usedColors = [];
 
+const MESSAGES_CORRECT = [
+  "Bien joué, voyageur !",
+  "Le sanctuaire te reconnaît.",
+  "Tu écoutes bien la forêt.",
+  "La sagesse t'accompagne.",
+  "Continue ainsi, gardien."
+];
+
+const MESSAGES_INCORRECT = [
+  "Le sanctuaire attendait mieux de toi...",
+  "La forêt garde ses secrets pour les attentifs.",
+  "Chaque erreur est une leçon, voyageur.",
+  "Le Coracia espère que tu retiendras ceci."
+];
+
 function initQuiz() {
   const url = new URLSearchParams(window.location.search);
   const fromUrl = parseInt(url.get('capsule'));
@@ -120,12 +135,12 @@ function selectAnswer(index) {
     }
   });
 
+  const msgs = selected.correct ? MESSAGES_CORRECT : MESSAGES_INCORRECT;
   document.getElementById('quiz-explanation').innerHTML = `
-    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
-                border-radius:12px; padding:14px 16px; margin-top:4px;
-                font-size:14px; font-style:italic; color:var(--color-text-muted);
-                line-height:1.5; animation:fadeIn 300ms var(--ease-out) forwards;">
-      ${q.explication}
+    <div style="text-align:center; font-size:14px; font-style:italic;
+                color:var(--color-text-muted); padding:12px 0;
+                animation:fadeIn 300ms var(--ease-out) forwards;">
+      ${msgs[Math.floor(Math.random() * msgs.length)]}
     </div>
   `;
 
@@ -148,7 +163,7 @@ function selectAnswer(index) {
       cta.style.display = 'inline-flex';
       cta.style.animation = 'slideUp 400ms var(--ease-out) forwards';
     }
-  }, 1500);
+  }, 1200);
 }
 
 function nextQuestion() {
@@ -189,6 +204,7 @@ function renderResult() {
                 justify-content:center; padding:40px 20px; text-align:center;">
 
       <img src="${logoPath}" alt="" class="anim-levitate"
+        onerror="this.onerror=null; this.src='assets/icons/logo-sillans.svg';"
         style="width:80px; height:80px; display:block; margin-bottom:24px;
                opacity:0; animation:fadeIn 500ms var(--ease-out) 200ms forwards;" />
 
