@@ -8,16 +8,16 @@
       'width:400px',
       'height:400px',
       'border-radius:50%',
-      'background:radial-gradient(circle, rgba(80,177,254,0.10) 0%, transparent 65%)',
+      'background:radial-gradient(circle, rgba(80,177,254,0.25) 0%, transparent 65%)',
       'pointer-events:none',
       'z-index:-1',
-      'filter:blur(60px)',
+      'filter:blur(70px)',
       'animation:orb-3 20s ease-in-out infinite alternate'
     ].join(';');
     document.body.appendChild(orb);
 
     for (let i = 0; i < 10; i++) {
-      const size      = 1.5 + Math.random() * 1.5;
+      const size      = 2 + Math.random() * 2;
       const floatDist = -(10 + Math.random() * 15);
       const duration  = 7 + Math.random() * 9;
       const delay     = Math.random() * 8;
@@ -31,7 +31,7 @@
         `height:${size.toFixed(1)}px`,
         'border-radius:50%',
         'background:rgba(80,177,254,0.5)',
-        'opacity:0.5',
+        'opacity:0.7',
         'pointer-events:none',
         'z-index:-1',
         `--float-distance:${floatDist.toFixed(1)}px`,

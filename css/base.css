@@ -80,7 +80,8 @@ body::before {
   height: 700px;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(80,177,254,0.18) 0%, rgba(80,177,254,0.06) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(80,177,254,0.35) 0%, rgba(80,177,254,0.15) 40%, transparent 70%);
+  filter: blur(80px);
   animation: orb-1 14s ease-in-out infinite alternate;
 }
 
@@ -93,7 +94,8 @@ body::after {
   height: 550px;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(30,100,200,0.15) 0%, rgba(80,177,254,0.05) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(20,80,180,0.30) 0%, rgba(80,177,254,0.12) 40%, transparent 70%);
+  filter: blur(90px);
   animation: orb-2 18s ease-in-out infinite alternate;
 }
 
