@@ -62,15 +62,7 @@
         </div>
         <div style="flex:1;">
           <div class="tracked" style="margin-bottom:8px;">Couleurs restaurées</div>
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div class="couleurs-segments" id="couleurs-segments" style="flex:1;">
-              <div class="couleur-segment" data-key="blue"></div>
-              <div class="couleur-segment" data-key="green"></div>
-              <div class="couleur-segment" data-key="orange"></div>
-              <div class="couleur-segment" data-key="red"></div>
-            </div>
-            <div class="couleurs-score" id="couleurs-score">0 / 4</div>
-          </div>
+          <div id="couleurs-display" style="display:flex; gap:8px; margin-top:4px;"></div>
         </div>
       </div>
     </div>
@@ -147,18 +139,30 @@
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const state = STATE.load();
-      const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');
-      const score = document.getElementById('couleurs-score');
-      let count = 0;
-      segments.forEach(seg => {
-        const key = seg.getAttribute('data-key');
-        if (state.couleurs_unlocked[key]) {
-          seg.classList.add(`filled-${key}`);
-          count++;
-        }
-      });
-      score.textContent = `${count} / 4`;
+      const count = Math.max(0, parseInt(localStorage.getItem('coracia_couleurs') || '0'));
+      const ORDER = window.CORACIA_COLORS_ORDER;
+      const LABELS = window.COULEUR_LABELS;
+      const display = document.getElementById('couleurs-display');
+      if (display && ORDER) {
+        display.innerHTML = ORDER.map((c, i) => {
+          const unlocked = i < count;
+          const nom = LABELS ? LABELS[c.key].nom : '';
+          return `
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
+                        ${unlocked ? '' : 'opacity:0.3;'}">
+              <div style="width:40px; height:40px; border-radius:50%;
+                          ${unlocked
+                            ? `background:${c.hex}; box-shadow:0 0 14px ${c.hex}60;`
+                            : 'border:2px solid rgba(255,255,255,0.25); background:transparent;'}">
+              </div>
+              <div style="font-size:10px; text-align:center; line-height:1.3; max-width:64px;
+                          color:${unlocked ? c.hex : 'var(--color-text-muted)'};">
+                ${nom}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
     });
 
     function openFeedback() {

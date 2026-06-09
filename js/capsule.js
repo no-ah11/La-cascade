@@ -138,9 +138,17 @@ function initCapsule() {
     </div>
 
     <div class="cta-fixed-bottom">
-      <button class="btn-primary" id="cta-question" disabled style="opacity:0.5;">
-        Répondre à la question <span aria-hidden="true">→</span>
-      </button>
+      <div style="display:flex; gap:10px;">
+        <button id="cta-skip" onclick="navigateTo('carte.html')"
+          style="flex:0 0 40%; padding:15px 12px; border-radius:var(--radius-pill);
+                 border:1px solid rgba(255,255,255,0.4); background:transparent;
+                 color:var(--color-text); font-size:15px; font-weight:600; cursor:pointer;">
+          Passer →
+        </button>
+        <button class="btn-primary" id="cta-question" disabled style="flex:1; opacity:0.5;">
+          Répondre aux questions <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
   `;
 

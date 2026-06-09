@@ -16,94 +16,106 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <style>
-    .slider-track { display:flex; width:200%; transition: transform 400ms var(--ease-out); }
-    .slide { width:50%; flex-shrink:0; padding: 0 18px; display:flex; flex-direction:column; align-items:center; }
-    .slide-image { width: 100%; max-width: clamp(220px, 60vw, 340px); aspect-ratio: 1; border-radius: var(--radius-lg); overflow:hidden; background: var(--color-surface); margin-top: clamp(20px, 6vh, 50px); animation: reveal-left 900ms var(--ease-out) forwards; }
-    .skip-btn { position: fixed; top: calc(12px + var(--safe-top)); right: 16px; padding: 6px 14px; color: var(--color-text-muted); font-size: 14px; z-index: 10; }
-    .color-circles { display:flex; gap: 14px; margin: clamp(20px, 6vh, 36px) 0; }
-    .color-circle { width: clamp(40px, 12vw, 56px); aspect-ratio: 1; border-radius: 50%; opacity: 0; transform: scale(0); animation: color-restore 600ms var(--ease-bounce) forwards; }
-    .slide h1 { font-size: clamp(24px, 7vw, 36px) !important; }
-    .slide p { font-size: clamp(14px, 4vw, 16px); }
+    .ob-track {
+      display: flex;
+      width: 200%;
+      transition: transform 420ms var(--ease-out);
+    }
+    .ob-slide {
+      width: 50%;
+      flex-shrink: 0;
+      min-height: calc(100vh - calc(96px + var(--safe-bottom)));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: calc(40px + var(--safe-top)) 28px 32px;
+      text-align: center;
+    }
+    .ob-dots { display: flex; gap: 10px; justify-content: center; margin-top: 32px; }
+    .ob-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transition: all 250ms var(--ease-out);
+    }
+    .ob-dot.active { background: #fff; width: 24px; border-radius: 4px; }
   </style>
   <script src="js/pwa.js" defer></script>
 </head>
-<body class="no-nav">
-  <button class="skip-btn" data-nav="accueil.html">Passer</button>
+<body class="no-nav" style="background:#0A1628; overflow:hidden;">
 
-  <div style="overflow:hidden; min-height: 100vh; padding-bottom: calc(110px + var(--safe-bottom));">
-    <div class="slider-track" id="slider">
+  <!-- Fond commun aux deux slides -->
+  <div style="position:fixed; inset:0; z-index:0; overflow:hidden;">
+    <img src="assets/images/capsule-1.jpg" alt=""
+      style="width:100%; height:100%; object-fit:cover;
+             filter:blur(10px) brightness(0.22); transform:scale(1.08);"
+      onerror="this.style.display='none';" />
+    <div style="position:absolute; inset:0;
+                background:linear-gradient(180deg,
+                  rgba(10,22,40,0.8) 0%,
+                  rgba(10,22,40,0.5) 50%,
+                  rgba(10,22,40,0.85) 100%);"></div>
+  </div>
 
-      <!-- Slide 1 -->
-      <div class="slide">
-        <div class="slide-image">
-          <div style="width:100%; height:100%; background: linear-gradient(135deg, #1A2A40 0%, #0F2040 50%, #0A1628 100%); display:flex; align-items:center; justify-content:center; position:relative; filter: grayscale(1);">
-            <svg viewBox="0 0 200 200" width="80%" height="80%" fill="none" stroke="#7A90A8" stroke-width="1.2">
-              <path d="M30 160 L 30 110 L 50 90 L 70 110 L 70 160 Z" fill="#7A90A820"/>
-              <path d="M80 160 L 80 80 L 90 70 L 90 50 L 110 50 L 110 70 L 120 80 L 120 160 Z" fill="#7A90A830"/>
-              <rect x="92" y="60" width="6" height="12" fill="#7A90A8"/>
-              <path d="M130 160 L 130 100 L 150 80 L 170 100 L 170 160 Z" fill="#7A90A820"/>
-              <path d="M20 160 L 180 160" stroke-width="1.5"/>
-              <circle cx="155" cy="105" r="2" fill="#7A90A8"/>
-            </svg>
-          </div>
-        </div>
+  <!-- Contenu slider -->
+  <div style="position:relative; z-index:1; overflow:hidden;
+              padding-bottom:calc(96px + var(--safe-bottom));">
+    <div class="ob-track" id="ob-slider">
 
-        <div class="tracked" style="margin-top: 32px;">Avant…</div>
-
-        <h1 style="text-align:center; margin-top: 24px; font-size: 36px; padding: 0 20px;">Le sanctuaire a perdu<br/>ses couleurs.</h1>
-
-        <p class="muted" style="text-align:center; margin-top: 20px; padding: 0 20px; max-width: 380px;">
-          Un sortilège a effacé les teintes du village. À toi, voyageur, de les restaurer en parcourant les six étapes du sanctuaire.
+      <!-- Slide 1 — Le sanctuaire -->
+      <div class="ob-slide">
+        <img src="assets/icons/logo-sillans.svg" alt=""
+          class="anim-levitate"
+          style="width:70px; height:70px; margin-bottom:28px;" />
+        <h1 style="font-family:var(--font-display); font-style:italic;
+                   font-size:clamp(26px,7.5vw,34px); color:#fff;
+                   margin-bottom:22px; line-height:1.15;">
+          « Sillans-la-Cascade »
+        </h1>
+        <p style="font-size:clamp(14px,4vw,16px); line-height:1.7;
+                  color:rgba(255,255,255,0.72); max-width:300px;">
+          Un sanctuaire naturel provençal de 369&nbsp;hectares.<br/>
+          Chaque été, 200&nbsp;000 visiteurs foulent ses sentiers.<br/>
+          La cascade, la rivière, les gorges — tout est fragile.<br/>
+          Tout mérite d'être compris avant d'être traversé.
         </p>
-      </div>
-
-      <!-- Slide 2 -->
-      <div class="slide">
-        <div class="color-circles" style="margin-top: 80px;">
-          <div class="color-circle" style="background:#4DB8FF; animation-delay: 200ms;"></div>
-          <div class="color-circle" style="background:#A8E63D; animation-delay: 400ms;"></div>
-          <div class="color-circle" style="background:#F5A623; animation-delay: 600ms;"></div>
-          <div class="color-circle" style="background:#E05C3A; animation-delay: 800ms;"></div>
-        </div>
-
-        <h1 style="text-align:center; margin-top: 24px; font-size: 36px; padding: 0 20px;">Restaure les couleurs</h1>
-
-        <p class="muted" style="text-align:center; margin-top: 20px; padding: 0 20px; max-width: 380px;">
-          Parcours les 6 capsules du sanctuaire, réponds aux questions et débloque les 4 couleurs perdues. Chaque thème éveille une teinte.
-        </p>
-
-        <div style="display:flex; gap:24px; margin-top: 40px; justify-content:center;">
-          <div style="text-align:center;">
-            <div style="width:48px; height:48px; border-radius:50%; background: var(--color-surface); display:flex; align-items:center; justify-content:center; margin:0 auto 8px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4DB8FF" stroke-width="1.8"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>
-            </div>
-            <div style="font-size:12px;" class="muted">Carte</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="width:48px; height:48px; border-radius:50%; background: var(--color-surface); display:flex; align-items:center; justify-content:center; margin:0 auto 8px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A8E63D" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            </div>
-            <div style="font-size:12px;" class="muted">Capsules</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="width:48px; height:48px; border-radius:50%; background: var(--color-surface); display:flex; align-items:center; justify-content:center; margin:0 auto 8px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            </div>
-            <div style="font-size:12px;" class="muted">Quiz</div>
-          </div>
+        <div class="ob-dots">
+          <div class="ob-dot active"></div>
+          <div class="ob-dot"></div>
         </div>
       </div>
 
-    </div>
+      <!-- Slide 2 — La mission -->
+      <div class="ob-slide">
+        <img src="assets/icons/Coracia fatigué.svg" alt=""
+          class="anim-levitate"
+          onerror="this.onerror=null; this.src='assets/icons/logo-sillans.svg';"
+          style="width:70px; height:70px; margin-bottom:28px;" />
+        <h1 style="font-family:var(--font-display); font-style:italic;
+                   font-size:clamp(23px,6.5vw,30px); color:#fff;
+                   margin-bottom:22px; line-height:1.2;">
+          « Le Coracia a besoin de toi »
+        </h1>
+        <p style="font-size:clamp(14px,4vw,16px); line-height:1.7;
+                  color:rgba(255,255,255,0.72); max-width:300px;">
+          Notre guide, le Rollier d'Europe, a perdu ses couleurs.<br/>
+          En explorant le site et en répondant aux questions,<br/>
+          tu lui rendras sa splendeur — et tu deviendras<br/>
+          gardien du sanctuaire.
+        </p>
+        <div class="ob-dots">
+          <div class="ob-dot"></div>
+          <div class="ob-dot active"></div>
+        </div>
+      </div>
 
-    <div class="dots" style="margin-top: 32px;">
-      <div class="dot active" data-dot="0"></div>
-      <div class="dot" data-dot="1"></div>
     </div>
   </div>
 
-  <div class="cta-fixed-bottom">
-    <button class="btn-primary" id="next-btn">
+  <!-- CTA fixe -->
+  <div class="cta-fixed-bottom" style="position:fixed; z-index:2;">
+    <button class="btn-primary" id="ob-next-btn"
+      style="background:linear-gradient(135deg,#74c7f5 0%,#50B1FE 100%); color:#0A1628;">
       Suivant <span aria-hidden="true">→</span>
     </button>
   </div>
@@ -112,38 +124,32 @@
   <script>
     (function() {
       let current = 0;
-      const slider = document.getElementById('slider');
-      const dots = document.querySelectorAll('.dot');
-      const nextBtn = document.getElementById('next-btn');
+      const slider  = document.getElementById('ob-slider');
+      const nextBtn = document.getElementById('ob-next-btn');
 
       function update() {
         slider.style.transform = `translateX(-${current * 50}%)`;
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
-        nextBtn.innerHTML = current === 1
-          ? 'Commencer l\'aventure <span aria-hidden="true">→</span>'
-          : 'Suivant <span aria-hidden="true">→</span>';
+        if (current === 1) {
+          nextBtn.innerHTML = 'Commencer l\'aventure <span aria-hidden="true">→</span>';
+          nextBtn.style.background = 'linear-gradient(135deg,#C5F050 0%,#91FF05 100%)';
+        } else {
+          nextBtn.innerHTML = 'Suivant <span aria-hidden="true">→</span>';
+          nextBtn.style.background = 'linear-gradient(135deg,#74c7f5 0%,#50B1FE 100%)';
+        }
       }
 
       nextBtn.addEventListener('click', () => {
-        if (current === 0) {
-          current = 1;
-          update();
-        } else {
-          localStorage.setItem('coracia_visited', 'true');
-          navigateTo('accueil.html');
-        }
+        if (current === 0) { current = 1; update(); }
+        else { localStorage.setItem('coracia_visited', 'true'); navigateTo('accueil.html'); }
       });
 
-      dots.forEach((d, i) => d.addEventListener('click', () => { current = i; update(); }));
-
-      // Touch swipe
       let touchStartX = 0;
-      slider.parentElement.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-      slider.parentElement.addEventListener('touchend', e => {
+      document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      document.addEventListener('touchend', e => {
         const diff = e.changedTouches[0].clientX - touchStartX;
         if (diff < -50 && current === 0) { current = 1; update(); }
         else if (diff > 50 && current === 1) { current = 0; update(); }
-      });
+      }, { passive: true });
     })();
   </script>
 </body>

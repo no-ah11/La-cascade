@@ -43,10 +43,10 @@
         <div class="tracked">Couleurs restaurées</div>
         <div class="couleurs-restaurees">
           <div class="couleurs-segments" id="couleurs-segments">
-            <div class="couleur-segment" data-key="blue"></div>
-            <div class="couleur-segment" data-key="green"></div>
-            <div class="couleur-segment" data-key="orange"></div>
-            <div class="couleur-segment" data-key="red"></div>
+            <div class="couleur-segment"></div>
+            <div class="couleur-segment"></div>
+            <div class="couleur-segment"></div>
+            <div class="couleur-segment"></div>
           </div>
           <div class="couleurs-score" id="couleurs-score">0 / 4</div>
         </div>
@@ -267,19 +267,16 @@
         });
       });
 
-      // — Couleurs restaurées
-      const state = STATE.load();
-      const segments = document.querySelectorAll('#couleurs-segments .couleur-segment');
-      const score = document.getElementById('couleurs-score');
-      let count = 0;
-      segments.forEach(seg => {
-        const key = seg.getAttribute('data-key');
-        if (state.couleurs_unlocked[key]) {
-          seg.classList.add(`filled-${key}`);
-          count++;
+      // — Couleurs restaurées (ordre fixe)
+      const count = Math.max(0, parseInt(localStorage.getItem('coracia_couleurs') || '0'));
+      const ORDER = window.CORACIA_COLORS_ORDER;
+      document.querySelectorAll('#couleurs-segments .couleur-segment').forEach((seg, i) => {
+        if (i < count) {
+          seg.style.background = ORDER[i].hex;
+          seg.style.boxShadow = `0 0 8px ${ORDER[i].hex}80`;
         }
       });
-      score.textContent = `${count} / 4`;
+      document.getElementById('couleurs-score').textContent = `${Math.min(count, 4)} / 4`;
 
       // — Logo Coracia dynamique selon progression
       const completedCapsules = STATE.getCompletedCapsules();

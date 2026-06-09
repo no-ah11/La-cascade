@@ -120,6 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isInstalled()) applyInstalledState();
 });
 
+const CORACIA_COLORS_ORDER = [
+  { hex: '#4DB8FF', key: 'blue' },
+  { hex: '#50B1FE', key: 'green' },
+  { hex: '#F5CE18', key: 'orange' },
+  { hex: '#91FF05', key: 'red' }
+];
+
 function getCoraciaLogo(n) {
   if (n <= -1) return 'assets/icons/Coracia fatigué.svg';
   if (n === 0)  return 'assets/icons/logo-sillans.svg';
@@ -197,6 +204,8 @@ function isCapsuleAccessible(capsule_id) {
 }
 
 if (typeof window !== 'undefined') {
+  window.CORACIA_COLORS_ORDER = CORACIA_COLORS_ORDER;
+
   window.STATE = {
     load: loadState,
     save: saveState,
