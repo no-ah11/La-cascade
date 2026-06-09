@@ -117,7 +117,6 @@ function openCapsuleSheet(capsule) {
     </div>
     ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style: italic; margin-bottom: 14px;">${capsule.sous_titre}</div>` : ''}
     <div class="card-citation" style="margin-bottom:16px;">
-      <div class="citation-icon" style="font-size:16px; color:${capsule.theme_color};">❝</div>
       <div class="citation-text">« ${capsule.citation} »</div>
     </div>
     <div style="display:flex; gap:10px; margin-top:8px;">

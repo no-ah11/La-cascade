@@ -17,6 +17,7 @@ const APP_SHELL = [
   './css/animations.css',
   './js/state.js',
   './js/navigation.js',
+  './js/ambiance.js',
   './js/carte.js',
   './js/capsule.js',
   './js/quiz.js',
