@@ -22,6 +22,18 @@
     });
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('app-installed') === '1') return;
+    if (window.location.pathname.endsWith('accueil.html')) return;
+    const badge = document.getElementById('badge-offline');
+    if (!badge) return;
+    badge.style.cursor = 'pointer';
+    badge.addEventListener('click', () => {
+      localStorage.setItem('coracia_open_popup', '1');
+      window.location.href = 'accueil.html';
+    });
+  });
+
   function showUpdateToast() {
     if (document.getElementById('pwa-update-toast')) return;
     const toast = document.createElement('div');

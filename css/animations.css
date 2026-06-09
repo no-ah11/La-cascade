@@ -38,13 +38,6 @@
   50% { transform: translateY(-8px); }
 }
 
-@keyframes rollier-bounce {
-  0% { transform: translateY(-80px) scale(0.8); opacity: 0; }
-  60% { transform: translateY(8px) scale(1.05); opacity: 1; }
-  80% { transform: translateY(-4px) scale(0.98); opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-
 @keyframes color-restore {
   0% { transform: scale(0); opacity: 0; }
   60% { transform: scale(1.2); }
@@ -87,6 +80,18 @@
   0% { transform: scale(0); opacity: 0; }
   50% { transform: scale(1.8); opacity: 1; }
   100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%       { transform: scale(1.3) rotate(15deg); }
+}
+
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0px);   opacity: 0; }
+  15%       {                               opacity: 0.3; }
+  50%       { transform: translateY(-40px); opacity: 0.15; }
+  85%       {                               opacity: 0.3; }
 }
 
 /* Animated helper classes */

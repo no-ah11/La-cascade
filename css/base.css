@@ -70,6 +70,17 @@ body {
   padding-bottom: calc(var(--nav-height) + var(--safe-bottom));
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(80,177,254,0.06) 0%, transparent 70%);
+  transform-origin: center center;
+  animation: breathe 8s ease-in-out infinite;
+}
+
 body.no-nav {
   padding-bottom: var(--safe-bottom);
 }

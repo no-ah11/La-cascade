@@ -144,7 +144,6 @@
 
   <script src="data/content.js"></script>
   <script src="js/state.js"></script>
-  <script src="js/rollier.js"></script>
   <script src="js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -158,6 +157,12 @@
       const bar          = document.getElementById('pwa-popup-progress-bar');
       const successEl    = document.getElementById('pwa-popup-success');
       const countdownEl  = document.getElementById('pwa-popup-countdown');
+
+      // — Auto-ouverture si on vient d'une autre page
+      if (localStorage.getItem('coracia_open_popup') === '1') {
+        localStorage.removeItem('coracia_open_popup');
+        setTimeout(openPopup, 200);
+      }
 
       // — Réinitialisation + ouverture du pop-up
       function openPopup() {

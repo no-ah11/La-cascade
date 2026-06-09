@@ -63,7 +63,7 @@ function initCapsule() {
 
     <div class="container" style="padding-top:16px; padding-bottom: calc(96px + var(--safe-bottom));">
       <div class="card-citation anim-fade-in" style="margin-bottom:16px;">
-        <div class="citation-icon">${getRollierSVG(capsule.theme_color)}</div>
+        <div class="citation-icon" style="font-size:16px; color:${capsule.theme_color};">❝</div>
         <div class="citation-text">« ${capsule.citation} »</div>
       </div>
 

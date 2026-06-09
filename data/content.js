@@ -360,21 +360,9 @@ const COULEUR_LABELS = {
   red: { nom: "Le Rouge des remparts", desc: "Couleur du feu, des dangers passés et de la vigilance présente." }
 };
 
-const ROLLIER_COLORS = ['#4DB8FF', '#A8E63D', '#F5A623', '#9B6BD8', '#4DE6E6'];
-
-const ROLLIER_FELICITATIONS = [
-  "Bien joué, voyageur !",
-  "Tu écoutes bien la forêt.",
-  "Le sanctuaire te reconnaît.",
-  "La sagesse t'accompagne.",
-  "Magnifique, voyageur !"
-];
-
 if (typeof window !== 'undefined') {
   window.CAPSULES = CAPSULES;
   window.QUIZ = QUIZ;
   window.THEMES = THEMES;
   window.COULEUR_LABELS = COULEUR_LABELS;
-  window.ROLLIER_COLORS = ROLLIER_COLORS;
-  window.ROLLIER_FELICITATIONS = ROLLIER_FELICITATIONS;
 }
