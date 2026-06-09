@@ -49,6 +49,15 @@ function makeIcon(point, accessible) {
 function initCarte() {
   if (_map) return;
 
+  // Vérifier que Leaflet est chargé
+  if (typeof L === 'undefined') {
+    const fb = document.getElementById('map-fallback');
+    if (fb) fb.style.display = 'flex';
+    return;
+  }
+
+  console.log('Carte Leaflet init', L.version);
+
   _map = L.map('map', {
     center: CENTER,
     zoom: 16,
@@ -60,6 +69,8 @@ function initCarte() {
     attribution: '© OpenStreetMap contributors',
     maxZoom: 19
   }).addTo(_map);
+
+  setTimeout(() => _map.invalidateSize(), 100);
 
   // Sentier pointillé vert
   L.polyline(POINTS.map(p => p.coords), {
