@@ -33,6 +33,15 @@ function initCapsule() {
 
   window.STATE.markCapsuleVisited(id);
 
+  const CAPSULE_LABELS = {
+    1: "L'église · Départ",
+    2: "Le tuff · Eau & Géologie",
+    3: "Le belvédère · Biodiversité",
+    4: "La Bresque · Eau & Géologie",
+    5: "Les remparts · Risques",
+    6: "La Grande Rue · Arrivée"
+  };
+
   const nextUrl = id < 6 ? `capsule.html?id=${id + 1}` : 'carte.html';
   const root = document.getElementById('capsule-root');
   root.innerHTML = `
@@ -44,7 +53,7 @@ function initCapsule() {
         <button class="btn-icon-round" onclick="navigateTo('carte.html')" aria-label="Retour">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <div class="italic" style="font-size:15px; color: rgba(255,255,255,0.8);">Capsule ${id} / 6</div>
+        <div class="italic" style="font-size:13px; color: rgba(255,255,255,0.8);">${CAPSULE_LABELS[id] || `Capsule ${id} / 6`}</div>
         <div style="width:44px;"></div>
       </div>
 
@@ -132,7 +141,7 @@ function initCapsule() {
 
     <div class="cta-fixed-bottom">
       <div style="display:flex; gap:10px;">
-        <button id="cta-skip" onclick="navigateTo('${nextUrl}')"
+        <button id="cta-skip" onclick="window.STATE.markCapsuleSkipped(${id}); navigateTo('${nextUrl}');"
           style="flex:0 0 40%; padding:15px 12px; border-radius:var(--radius-pill);
                  border:1px solid rgba(255,255,255,0.4); background:transparent;
                  color:var(--color-text); font-size:15px; font-weight:600; cursor:pointer;">

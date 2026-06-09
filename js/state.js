@@ -198,9 +198,23 @@ function getCompletedCapsules() {
   catch { return []; }
 }
 
+function getSkippedCapsules() {
+  try { return JSON.parse(localStorage.getItem('coracia_visited') || '[]'); }
+  catch { return []; }
+}
+
+function markCapsuleSkipped(id) {
+  const skipped = getSkippedCapsules();
+  if (!skipped.includes(id)) {
+    skipped.push(id);
+    localStorage.setItem('coracia_visited', JSON.stringify(skipped));
+  }
+}
+
 function isCapsuleAccessible(capsule_id) {
   if (capsule_id === 1) return true;
-  return getCompletedCapsules().includes(capsule_id - 1);
+  const prev = capsule_id - 1;
+  return getCompletedCapsules().includes(prev) || getSkippedCapsules().includes(prev);
 }
 
 if (typeof window !== 'undefined') {
@@ -227,6 +241,8 @@ if (typeof window !== 'undefined') {
     handleQuizResult,
     markCapsuleCompletedQuiz,
     getCompletedCapsules,
+    getSkippedCapsules,
+    markCapsuleSkipped,
     isCapsuleAccessible
   };
 

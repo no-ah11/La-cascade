@@ -9,10 +9,12 @@ function initCarte() {
     group.setAttribute('transform', `translate(${capsule.pos.x}, ${capsule.pos.y})`);
     group.style.cursor = 'pointer';
 
-    const completed = window.STATE.getCompletedCapsules();
+    const completed  = window.STATE.getCompletedCapsules();
+    const skipped    = window.STATE.getSkippedCapsules();
     const isCompleted = completed.includes(capsule.id);
+    const isSkipped   = skipped.includes(capsule.id) && !isCompleted;
     const isAccessible = window.STATE.isCapsuleAccessible(capsule.id);
-    const isActive = isAccessible && !isCompleted;
+    const isActive = isAccessible && !isCompleted && !isSkipped;
     const isLocked = !isAccessible;
 
     if (isActive) {
@@ -33,6 +35,12 @@ function initCarte() {
       circle.setAttribute('stroke', capsule.theme_color);
       circle.setAttribute('stroke-width', '2');
       circle.style.filter = `drop-shadow(0 0 8px ${capsule.theme_color}80)`;
+    } else if (isSkipped) {
+      circle.setAttribute('fill', 'none');
+      circle.setAttribute('stroke', capsule.theme_color);
+      circle.setAttribute('stroke-width', '2');
+      circle.setAttribute('stroke-dasharray', '4 3');
+      circle.setAttribute('opacity', '0.8');
     } else if (isActive) {
       circle.setAttribute('fill', capsule.theme_color);
       circle.setAttribute('stroke', '#FFFFFF');
@@ -45,7 +53,17 @@ function initCarte() {
     }
     group.appendChild(circle);
 
-    if (isLocked) {
+    if (isSkipped) {
+      const num = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      num.setAttribute('text-anchor', 'middle');
+      num.setAttribute('dy', '5');
+      num.setAttribute('fill', capsule.theme_color);
+      num.setAttribute('font-weight', '700');
+      num.setAttribute('font-size', '14');
+      num.setAttribute('font-family', 'DM Sans, sans-serif');
+      num.textContent = capsule.id;
+      group.appendChild(num);
+    } else if (isLocked) {
       const lock = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       lock.setAttribute('d', 'M-5,-2 L-5,2 L5,2 L5,-2 Z M-3,-2 L-3,-5 a 3,3 0 0 1 6,0 L 3,-2 M-1,-5 a 1,1 0 0 1 2,0');
       lock.setAttribute('fill', 'none');

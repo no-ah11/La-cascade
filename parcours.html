@@ -159,6 +159,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const completed = STATE.getCompletedCapsules();
+      const skipped   = STATE.getSkippedCapsules();
       const items = document.querySelectorAll('.parcours-item');
       items.forEach((item, index) => {
         const capsuleId = index + 1;
@@ -166,15 +167,23 @@
         if (completed.includes(capsuleId)) {
           item.classList.remove('locked');
           statusEl.className = 'parcours-status visited';
-          statusEl.textContent = '✓ Visité';
+          statusEl.textContent = '✓ Terminé';
+          statusEl.style.cssText = 'color:#91FF05; border-color:#91FF0540;';
+        } else if (skipped.includes(capsuleId)) {
+          item.classList.remove('locked');
+          statusEl.className = 'parcours-status nearby';
+          statusEl.textContent = 'Exploré';
+          statusEl.style.cssText = 'color:#50B1FE; border-color:#50B1FE40;';
         } else if (STATE.isCapsuleAccessible(capsuleId)) {
           item.classList.remove('locked');
           statusEl.className = 'parcours-status nearby';
-          statusEl.textContent = '📍 À proximité';
+          statusEl.textContent = '→ À découvrir';
+          statusEl.style.cssText = 'color:#50B1FE; border-color:#50B1FE40;';
         } else {
           item.classList.add('locked');
           statusEl.className = 'parcours-status locked-s';
           statusEl.textContent = '🔒 Verrouillé';
+          statusEl.style.cssText = '';
         }
       });
 
