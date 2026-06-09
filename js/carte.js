@@ -1,143 +1,208 @@
+let _map        = null;
+let _userMarker = null;
+let _userAcc    = null;
+let _firstGPS   = true;
+
+const CENTER    = [43.5667, 6.1780];
+const MAX_DIST  = 5; // km — au-delà : pas de recentrage auto
+
+const POINTS = [
+  { id: 1, coords: [43.5682, 6.1768], color: '#F5A623' },
+  { id: 2, coords: [43.5665, 6.1775], color: '#4DB8FF' },
+  { id: 3, coords: [43.5655, 6.1772], color: '#A8E63D' },
+  { id: 4, coords: [43.5650, 6.1780], color: '#4DB8FF' },
+  { id: 5, coords: [43.5672, 6.1758], color: '#E05C3A' },
+  { id: 6, coords: [43.5678, 6.1762], color: '#F5A623' },
+];
+
+function distKm(a, b) {
+  const R = 6371;
+  const dLat = (b[0] - a[0]) * Math.PI / 180;
+  const dLon = (b[1] - a[1]) * Math.PI / 180;
+  const s = Math.sin(dLat / 2) ** 2
+    + Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180)
+    * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
+}
+
+function makeIcon(point, accessible) {
+  const fill   = accessible ? point.color : 'rgba(60,80,110,0.8)';
+  const stroke = accessible ? 'white' : 'rgba(255,255,255,0.25)';
+  const inner  = accessible
+    ? `<text x="18" y="18" text-anchor="middle" dominant-baseline="central"
+         fill="white" font-weight="700" font-size="14"
+         font-family="DM Sans,sans-serif">${point.id}</text>`
+    : `<g transform="translate(18,19)">
+         <rect x="-5" y="-1" width="10" height="7" rx="1.5"
+               fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
+         <path d="M-3,-1 L-3,-4 a3,3 0 0 1 6,0 L3,-1"
+               fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.4"
+               stroke-linecap="round"/>
+       </g>`;
+  const html = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <circle cx="18" cy="18" r="16" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+    ${inner}
+  </svg>`;
+  return L.divIcon({ html, className: '', iconSize: [36, 36], iconAnchor: [18, 18] });
+}
+
 function initCarte() {
-  const svg = document.getElementById('map-svg');
-  if (!svg) return;
+  if (_map) return;
 
-  window.CAPSULES.forEach(capsule => {
-    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    group.classList.add('map-point');
-    group.setAttribute('data-id', capsule.id);
-    group.setAttribute('transform', `translate(${capsule.pos.x}, ${capsule.pos.y})`);
-    group.style.cursor = 'pointer';
-
-    const completed  = window.STATE.getCompletedCapsules();
-    const skipped    = window.STATE.getSkippedCapsules();
-    const isCompleted = completed.includes(capsule.id);
-    const isSkipped   = skipped.includes(capsule.id) && !isCompleted;
-    const isAccessible = window.STATE.isCapsuleAccessible(capsule.id);
-    const isActive = isAccessible && !isCompleted && !isSkipped;
-    const isLocked = !isAccessible;
-
-    if (isActive) {
-      const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      pulse.setAttribute('r', '22');
-      pulse.setAttribute('fill', 'none');
-      pulse.setAttribute('stroke', capsule.theme_color);
-      pulse.setAttribute('stroke-width', '2');
-      pulse.setAttribute('opacity', '0.6');
-      pulse.style.animation = 'pulse-svg 2s ease-out infinite';
-      group.appendChild(pulse);
-    }
-
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('r', '20');
-    if (isCompleted) {
-      circle.setAttribute('fill', capsule.theme_color);
-      circle.setAttribute('stroke', capsule.theme_color);
-      circle.setAttribute('stroke-width', '2');
-      circle.style.filter = `drop-shadow(0 0 8px ${capsule.theme_color}80)`;
-    } else if (isSkipped) {
-      circle.setAttribute('fill', 'none');
-      circle.setAttribute('stroke', capsule.theme_color);
-      circle.setAttribute('stroke-width', '2');
-      circle.setAttribute('stroke-dasharray', '4 3');
-      circle.setAttribute('opacity', '0.8');
-    } else if (isActive) {
-      circle.setAttribute('fill', capsule.theme_color);
-      circle.setAttribute('stroke', '#FFFFFF');
-      circle.setAttribute('stroke-width', '2');
-    } else {
-      circle.setAttribute('fill', '#2A3F5A');
-      circle.setAttribute('stroke', '#4A5F7A');
-      circle.setAttribute('stroke-width', '1');
-      circle.setAttribute('opacity', '0.7');
-    }
-    group.appendChild(circle);
-
-    if (isSkipped) {
-      const num = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      num.setAttribute('text-anchor', 'middle');
-      num.setAttribute('dy', '5');
-      num.setAttribute('fill', capsule.theme_color);
-      num.setAttribute('font-weight', '700');
-      num.setAttribute('font-size', '14');
-      num.setAttribute('font-family', 'DM Sans, sans-serif');
-      num.textContent = capsule.id;
-      group.appendChild(num);
-    } else if (isLocked) {
-      const lock = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      lock.setAttribute('d', 'M-5,-2 L-5,2 L5,2 L5,-2 Z M-3,-2 L-3,-5 a 3,3 0 0 1 6,0 L 3,-2 M-1,-5 a 1,1 0 0 1 2,0');
-      lock.setAttribute('fill', 'none');
-      lock.setAttribute('stroke', '#7A90A8');
-      lock.setAttribute('stroke-width', '1.5');
-      lock.setAttribute('stroke-linecap', 'round');
-      lock.setAttribute('stroke-linejoin', 'round');
-      group.appendChild(lock);
-    } else if (isCompleted) {
-      const check = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      check.setAttribute('d', 'M-6,0 L-2,4 L6,-4');
-      check.setAttribute('fill', 'none');
-      check.setAttribute('stroke', '#FFFFFF');
-      check.setAttribute('stroke-width', '2.5');
-      check.setAttribute('stroke-linecap', 'round');
-      check.setAttribute('stroke-linejoin', 'round');
-      group.appendChild(check);
-    } else {
-      const num = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      num.setAttribute('text-anchor', 'middle');
-      num.setAttribute('dy', '5');
-      num.setAttribute('fill', '#0A1628');
-      num.setAttribute('font-weight', '700');
-      num.setAttribute('font-size', '14');
-      num.setAttribute('font-family', 'DM Sans, sans-serif');
-      num.textContent = capsule.id;
-      group.appendChild(num);
-    }
-
-    if (!isLocked) {
-      group.addEventListener('click', () => openCapsuleSheet(capsule));
-    } else {
-      group.addEventListener('click', () => {
-        const sheet = document.getElementById('sheet');
-        if (sheet) {
-          sheet.classList.add('shake');
-          setTimeout(() => sheet.classList.remove('shake'), 400);
-        }
-      });
-    }
-    svg.appendChild(group);
+  _map = L.map('map', {
+    center: CENTER,
+    zoom: 16,
+    zoomControl: false,
+    attributionControl: true
   });
 
-  const nextAccessible = window.CAPSULES.find(c =>
-    window.STATE.isCapsuleAccessible(c.id) && !window.STATE.getCompletedCapsules().includes(c.id)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(_map);
+
+  // Sentier pointillé vert
+  L.polyline(POINTS.map(p => p.coords), {
+    color: 'rgba(145,255,5,0.6)',
+    weight: 3,
+    dashArray: '6, 8'
+  }).addTo(_map);
+
+  // Marqueurs
+  const completed = window.STATE.getCompletedCapsules();
+  const skipped   = window.STATE.getSkippedCapsules();
+
+  POINTS.forEach(point => {
+    const capsule    = window.CAPSULES ? window.CAPSULES.find(c => c.id === point.id) : null;
+    const accessible = window.STATE.isCapsuleAccessible(point.id);
+    const marker     = L.marker(point.coords, { icon: makeIcon(point, accessible) }).addTo(_map);
+
+    marker.on('click', () => {
+      if (accessible && capsule) {
+        openCapsuleSheet(capsule);
+      } else {
+        openLockedSheet();
+      }
+    });
+  });
+
+  // Bouton Me localiser
+  const locBtn = document.getElementById('btn-locate');
+  if (locBtn) locBtn.addEventListener('click', locateUser);
+
+  startGPS();
+}
+
+// ── GPS ───────────────────────────────────────────────────────────────────────
+
+function startGPS() {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.watchPosition(onGPS, onGPSError, {
+    enableHighAccuracy: true,
+    maximumAge: 5000,
+    timeout: 10000
+  });
+}
+
+function onGPS(pos) {
+  const lat    = pos.coords.latitude;
+  const lng    = pos.coords.longitude;
+  const acc    = pos.coords.accuracy;
+  const latlng = [lat, lng];
+
+  if (!_userMarker) {
+    const icon = L.divIcon({
+      html: `<div style="
+        width:14px; height:14px; border-radius:50%;
+        background:#50B1FE; border:2.5px solid white;
+        box-shadow:0 0 0 5px rgba(80,177,254,0.22);
+        animation:pulse-glow 2s ease-in-out infinite;">
+      </div>`,
+      className: '',
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+    _userMarker = L.marker(latlng, { icon, zIndexOffset: 500 }).addTo(_map);
+    _userAcc    = L.circle(latlng, {
+      radius: acc,
+      color: '#50B1FE', fillColor: '#50B1FE',
+      fillOpacity: 0.07, weight: 1, opacity: 0.35
+    }).addTo(_map);
+
+    if (_firstGPS && distKm(latlng, CENTER) < MAX_DIST) {
+      _map.flyTo(latlng, 17, { duration: 1.5 });
+    }
+    _firstGPS = false;
+  } else {
+    _userMarker.setLatLng(latlng);
+    _userAcc.setLatLng(latlng).setRadius(acc);
+  }
+}
+
+function onGPSError() {
+  // Silencieux — l'utilisateur peut cliquer sur "Me localiser" pour voir le message
+}
+
+function locateUser() {
+  if (_userMarker) {
+    _map.flyTo(_userMarker.getLatLng(), 17, { duration: 1 });
+    return;
+  }
+  if (!navigator.geolocation) { showGpsMsg(); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => _map.flyTo([pos.coords.latitude, pos.coords.longitude], 17, { duration: 1 }),
+    showGpsMsg
   );
-  if (nextAccessible) openCapsuleSheet(nextAccessible);
+}
+
+function showGpsMsg() {
+  const el = document.getElementById('gps-msg');
+  if (!el) return;
+  el.textContent = 'Active la localisation pour te repérer sur le sentier.';
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3500);
+}
+
+// ── PANNEAUX ─────────────────────────────────────────────────────────────────
+
+function openLockedSheet() {
+  const sheet   = document.getElementById('sheet');
+  const overlay = document.getElementById('sheet-overlay');
+  if (!sheet) return;
+  sheet.innerHTML = `
+    <div class="sheet-handle"></div>
+    <p style="text-align:center; color:var(--color-text-muted); font-style:italic;
+              padding:28px 16px; font-size:15px; line-height:1.6;">
+      Ce lieu se dévoilera quand tu seras prêt, voyageur.
+    </p>
+  `;
+  sheet.classList.add('open');
+  if (overlay) overlay.classList.add('open');
 }
 
 function openCapsuleSheet(capsule) {
-  const sheet = document.getElementById('sheet');
+  const sheet   = document.getElementById('sheet');
   const overlay = document.getElementById('sheet-overlay');
   if (!sheet) return;
-
-  const isCompleted = window.STATE.getCompletedCapsules().includes(capsule.id);
 
   sheet.innerHTML = `
     <div class="sheet-handle"></div>
     <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
       <div class="badge-number">${capsule.id}</div>
       <div style="flex:1;">
-        <h2 style="font-size:24px; margin-bottom:4px;">${capsule.titre}</h2>
+        <h2 style="font-size:22px; margin-bottom:4px;">${capsule.titre}</h2>
         <span class="badge" style="color:${capsule.theme_color}; border-color:${capsule.theme_color}40;">${capsule.theme}</span>
       </div>
       <div style="text-align:right;">
-        <div style="font-family: var(--font-display); font-weight:700; font-size:22px;">${capsule.distance}</div>
+        <div style="font-family:var(--font-display); font-weight:700; font-size:20px;">${capsule.distance}</div>
         <div class="muted" style="font-size:12px;">À proximité</div>
       </div>
     </div>
-    ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style: italic; margin-bottom: 14px;">${capsule.sous_titre}</div>` : ''}
-    <div class="card-citation" style="margin-bottom:16px;">
-      <div class="citation-text">« ${capsule.citation} »</div>
+    ${capsule.sous_titre ? `<div class="muted" style="font-size:13px; font-style:italic; margin-bottom:12px;">${capsule.sous_titre}</div>` : ''}
+    <div class="card-citation" style="margin-bottom:14px;">
+      <div class="citation-text" style="font-size:15px;">« ${capsule.citation} »</div>
     </div>
-    <div style="display:flex; gap:10px; margin-top:8px;">
+    <div style="display:flex; gap:10px;">
       <button class="btn-primary" style="flex:2;" onclick="openCapsule(${capsule.id})">
         Explorer ce lieu <span aria-hidden="true">→</span>
       </button>
@@ -145,7 +210,6 @@ function openCapsuleSheet(capsule) {
         📷 Scanner
       </button>
     </div>
-    ${isCompleted ? '<div style="text-align:center; margin-top:12px; color: var(--color-accent-green); font-size:13px;">✓ Déjà visité</div>' : ''}
   `;
 
   sheet.classList.add('open');
@@ -153,9 +217,9 @@ function openCapsuleSheet(capsule) {
 }
 
 function closeSheet() {
-  const sheet = document.getElementById('sheet');
+  const sheet   = document.getElementById('sheet');
   const overlay = document.getElementById('sheet-overlay');
-  if (sheet) sheet.classList.remove('open');
+  if (sheet)   sheet.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
 }
 
@@ -172,20 +236,8 @@ function openScanner() {
     <div class="modal" style="position:relative;">
       <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
       <div style="text-align:center; padding:8px;">
-        <div style="width:120px; height:120px; margin:0 auto 16px; background:#FFFFFF; border-radius:12px; padding:12px;">
-          <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <rect x="10" y="10" width="20" height="20" fill="#0A1628"/>
-            <rect x="70" y="10" width="20" height="20" fill="#0A1628"/>
-            <rect x="10" y="70" width="20" height="20" fill="#0A1628"/>
-            <rect x="40" y="40" width="8" height="8" fill="#0A1628"/>
-            <rect x="55" y="40" width="8" height="8" fill="#0A1628"/>
-            <rect x="40" y="55" width="8" height="8" fill="#0A1628"/>
-            <rect x="55" y="55" width="8" height="8" fill="#0A1628"/>
-            <rect x="70" y="55" width="20" height="8" fill="#0A1628"/>
-          </svg>
-        </div>
         <h3 style="margin-bottom:8px;">Scanner un repère</h3>
-        <p class="muted" style="font-size:14px;">Scanne un QR code sur un panneau du sanctuaire pour déverrouiller la capsule correspondante directement sur place.</p>
+        <p class="muted" style="font-size:14px;">Scanne un QR code sur un panneau du sanctuaire pour déverrouiller la capsule directement sur place.</p>
         <button class="btn-primary" style="margin-top:20px;" onclick="this.closest('.modal-overlay').remove()">Compris</button>
       </div>
     </div>
@@ -195,9 +247,9 @@ function openScanner() {
 }
 
 if (typeof window !== 'undefined') {
-  window.initCarte = initCarte;
+  window.initCarte      = initCarte;
   window.openCapsuleSheet = openCapsuleSheet;
-  window.closeSheet = closeSheet;
-  window.openCapsule = openCapsule;
-  window.openScanner = openScanner;
+  window.closeSheet     = closeSheet;
+  window.openCapsule    = openCapsule;
+  window.openScanner    = openScanner;
 }
