@@ -3,7 +3,6 @@ let quizQuestions = [];
 let quizIndex = 0;
 let quizScore = 0;
 let quizAnswered = false;
-let usedColors = [];
 
 const MESSAGES_CORRECT = [
   "Bien joué, voyageur !",
@@ -146,15 +145,6 @@ function selectAnswer(index) {
 
   if (selected.correct) {
     quizScore++;
-    if (window.ROLLIER_COLORS && window.spawnRollier) {
-      const available = window.ROLLIER_COLORS.filter(c => !usedColors.includes(c));
-      const color = available.length
-        ? available[Math.floor(Math.random() * available.length)]
-        : window.ROLLIER_COLORS[Math.floor(Math.random() * window.ROLLIER_COLORS.length)];
-      usedColors.push(color);
-      const msg = window.ROLLIER_FELICITATIONS[quizIndex % window.ROLLIER_FELICITATIONS.length];
-      spawnRollier(msg, color);
-    }
   }
 
   setTimeout(() => {

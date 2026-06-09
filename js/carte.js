@@ -122,7 +122,7 @@ function openCapsuleSheet(capsule) {
     </div>
     <div style="display:flex; gap:10px; margin-top:8px;">
       <button class="btn-primary" style="flex:2;" onclick="openCapsule(${capsule.id})">
-        Voir la capsule <span aria-hidden="true">→</span>
+        Explorer ce lieu <span aria-hidden="true">→</span>
       </button>
       <button class="btn-secondary" style="flex:1;" onclick="openScanner()">
         📷 Scanner

@@ -33,6 +33,7 @@ function initCapsule() {
 
   window.STATE.markCapsuleVisited(id);
 
+  const nextUrl = id < 6 ? `capsule.html?id=${id + 1}` : 'carte.html';
   const root = document.getElementById('capsule-root');
   root.innerHTML = `
     <div class="capsule-hero" style="position:relative; width:100%; height: clamp(200px, 32vh, 280px); overflow:hidden;">
@@ -128,18 +129,11 @@ function initCapsule() {
         </button>
       </div>
 
-      <div style="text-align:right; padding:4px 0 8px;">
-        <button onclick="navigateTo('carte.html')"
-          style="font-size:11px; font-style:italic; color:rgba(255,255,255,0.25);
-                 background:none; border:none; cursor:pointer; padding:0;">
-          Passer les questions →
-        </button>
-      </div>
     </div>
 
     <div class="cta-fixed-bottom">
       <div style="display:flex; gap:10px;">
-        <button id="cta-skip" onclick="navigateTo('carte.html')"
+        <button id="cta-skip" onclick="navigateTo('${nextUrl}')"
           style="flex:0 0 40%; padding:15px 12px; border-radius:var(--radius-pill);
                  border:1px solid rgba(255,255,255,0.4); background:transparent;
                  color:var(--color-text); font-size:15px; font-weight:600; cursor:pointer;">
