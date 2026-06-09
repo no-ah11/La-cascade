@@ -3,16 +3,16 @@ let _userMarker = null;
 let _userAcc    = null;
 let _firstGPS   = true;
 
-const CENTER    = [43.5667, 6.1780];
+const CENTER    = [43.5668, 6.1772];
 const MAX_DIST  = 5; // km — au-delà : pas de recentrage auto
 
 const POINTS = [
-  { id: 1, coords: [43.5682, 6.1768], color: '#F5A623' },
-  { id: 2, coords: [43.5665, 6.1775], color: '#4DB8FF' },
-  { id: 3, coords: [43.5655, 6.1772], color: '#A8E63D' },
-  { id: 4, coords: [43.5650, 6.1780], color: '#4DB8FF' },
-  { id: 5, coords: [43.5672, 6.1758], color: '#E05C3A' },
-  { id: 6, coords: [43.5678, 6.1762], color: '#F5A623' },
+  { id: 1, coords: [43.5685, 6.1773], color: '#F5A623' },
+  { id: 2, coords: [43.5668, 6.1778], color: '#4DB8FF' },
+  { id: 3, coords: [43.5656, 6.1771], color: '#A8E63D' },
+  { id: 4, coords: [43.5648, 6.1782], color: '#4DB8FF' },
+  { id: 5, coords: [43.5679, 6.1761], color: '#E05C3A' },
+  { id: 6, coords: [43.5681, 6.1765], color: '#F5A623' },
 ];
 
 function distKm(a, b) {
@@ -60,7 +60,7 @@ function initCarte() {
 
   _map = L.map('map', {
     center: CENTER,
-    zoom: 16,
+    zoom: 17,
     zoomControl: false,
     attributionControl: true
   });
