@@ -187,55 +187,13 @@ function _createPanel(innerHtml) {
   const existing = document.getElementById('_map_panel');
   if (existing) existing.remove();
 
-  const PEEK_HEIGHT = 120;
-  const FULL_HEIGHT = Math.round(window.innerHeight * 0.5);
-
   const panel = document.createElement('div');
   panel.id = '_map_panel';
   panel.className = 'map-panel';
-
-  const handle = document.createElement('div');
-  handle.style.cssText = 'width:40px; height:4px; background:rgba(255,255,255,0.3); border-radius:2px; margin:8px auto 12px; cursor:grab;';
-  panel.appendChild(handle);
-
-  const content = document.createElement('div');
-  content.style.cssText = 'padding:0 20px 20px;';
-  content.innerHTML = innerHtml;
-  panel.appendChild(content);
-
+  panel.innerHTML = `<div style="padding:16px 20px 20px;">${innerHtml}</div>`;
   document.body.appendChild(panel);
 
-  let startY = 0;
-  let startHeight = 0;
-
-  panel.addEventListener('touchstart', (e) => {
-    startY = e.touches[0].clientY;
-    startHeight = panel.offsetHeight;
-  }, { passive: true });
-
-  panel.addEventListener('touchmove', (e) => {
-    const dy = startY - e.touches[0].clientY;
-    const newHeight = Math.max(60, Math.min(FULL_HEIGHT, startHeight + dy));
-    panel.style.height = newHeight + 'px';
-    panel.style.transition = 'none';
-  }, { passive: true });
-
-  panel.addEventListener('touchend', (e) => {
-    const dy = startY - e.changedTouches[0].clientY;
-    panel.style.transition = 'height 0.3s ease';
-    if (dy > 50) {
-      panel.style.height = FULL_HEIGHT + 'px';
-    } else if (dy < -50) {
-      panel.style.height = '0px';
-      setTimeout(() => panel.remove(), 300);
-    } else {
-      panel.style.height = PEEK_HEIGHT + 'px';
-    }
-  });
-
-  panel.style.height = PEEK_HEIGHT + 'px';
-  panel.style.transition = 'height 0.3s ease';
-  panel.style.overflow = 'hidden';
+  requestAnimationFrame(() => panel.classList.add('open'));
 
   const overlay = document.getElementById('sheet-overlay');
   if (overlay) overlay.classList.add('open');
@@ -281,8 +239,7 @@ function openCapsuleSheet(capsule) {
 function closeSheet() {
   const panel = document.getElementById('_map_panel');
   if (panel) {
-    panel.style.transition = 'height 0.3s ease';
-    panel.style.height = '0px';
+    panel.classList.remove('open');
     setTimeout(() => panel.remove(), 300);
   }
   const overlay = document.getElementById('sheet-overlay');

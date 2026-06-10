@@ -85,7 +85,7 @@
   pointer-events: auto;
 }
 
-/* ============ MAP PANEL (swipeable) ============ */
+/* ============ MAP PANEL ============ */
 .map-panel {
   position: fixed;
   bottom: 64px;
@@ -94,10 +94,14 @@
   z-index: 9999;
   background: rgba(10,22,40,0.97);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(80,177,254,0.3);
   border-radius: 20px 20px 0 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+}
+.map-panel.open {
+  transform: translateY(0);
 }
 
 /* ============ CARDS ============ */
@@ -268,7 +272,7 @@
   align-items: stretch;
   padding: 0 6px;
   padding-bottom: var(--safe-bottom);
-  z-index: 100;
+  z-index: 1000;
   min-height: calc(60px + var(--safe-bottom));
 }
 .nav-item {

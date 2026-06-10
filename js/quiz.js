@@ -79,7 +79,7 @@ function renderQuestion() {
       <div class="quiz-progress" style="margin:10px 0 0;">${progressSegs}</div>
     </div>
 
-    <div class="anim-fade-in" id="quiz-content" style="padding-top:16px; padding-bottom:120px;">
+    <div class="anim-fade-in" id="quiz-content" style="padding-top:16px; padding-bottom:40px;">
       <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(80,177,254,0.2); border-radius:16px; padding:20px; margin-bottom:16px;">
         <div class="muted" style="font-size:12px; margin-bottom:10px; letter-spacing:0.05em;">Question ${quizIndex + 1} / ${quizQuestions.length}</div>
         <h2 style="font-size:clamp(17px,5vw,20px); font-weight:700; color:var(--color-text); line-height:1.35; margin-bottom:${q.citation_indice ? '10px' : '0'};">${q.question}</h2>
@@ -101,12 +101,11 @@ function renderQuestion() {
       </div>
 
       <div id="quiz-explanation"></div>
-    </div>
-
-    <div class="cta-fixed-bottom">
-      <button class="btn-primary" id="quiz-continue" style="display:none;" onclick="nextQuestion()">
-        ${isLast ? 'Voir mon résultat' : 'Question suivante'} <span aria-hidden="true">→</span>
-      </button>
+      <div style="margin-top:16px;">
+        <button class="btn-primary" id="quiz-continue" style="display:none;" onclick="nextQuestion()">
+          ${isLast ? 'Voir mon résultat' : 'Question suivante'} <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
   `;
 
@@ -151,7 +150,7 @@ function selectAnswer(index) {
     const cta = document.getElementById('quiz-continue');
     if (cta) {
       cta.style.display = 'inline-flex';
-      cta.style.animation = 'slideUp 400ms var(--ease-out) forwards';
+      cta.style.animation = 'fadeIn 400ms var(--ease-out) forwards';
     }
   }, 1200);
 }
@@ -188,7 +187,7 @@ function renderResult() {
   const logoPath = window.STATE.getCoraciaLogo(couleursMaj);
 
   const isLast  = quizCapsuleId === 6;
-  const ctaLabel  = isLast ? 'Voir mon bilan' : 'Capsule suivante';
+  const ctaLabel  = isLast ? 'Voir mon bilan' : 'Étape suivante';
   const ctaTarget = isLast ? 'apres-visite.html' : `capsule.html?id=${quizCapsuleId + 1}`;
 
   document.getElementById('quiz-root').innerHTML = `
