@@ -8,11 +8,12 @@ function getCapsuleId() {
 
 function renderImageOrPlaceholder(src, alt, fallbackTheme, imageFit, imagePosition) {
   const themeColor = fallbackTheme || '#4DB8FF';
-  const fit = imageFit || 'cover';
-  const position = imagePosition || 'center';
+  const imgStyle = imageFit === 'width-fill'
+    ? 'width:100%; height:auto; position:absolute; top:50%; transform:translateY(-50%);'
+    : `width:100%; height:100%; object-fit:${imageFit || 'cover'}; object-position:${imagePosition || 'center'};`;
   return `
     <div class="capsule-image-wrap" style="width:100%; height:100%; position:relative;">
-      <img src="${src}" alt="${alt}" style="width:100%; height:100%; object-fit:${fit}; object-position:${position};" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+      <img src="${src}" alt="${alt}" style="${imgStyle}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
       <div class="placeholder-image" style="display:none; position:absolute; inset:0; background: linear-gradient(135deg, ${themeColor}20 0%, var(--color-surface) 100%);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="5" width="18" height="14" rx="2"/>
