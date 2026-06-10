@@ -8,9 +8,7 @@ function getCapsuleId() {
 
 function renderImageOrPlaceholder(src, alt, fallbackTheme, imageFit, imagePosition) {
   const themeColor = fallbackTheme || '#4DB8FF';
-  const imgStyle = imageFit === 'width-fill'
-    ? 'width:100%; height:auto; position:absolute; top:50%; transform:translateY(-50%);'
-    : `width:100%; height:100%; object-fit:${imageFit || 'cover'}; object-position:${imagePosition || 'center'};`;
+  const imgStyle = `width:100%; height:100%; object-fit:${imageFit || 'cover'}; object-position:${imagePosition || 'center'};`;
   return `
     <div class="capsule-image-wrap" style="width:100%; height:100%; position:relative;">
       <img src="${src}" alt="${alt}" style="${imgStyle}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
@@ -48,7 +46,7 @@ function initCapsule() {
   const nextUrl = id < 6 ? `capsule.html?id=${id + 1}` : 'carte.html';
   const root = document.getElementById('capsule-root');
   root.innerHTML = `
-    <div class="capsule-hero" style="position:relative; width:100%; height: clamp(200px, 32vh, 280px); overflow:hidden;">
+    <div class="capsule-hero" style="position:relative; width:100%; height: ${capsule.image_height || 'clamp(200px, 32vh, 280px)'}; overflow:hidden;">
       ${renderImageOrPlaceholder(capsule.image, capsule.titre, capsule.theme_color, capsule.image_fit, capsule.image_position)}
       <div style="position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,22,40,0.5) 0%, transparent 30%, rgba(10,22,40,0.6) 70%, var(--color-bg) 100%);"></div>
 

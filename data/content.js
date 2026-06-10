@@ -32,7 +32,7 @@ Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on 
 Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de mousses fossilisées y dessinent encore la trame du vivant qui l'a fait naître.`,
     saviez_vous: "À Sillans, le tuff se forme encore aujourd'hui. La cascade fabrique sa propre roche, lentement, à la vitesse de quelques millimètres par siècle.",
     image: "assets/images/11197312(43).JPG",
-    image_fit: "width-fill",
+    image_height: "clamp(260px, 48vh, 420px)",
     audio: "assets/videos/capsule-2-audio.mp3",
     photos: ["assets/images/capsule-2-photo-1.jpg", "assets/images/capsule-2-photo-2.jpg", "assets/images/capsule-2-photo-3.jpg"],
     duree_audio: "2 min",
