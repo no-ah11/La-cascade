@@ -133,7 +133,7 @@ function getCoraciaLogo(n) {
   if (n === 1)  return 'assets/icons/Coracia 1 sur 4.svg';
   if (n === 2)  return 'assets/icons/Coracia 2 sur 4.svg';
   if (n === 3)  return 'assets/icons/Coracia 3 sur 4.svg';
-  if (n >= 4)   return 'assets/icons/Coracia 4 sur 4.svg';
+  if (n >= 4)   return 'assets/images/logo fini.png';
   return 'assets/icons/logo-sillans.svg';
 }
 
