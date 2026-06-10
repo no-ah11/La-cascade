@@ -72,7 +72,7 @@ function renderQuestion() {
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div style="flex:1; text-align:center; font-size:15px; font-style:italic; color:var(--color-text-muted);">
-          Questions · Capsule ${quizCapsuleId}
+          Questions · Étape ${quizCapsuleId}
         </div>
         <span class="badge" style="color:${themeColor}; border-color:${themeColor}40; font-size:11px; white-space:nowrap; flex-shrink:0;">${themeName}</span>
       </div>

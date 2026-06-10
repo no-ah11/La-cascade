@@ -27,7 +27,7 @@ function initCapsule() {
   const id = getCapsuleId();
   const capsule = window.CAPSULES.find(c => c.id === id);
   if (!capsule) {
-    document.body.innerHTML = '<div class="container"><p>Capsule introuvable.</p></div>';
+    document.body.innerHTML = '<div class="container"><p>Étape introuvable.</p></div>';
     return;
   }
 
@@ -53,7 +53,7 @@ function initCapsule() {
         <button class="btn-icon-round" onclick="navigateTo('carte.html')" aria-label="Retour">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <div class="italic" style="font-size:13px; color: rgba(255,255,255,0.8);">${CAPSULE_LABELS[id] || `Capsule ${id} / 6`}</div>
+        <div class="italic" style="font-size:13px; color: rgba(255,255,255,0.8);">${CAPSULE_LABELS[id] || `Étape ${id} / 6`}</div>
         <div style="width:44px;"></div>
       </div>
 
@@ -93,7 +93,7 @@ function initCapsule() {
           </div>
           <div class="media-card-text">
             <div class="media-card-title">Photos</div>
-            <div class="media-card-subtitle">Diaporama du lieu</div>
+            <div class="media-card-subtitle">Photos du lieu</div>
           </div>
           <div class="media-card-arrow">→</div>
         </button>
@@ -114,7 +114,7 @@ function initCapsule() {
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
           </div>
           <div class="media-card-text">
-            <div class="media-card-title">Écouter le commentaire</div>
+            <div class="media-card-title">Écouter l'audio</div>
             <div class="media-card-subtitle">Narration ${capsule.duree_audio}</div>
           </div>
           <div class="media-card-arrow">→</div>
@@ -130,8 +130,8 @@ function initCapsule() {
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
           </div>
           <div class="media-card-text">
-            <div class="media-card-title">Schéma légendé</div>
-            <div class="media-card-subtitle">Comprendre en un coup d'œil</div>
+            <div class="media-card-title">Comprendre en image</div>
+            <div class="media-card-subtitle">Schéma légendé du lieu</div>
           </div>
           <div class="media-card-arrow">→</div>
         </button>
@@ -148,7 +148,7 @@ function initCapsule() {
           Passer →
         </button>
         <button class="btn-primary" id="cta-question" disabled style="flex:1; opacity:0.5;">
-          Répondre aux questions <span aria-hidden="true">→</span>
+          Tester mes connaissances <span aria-hidden="true">→</span>
         </button>
       </div>
     </div>
@@ -159,11 +159,64 @@ function initCapsule() {
     skipBtn.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (id < 6) {
-        window.location.href = 'capsule.html?id=' + (id + 1);
-      } else {
+
+      // Marquer comme visité
+      window.STATE.markCapsuleSkipped(id);
+
+      // Noms des étapes suivantes
+      const NEXT_LABELS = { 2: 'Le tuff', 3: 'Le belvédère', 4: 'La Bresque', 5: 'Les remparts', 6: 'La Grande Rue' };
+      const btn2Label = id < 6 ? `Continuer vers ${NEXT_LABELS[id + 1]} →` : 'Voir mon bilan →';
+      const btn2Href  = id < 6 ? `capsule.html?id=${id + 1}` : 'apres-visite.html';
+
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999;';
+
+      const card = document.createElement('div');
+      card.style.cssText = [
+        'position:fixed', 'top:50%', 'left:50%', 'transform:translate(-50%,-50%)',
+        'background:#0A1628', 'border:1px solid rgba(80,177,254,0.4)',
+        'border-radius:20px', 'padding:28px',
+        'max-width:320px', 'width:calc(100% - 40px)',
+        'text-align:center', 'z-index:10000'
+      ].join(';');
+
+      card.innerHTML = `
+        <img src="assets/icons/logo-sillans.svg" alt=""
+          class="anim-levitate"
+          style="width:50px; height:50px; display:block; margin:0 auto 20px;"
+          onerror="this.style.display='none';" />
+        <p style="font-family:var(--font-display); font-style:italic; font-size:18px;
+                  color:#fff; line-height:1.6; margin-bottom:10px;">
+          « Prends un souffle, voyageur.<br/>Le sentier continue devant toi. »
+        </p>
+        <p style="font-size:13px; color:#50B1FE; margin-bottom:24px;">
+          Que souhaites-tu faire ?
+        </p>
+        <button id="_skip_btn1" style="display:block; width:100%; padding:14px 16px;
+          border-radius:var(--radius-pill); background:#50B1FE; color:#0A1628;
+          font-weight:700; font-size:15px; border:none; cursor:pointer; margin-bottom:12px;">
+          Voir le prochain point sur la carte →
+        </button>
+        <button id="_skip_btn2" style="display:block; width:100%; padding:14px 16px;
+          border-radius:var(--radius-pill); background:transparent;
+          border:1px solid rgba(255,255,255,0.3); color:#fff;
+          font-weight:600; font-size:15px; cursor:pointer;">
+          ${btn2Label}
+        </button>
+      `;
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(card);
+
+      overlay.addEventListener('click', () => { overlay.remove(); card.remove(); });
+
+      card.querySelector('#_skip_btn1').addEventListener('click', () => {
         window.location.href = 'carte.html';
-      }
+      });
+
+      card.querySelector('#_skip_btn2').addEventListener('click', () => {
+        window.location.href = btn2Href;
+      });
     });
   }
 
