@@ -1,12 +1,11 @@
-const CACHE_VERSION = 'v3';
-const CACHE_NAME = `sillans-${CACHE_VERSION}`;
-const RUNTIME_CACHE = `sillans-runtime-${CACHE_VERSION}`;
+const CACHE = 'coracia-v1';
 
-const APP_SHELL = [
+const PRECACHE = [
   './',
   './index.html',
   './onboarding.html',
   './accueil.html',
+  './parcours.html',
   './carte.html',
   './capsule.html',
   './quiz.html',
@@ -17,92 +16,87 @@ const APP_SHELL = [
   './css/animations.css',
   './js/state.js',
   './js/navigation.js',
-  './js/ambiance.js',
   './js/carte.js',
   './js/capsule.js',
   './js/quiz.js',
+  './js/ambiance.js',
+  './js/pwa.js',
   './data/content.js',
-  './assets/icons/logo-sillans.svg'
+  './assets/icons/logo-sillans.svg',
+  './assets/icons/logo-sillans-ecrit.svg',
+  './assets/icons/Coracia%20fatigu%C3%A9.svg',
+  './assets/icons/Coracia%201%20sur%204.svg',
+  './assets/icons/Coracia%202%20sur%204.svg',
+  './assets/icons/Coracia%203%20sur%204.svg',
+  './assets/images/EGLISE.jpg',
+  './assets/images/CASCADE.jpg',
+  './assets/images/11197312(43).JPG',
+  './assets/images/11197312(48).JPG',
+  './assets/images/11197312(51).JPG',
+  './assets/images/11197312(61).JPG',
+  './assets/images/11197312(35).JPG',
+  './assets/images/FloranDERACHE_RG_camera_cascadezoom2.jpg',
+  './assets/images/logo%20fini3.png',
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => Promise.all(
-        APP_SHELL.map(url =>
-          cache.add(url).catch(err => console.warn('[SW] skip cache:', url, err.message))
-        )
-      ))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE).then(cache =>
+      Promise.allSettled(PRECACHE.map(url => cache.add(url).catch(() => {})))
+    ).then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys
-        .filter(k => k !== CACHE_NAME && k !== RUNTIME_CACHE)
-        .map(k => caches.delete(k))
-    )).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
+  if (event.request.method !== 'GET') return;
 
-  const url = new URL(req.url);
-  const isSameOrigin = url.origin === self.location.origin;
-  const isFontHost = url.host === 'fonts.googleapis.com' || url.host === 'fonts.gstatic.com';
+  const url = event.request.url;
 
-  if (!isSameOrigin && !isFontHost) return;
-
-  if (req.destination === 'document') {
+  // Tuiles carte : network-first, mise en cache dynamique pour usage offline
+  if (url.includes('maptiler') || (url.includes('/tiles/') && url.includes('tile'))) {
     event.respondWith(
-      fetch(req)
-        .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(c => c.put(req, clone));
-          return res;
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE).then(cache => cache.put(event.request, clone));
+          }
+          return response;
         })
-        .catch(() => caches.match(req).then(c => c || caches.match('./accueil.html')))
+        .catch(() => caches.match(event.request))
     );
     return;
   }
 
+  // Tout le reste : cache-first, réseau en fallback
   event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) {
-        if (isFontHost || req.destination === 'image') {
-          fetch(req).then(res => {
-            if (res && res.status === 200) {
-              caches.open(RUNTIME_CACHE).then(c => c.put(req, res.clone()));
-            }
-          }).catch(() => {});
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE).then(cache => cache.put(event.request, clone));
         }
-        return cached;
-      }
-      return fetch(req).then(res => {
-        if (!res || res.status !== 200) return res;
-        const targetCache = isFontHost || req.destination === 'image' ? RUNTIME_CACHE : CACHE_NAME;
-        const clone = res.clone();
-        caches.open(targetCache).then(c => c.put(req, clone));
-        return res;
+        return response;
       }).catch(() => {
-        if (req.destination === 'image') {
-          return new Response(
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#152848"/></svg>',
-            { headers: { 'Content-Type': 'image/svg+xml' } }
-          );
+        if (event.request.mode === 'navigate') {
+          return caches.match('./accueil.html');
         }
-        return new Response('', { status: 504 });
       });
     })
   );
 });
 
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
