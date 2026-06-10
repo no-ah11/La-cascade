@@ -51,7 +51,7 @@ Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de 
 
 Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à peu, les voix plus fines : insectes, chant des fauvettes, frémissement des feuilles. C'est ici que la forêt commence à se confier.`,
     saviez_vous: "Le martin-pêcheur, ce petit oiseau bleu et orange, peut plonger jusqu'à 1 m de profondeur pour attraper de petits poissons.",
-    image: "assets/images/FloranDERACHE_RG_camera_cascadezoom2.jpg",
+    image: "assets/images/CASCADE.jpg",
     audio: "assets/videos/capsule-3-audio.mp3",
     photos: ["assets/images/capsule-3-photo-1.jpg", "assets/images/capsule-3-photo-2.jpg", "assets/images/capsule-3-photo-3.jpg"],
     duree_audio: "3 min",
