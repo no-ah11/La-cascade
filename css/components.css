@@ -85,6 +85,21 @@
   pointer-events: auto;
 }
 
+/* ============ MAP PANEL (swipeable) ============ */
+.map-panel {
+  position: fixed;
+  bottom: 64px;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(10,22,40,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(80,177,254,0.3);
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
 /* ============ CARDS ============ */
 .card {
   background: var(--color-surface);

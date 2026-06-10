@@ -141,7 +141,7 @@ function initCapsule() {
 
     <div class="cta-fixed-bottom">
       <div style="display:flex; gap:10px;">
-        <button id="cta-skip"
+        <button id="cta-skip-btn"
           style="flex:0 0 40%; padding:15px 12px; border-radius:var(--radius-pill);
                  border:1px solid rgba(255,255,255,0.4); background:transparent;
                  color:var(--color-text); font-size:15px; font-weight:600; cursor:pointer;">
@@ -154,19 +154,17 @@ function initCapsule() {
     </div>
   `;
 
-  const skipBtn = document.getElementById('cta-skip');
+  const skipBtn = document.getElementById('cta-skip-btn');
   if (skipBtn) {
-    skipBtn.disabled = false;
-    skipBtn.style.opacity = '1';
-    skipBtn.style.pointerEvents = 'auto';
-    skipBtn.onclick = function() {
-      const nextId = id + 1;
-      if (nextId <= 6) {
-        window.location.href = 'capsule.html?id=' + nextId;
+    skipBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (id < 6) {
+        window.location.href = 'capsule.html?id=' + (id + 1);
       } else {
         window.location.href = 'carte.html';
       }
-    };
+    });
   }
 
   setTimeout(() => {

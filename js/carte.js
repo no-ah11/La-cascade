@@ -183,54 +183,75 @@ function showGpsMsg() {
 
 // ── PANNEAUX ─────────────────────────────────────────────────────────────────
 
-function openLockedSheet() {
-  const sheet   = document.getElementById('sheet');
-  const overlay = document.getElementById('sheet-overlay');
-  if (!sheet) return;
-  if (!document.body.contains(sheet)) document.body.appendChild(sheet);
-  Object.assign(sheet.style, {
-    position: 'fixed', bottom: '0', left: '0', right: '0',
-    zIndex: '9999',
-    background: 'rgba(10,22,40,0.97)',
-    backdropFilter: 'blur(20px)',
-    borderTop: '1px solid rgba(80,177,254,0.3)',
-    borderRadius: '20px 20px 0 0',
-    padding: '20px 20px',
-    paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
-    maxHeight: '50vh',
-    overflowY: 'auto'
+function _createPanel(innerHtml) {
+  const existing = document.getElementById('_map_panel');
+  if (existing) existing.remove();
+
+  const PEEK_HEIGHT = 120;
+  const FULL_HEIGHT = Math.round(window.innerHeight * 0.5);
+
+  const panel = document.createElement('div');
+  panel.id = '_map_panel';
+  panel.className = 'map-panel';
+
+  const handle = document.createElement('div');
+  handle.style.cssText = 'width:40px; height:4px; background:rgba(255,255,255,0.3); border-radius:2px; margin:8px auto 12px; cursor:grab;';
+  panel.appendChild(handle);
+
+  const content = document.createElement('div');
+  content.style.cssText = 'padding:0 20px 20px;';
+  content.innerHTML = innerHtml;
+  panel.appendChild(content);
+
+  document.body.appendChild(panel);
+
+  let startY = 0;
+  let startHeight = 0;
+
+  panel.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+    startHeight = panel.offsetHeight;
+  }, { passive: true });
+
+  panel.addEventListener('touchmove', (e) => {
+    const dy = startY - e.touches[0].clientY;
+    const newHeight = Math.max(60, Math.min(FULL_HEIGHT, startHeight + dy));
+    panel.style.height = newHeight + 'px';
+    panel.style.transition = 'none';
+  }, { passive: true });
+
+  panel.addEventListener('touchend', (e) => {
+    const dy = startY - e.changedTouches[0].clientY;
+    panel.style.transition = 'height 0.3s ease';
+    if (dy > 50) {
+      panel.style.height = FULL_HEIGHT + 'px';
+    } else if (dy < -50) {
+      panel.style.height = '0px';
+      setTimeout(() => panel.remove(), 300);
+    } else {
+      panel.style.height = PEEK_HEIGHT + 'px';
+    }
   });
-  sheet.innerHTML = `
-    <div class="sheet-handle"></div>
-    <p style="text-align:center; color:var(--color-text-muted); font-style:italic;
-              padding:28px 16px; font-size:15px; line-height:1.6;">
-      Ce lieu se dévoilera quand tu seras prêt, voyageur.
-    </p>
-  `;
-  sheet.classList.add('open');
+
+  panel.style.height = PEEK_HEIGHT + 'px';
+  panel.style.transition = 'height 0.3s ease';
+  panel.style.overflow = 'hidden';
+
+  const overlay = document.getElementById('sheet-overlay');
   if (overlay) overlay.classList.add('open');
 }
 
-function openCapsuleSheet(capsule) {
-  const sheet   = document.getElementById('sheet');
-  const overlay = document.getElementById('sheet-overlay');
-  if (!sheet) return;
-  if (!document.body.contains(sheet)) document.body.appendChild(sheet);
-  Object.assign(sheet.style, {
-    position: 'fixed', bottom: '0', left: '0', right: '0',
-    zIndex: '9999',
-    background: 'rgba(10,22,40,0.97)',
-    backdropFilter: 'blur(20px)',
-    borderTop: '1px solid rgba(80,177,254,0.3)',
-    borderRadius: '20px 20px 0 0',
-    padding: '20px 20px',
-    paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
-    maxHeight: '50vh',
-    overflowY: 'auto'
-  });
+function openLockedSheet() {
+  _createPanel(`
+    <p style="text-align:center; color:var(--color-text-muted); font-style:italic;
+              padding:12px 0 0; font-size:15px; line-height:1.6;">
+      Ce lieu se dévoilera quand tu seras prêt, voyageur.
+    </p>
+  `);
+}
 
-  sheet.innerHTML = `
-    <div class="sheet-handle"></div>
+function openCapsuleSheet(capsule) {
+  _createPanel(`
     <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
       <div class="badge-number">${capsule.id}</div>
       <div style="flex:1;">
@@ -254,16 +275,17 @@ function openCapsuleSheet(capsule) {
         📷 Scanner
       </button>
     </div>
-  `;
-
-  sheet.classList.add('open');
-  if (overlay) overlay.classList.add('open');
+  `);
 }
 
 function closeSheet() {
-  const sheet   = document.getElementById('sheet');
+  const panel = document.getElementById('_map_panel');
+  if (panel) {
+    panel.style.transition = 'height 0.3s ease';
+    panel.style.height = '0px';
+    setTimeout(() => panel.remove(), 300);
+  }
   const overlay = document.getElementById('sheet-overlay');
-  if (sheet)   sheet.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
 }
 
