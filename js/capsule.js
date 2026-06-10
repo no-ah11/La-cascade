@@ -181,10 +181,10 @@ function initCapsule() {
       ].join(';');
 
       card.innerHTML = `
-        <img src="assets/icons/logo-sillans.svg" alt=""
+        <img src="assets/icons/Coracia fatigué.svg" alt=""
           class="anim-levitate"
           style="width:50px; height:50px; display:block; margin:0 auto 20px;"
-          onerror="this.style.display='none';" />
+          onerror="this.onerror=null; this.src='assets/icons/logo-sillans.svg';" />
         <p style="font-family:var(--font-display); font-style:italic; font-size:18px;
                   color:#fff; line-height:1.6; margin-bottom:10px;">
           « Prends un souffle, voyageur.<br/>Le sentier continue devant toi. »

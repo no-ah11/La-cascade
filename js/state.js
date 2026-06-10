@@ -199,8 +199,10 @@ function getCompletedCapsules() {
 }
 
 function getSkippedCapsules() {
-  try { return JSON.parse(localStorage.getItem('coracia_visited') || '[]'); }
-  catch { return []; }
+  try {
+    const val = JSON.parse(localStorage.getItem('coracia_visited') || '[]');
+    return Array.isArray(val) ? val : [];
+  } catch { return []; }
 }
 
 function markCapsuleSkipped(id) {
