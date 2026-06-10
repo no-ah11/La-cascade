@@ -31,7 +31,7 @@ Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on 
 
 Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de mousses fossilisées y dessinent encore la trame du vivant qui l'a fait naître.`,
     saviez_vous: "À Sillans, le tuff se forme encore aujourd'hui. La cascade fabrique sa propre roche, lentement, à la vitesse de quelques millimètres par siècle.",
-    image: "assets/images/capsule-2.jpg",
+    image: "assets/images/11197312(43).JPG",
     audio: "assets/videos/capsule-2-audio.mp3",
     photos: ["assets/images/capsule-2-photo-1.jpg", "assets/images/capsule-2-photo-2.jpg", "assets/images/capsule-2-photo-3.jpg"],
     duree_audio: "2 min",
@@ -50,7 +50,7 @@ Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de 
 
 Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à peu, les voix plus fines : insectes, chant des fauvettes, frémissement des feuilles. C'est ici que la forêt commence à se confier.`,
     saviez_vous: "Le martin-pêcheur, ce petit oiseau bleu et orange, peut plonger jusqu'à 1 m de profondeur pour attraper de petits poissons.",
-    image: "assets/images/capsule-3.jpg",
+    image: "assets/images/11197312(61).JPG",
     audio: "assets/videos/capsule-3-audio.mp3",
     photos: ["assets/images/capsule-3-photo-1.jpg", "assets/images/capsule-3-photo-2.jpg", "assets/images/capsule-3-photo-3.jpg"],
     duree_audio: "3 min",
@@ -69,7 +69,7 @@ Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à 
 
 Son eau est chargée en calcaire dissous, hérité de la traversée des couches géologiques de la garrigue. C'est ce calcaire qui, en se déposant, sculpte les concrétions du tuff et donne au site sa physionomie si particulière.`,
     saviez_vous: "La cascade de Sillans mesure environ 42 mètres de hauteur. Son débit peut décupler en quelques heures lors des épisodes méditerranéens d'automne.",
-    image: "assets/images/capsule-4.jpg",
+    image: "assets/images/11197312(48).JPG",
     audio: "assets/videos/capsule-4-audio.mp3",
     photos: ["assets/images/capsule-4-photo-1.jpg", "assets/images/capsule-4-photo-2.jpg", "assets/images/capsule-4-photo-3.jpg"],
     duree_audio: "3 min",
