@@ -121,10 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const CORACIA_COLORS_ORDER = [
-  { hex: '#4DB8FF', key: 'blue' },
-  { hex: '#50B1FE', key: 'green' },
-  { hex: '#F5CE18', key: 'orange' },
-  { hex: '#91FF05', key: 'red' }
+  { hex: '#F5CE18', key: 'blue' },
+  { hex: '#F5A623', key: 'green' },
+  { hex: '#91FF05', key: 'orange' },
+  { hex: '#0A4A8A', key: 'red' }
 ];
 
 function getCoraciaLogo(n) {

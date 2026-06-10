@@ -345,10 +345,10 @@ const THEMES = [
 ];
 
 const COULEUR_LABELS = {
-  blue: { nom: "Le Bleu de la Bresque", desc: "Couleur de l'eau qui sculpte la pierre et fait vivre le sanctuaire." },
-  green: { nom: "Le Vert des gorges", desc: "Couleur du vivant : oiseaux, insectes et végétation des berges." },
-  orange: { nom: "L'Ocre du vieux Sillans", desc: "Couleur du bâti médiéval et de la mémoire des hommes." },
-  red: { nom: "Le Rouge des remparts", desc: "Couleur du feu, des dangers passés et de la vigilance présente." }
+  blue:   { nom: "L'Or de la garrigue",     desc: "Couleur du soleil et du bâti médiéval de Sillans." },
+  green:  { nom: "L'Ocre du vieux Sillans", desc: "Couleur chaude du village et de la mémoire des hommes." },
+  orange: { nom: "Le Vert des gorges",      desc: "Couleur du vivant : oiseaux, insectes et végétation des berges." },
+  red:    { nom: "Le Bleu de la Bresque",   desc: "Couleur de l'eau qui sculpte la pierre et fait vivre le sanctuaire." }
 };
 
 if (typeof window !== 'undefined') {
