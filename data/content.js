@@ -1,18 +1,19 @@
 const CAPSULES = [
   {
     id: 1,
-    titre: "L'église Notre-Dame",
+    titre: "L'église Saint-Étienne",
     sous_titre: "Au niveau de l'église — point de repère",
     theme: "Patrimoine",
     theme_color: "#F5A623",
     theme_key: "patrimoine",
     distance: "0 m",
     citation: "Voyageur, ici commence ton chemin. Écoute les cloches du temps.",
-    texte: `L'église Notre-Dame de l'Assomption surplombe Sillans-la-Cascade depuis le XIIᵉ siècle. Reconstruite et remaniée au fil des âges, elle conserve une nef romane caractéristique et un clocher-tour qui a longtemps servi de repère aux paysans de la vallée de la Bresque.
+    texte: `L'église Saint-Étienne surplombe Sillans-la-Cascade depuis le XIIᵉ siècle. Reconstruite et remaniée au fil des âges, elle conserve une nef romane caractéristique et un clocher-tour qui a longtemps servi de repère aux paysans de la vallée de la Bresque.
 
 Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on embrasse d'un seul regard le village médiéval, la plaine cultivée et les collines boisées qui annoncent la garrigue. C'est ici que commence ton circuit.`,
     saviez_vous: "La cloche de l'église, fondue à la fin du XVIᵉ siècle, sonne encore aujourd'hui les heures du village.",
     image: "assets/images/EGLISE.jpg",
+    image_position: "center 80%",
     audio: "assets/videos/capsule-1-audio.mp3",
     photos: ["assets/images/capsule-1-photo-1.jpg", "assets/images/capsule-1-photo-2.jpg", "assets/images/capsule-1-photo-3.jpg"],
     duree_audio: "2 min",
@@ -123,7 +124,7 @@ const QUIZ = [
     capsule_id: 1,
     questions: [
       {
-        question: "De quel siècle date l'église Notre-Dame de Sillans ?",
+        question: "De quel siècle date l'église Saint-Étienne de Sillans ?",
         reponses: [
           { lettre: "A", texte: "Le IXe siècle", correct: false },
           { lettre: "B", texte: "Le XIIe siècle", correct: true },
