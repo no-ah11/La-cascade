@@ -118,7 +118,7 @@ self.addEventListener('fetch', event => {
 
   // Tout le reste : cache-first, réseau en fallback
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    caches.match(event.request, { ignoreSearch: true }).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
         if (response.ok) {
