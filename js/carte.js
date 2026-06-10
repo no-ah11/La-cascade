@@ -80,7 +80,7 @@ function initCarte() {
   setTimeout(() => _map.invalidateSize(), 300);
 
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && _map) setTimeout(() => _map.invalidateSize(), 300);
+    if (!document.hidden && _map) setTimeout(() => _map.invalidateSize(), 200);
   });
 
   // Tracé du sentier — GeoJSON terrain
@@ -92,10 +92,15 @@ function initCarte() {
   POINTS.forEach(point => {
     const capsule    = window.CAPSULES ? window.CAPSULES.find(c => c.id === point.id) : null;
     const accessible = window.STATE.isCapsuleAccessible(point.id);
-    const marker     = L.marker(point.coords, { icon: makeIcon(point, accessible) }).addTo(_map);
+    const marker     = L.marker(point.coords, {
+      icon: makeIcon(point, accessible),
+      interactive: accessible
+    }).addTo(_map);
 
     if (accessible && capsule) {
       marker.on('click', () => openCapsuleSheet(capsule));
+    } else {
+      marker.off('click');
     }
   });
 
@@ -266,3 +271,7 @@ if (typeof window !== 'undefined') {
   window.openCapsule    = openCapsule;
   window.openScanner    = openScanner;
 }
+
+window.addEventListener('pageshow', () => {
+  if (_map) setTimeout(() => _map.invalidateSize(), 200);
+});
