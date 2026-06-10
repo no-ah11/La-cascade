@@ -12,7 +12,7 @@ const POINTS = [
   { id: 3, coords: [43.5636332, 6.1850868], color: '#A8E63D' },
   { id: 4, coords: [43.56643, 6.1827809], color: '#0A4A8A' },
   { id: 5, coords: [43.5679750, 6.1792471], color: '#E05C3A' },
-  { id: 6, coords: [43.5683589, 6.1813518], color: '#F5A623' },
+  { id: 6, coords: [43.5678363, 6.1782167], color: '#F5A623' },
 ];
 
 const SENTIER_GEOJSON = {
@@ -94,13 +94,13 @@ function initCarte() {
     const accessible = window.STATE.isCapsuleAccessible(point.id);
     const marker     = L.marker(point.coords, {
       icon: makeIcon(point, accessible),
-      interactive: accessible
+      interactive: true
     }).addTo(_map);
 
     if (accessible && capsule) {
       marker.on('click', () => openCapsuleSheet(capsule));
     } else {
-      marker.off('click');
+      marker.on('click', () => openLockedSheet(capsule));
     }
   });
 
@@ -199,11 +199,23 @@ function _createPanel(innerHtml) {
   if (overlay) overlay.classList.add('open');
 }
 
-function openLockedSheet() {
+function openLockedSheet(capsule) {
   _createPanel(`
-    <p style="text-align:center; color:var(--color-text-muted); font-style:italic;
-              padding:12px 0 0; font-size:15px; line-height:1.6;">
-      Ce lieu se dévoilera quand tu seras prêt, voyageur.
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px; opacity:0.55;">
+      <div class="badge-number">${capsule ? capsule.id : '?'}</div>
+      <div>
+        <h2 style="font-size:20px;">${capsule ? capsule.titre : 'Lieu verrouillé'}</h2>
+        ${capsule ? `<span class="badge" style="color:${capsule.theme_color}; border-color:${capsule.theme_color}40;">${capsule.theme}</span>` : ''}
+      </div>
+      <div style="margin-left:auto; font-size:22px;">🔒</div>
+    </div>
+    <p style="font-family:var(--font-display); font-style:italic; font-size:15px;
+              color:var(--color-text-muted); line-height:1.8; text-align:center;">
+      « Calme-toi, voyageur.<br/>
+      Ce lieu garde encore ses secrets.<br/>
+      Chaque pas que tu as franchi<br/>
+      t'en rapproche — continue ta route,<br/>
+      et il s'offrira à toi en son temps. »
     </p>
   `);
 }
