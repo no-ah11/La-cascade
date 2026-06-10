@@ -88,33 +88,6 @@ function initCapsule() {
       <h3 style="margin: 20px 0 10px; font-family: var(--font-body); font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color: var(--color-text-muted);">Médias</h3>
 
       <div class="media-list">
-        <button class="media-card anim-fade-in delay-300" style="opacity:0;" onclick="openPhotos(${id})">
-          <div class="media-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 17l-5-5-7 7"/></svg>
-          </div>
-          <div class="media-card-text">
-            <div class="media-card-title">Photos</div>
-            <div class="media-card-subtitle">Photos du lieu</div>
-          </div>
-          <div class="media-card-arrow">→</div>
-        </button>
-
-        <button class="media-card anim-fade-in delay-400" style="opacity:0;" onclick="toggleAudio(${id})">
-          <div class="media-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          </div>
-          <div class="media-card-text">
-            <div class="media-card-title">Écouter l'audio</div>
-            <div class="media-card-subtitle">Narration ${capsule.duree_audio}</div>
-          </div>
-          <div class="media-card-arrow">→</div>
-        </button>
-
-        <div id="audio-player-${id}" style="display:none; padding:16px; background: var(--color-surface-2); border-radius: var(--radius-md);">
-          <audio controls style="width:100%;" src="${capsule.audio}"></audio>
-          <div class="muted" style="font-size:12px; margin-top:8px; text-align:center;">Si l'audio ne joue pas, le fichier n'est pas encore disponible.</div>
-        </div>
-
         ${capsule.schema ? `
         <button class="media-card anim-fade-in delay-500" style="opacity:0;" onclick="openSchema(${id})">
           <div class="media-card-icon">
