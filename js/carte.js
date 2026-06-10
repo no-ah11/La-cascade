@@ -187,6 +187,19 @@ function openLockedSheet() {
   const sheet   = document.getElementById('sheet');
   const overlay = document.getElementById('sheet-overlay');
   if (!sheet) return;
+  if (!document.body.contains(sheet)) document.body.appendChild(sheet);
+  Object.assign(sheet.style, {
+    position: 'fixed', bottom: '0', left: '0', right: '0',
+    zIndex: '9999',
+    background: 'rgba(10,22,40,0.97)',
+    backdropFilter: 'blur(20px)',
+    borderTop: '1px solid rgba(80,177,254,0.3)',
+    borderRadius: '20px 20px 0 0',
+    padding: '20px 20px',
+    paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
+    maxHeight: '50vh',
+    overflowY: 'auto'
+  });
   sheet.innerHTML = `
     <div class="sheet-handle"></div>
     <p style="text-align:center; color:var(--color-text-muted); font-style:italic;
@@ -202,6 +215,19 @@ function openCapsuleSheet(capsule) {
   const sheet   = document.getElementById('sheet');
   const overlay = document.getElementById('sheet-overlay');
   if (!sheet) return;
+  if (!document.body.contains(sheet)) document.body.appendChild(sheet);
+  Object.assign(sheet.style, {
+    position: 'fixed', bottom: '0', left: '0', right: '0',
+    zIndex: '9999',
+    background: 'rgba(10,22,40,0.97)',
+    backdropFilter: 'blur(20px)',
+    borderTop: '1px solid rgba(80,177,254,0.3)',
+    borderRadius: '20px 20px 0 0',
+    padding: '20px 20px',
+    paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
+    maxHeight: '50vh',
+    overflowY: 'auto'
+  });
 
   sheet.innerHTML = `
     <div class="sheet-handle"></div>

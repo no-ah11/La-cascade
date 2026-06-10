@@ -154,6 +154,21 @@ function initCapsule() {
     </div>
   `;
 
+  const skipBtn = document.getElementById('cta-skip');
+  if (skipBtn) {
+    skipBtn.disabled = false;
+    skipBtn.style.opacity = '1';
+    skipBtn.style.pointerEvents = 'auto';
+    skipBtn.onclick = function() {
+      const nextId = id + 1;
+      if (nextId <= 6) {
+        window.location.href = 'capsule.html?id=' + nextId;
+      } else {
+        window.location.href = 'carte.html';
+      }
+    };
+  }
+
   setTimeout(() => {
     const cta = document.getElementById('cta-question');
     if (cta) {
@@ -163,13 +178,6 @@ function initCapsule() {
         localStorage.setItem('coracia_quiz_capsule', id);
         navigateTo(`quiz.html?capsule=${id}`);
       };
-    }
-    const skip = document.getElementById('cta-skip');
-    if (skip) {
-      skip.addEventListener('click', () => {
-        window.STATE.markCapsuleSkipped(id);
-        navigateTo(nextUrl);
-      });
     }
   }, 1200);
 
