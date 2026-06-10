@@ -3,7 +3,7 @@ let _userMarker = null;
 let _userAcc    = null;
 let _firstGPS   = true;
 
-const CENTER    = [43.5640, 6.1800];
+const CENTER    = [43.5668, 6.1795];
 const MAX_DIST  = 5; // km — au-delà : pas de recentrage auto
 
 const POINTS = [
@@ -55,24 +55,42 @@ function initCarte() {
 
   _map = L.map('map', {
     center: CENTER,
-    zoom: 16,
+    zoom: 17,
     zoomControl: false,
     attributionControl: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
+  L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=j5GTbvHC4ExI3Tj8orVK', {
+    attribution: '© <a href="https://www.maptiler.com">MapTiler</a> © <a href="https://www.openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 20
   }).addTo(_map);
 
   setTimeout(() => _map.invalidateSize(), 100);
 
-  // Sentier pointillé vert
-  L.polyline(POINTS.map(p => p.coords), {
-    color: 'rgba(145,255,5,0.6)',
-    weight: 3,
-    dashArray: '6, 8'
-  }).addTo(_map);
+  // Tracé pédestre via MapTiler Directions — fallback polyline droite
+  const _routePoints = [
+    [6.1812, 43.5672],
+    [6.1808, 43.5642],
+    [6.1798, 43.5618],
+    [6.1788, 43.5608],
+    [6.1793, 43.5603],
+    [6.1798, 43.5678]
+  ];
+  const _fallbackLine = () => L.polyline(
+    _routePoints.map(p => [p[1], p[0]]),
+    { color: 'rgba(145,255,5,0.6)', weight: 3, dashArray: '6, 8' }
+  ).addTo(_map);
+
+  const _coords = _routePoints.map(p => p.join(',')).join(';');
+  fetch(`https://api.maptiler.com/directions/v2/walking/${_coords}?key=j5GTbvHC4ExI3Tj8orVK&steps=true&geometries=geojson`)
+    .then(r => r.json())
+    .then(data => {
+      const geometry = data.routes[0].geometry;
+      L.geoJSON(geometry, {
+        style: { color: '#91FF05', weight: 4, opacity: 0.8 }
+      }).addTo(_map);
+    })
+    .catch(() => _fallbackLine());
 
   // Marqueurs
   const completed = window.STATE.getCompletedCapsules();
