@@ -84,9 +84,22 @@ function initCarte() {
   });
 
   // Tracé du sentier — GeoJSON terrain
-  L.geoJSON(SENTIER_GEOJSON, {
-    style: { color: '#91FF05', weight: 4, opacity: 0.8 }
-  }).addTo(_map);
+  // Segment i → capsule (i+2) : blanc si terminée/passée, vert sinon
+  const done = [
+    ...window.STATE.getCompletedCapsules(),
+    ...window.STATE.getSkippedCapsules()
+  ];
+  SENTIER_GEOJSON.features.forEach((feature, i) => {
+    const capsuleForSegment = i + 2;
+    const visited = done.includes(capsuleForSegment);
+    L.geoJSON(feature, {
+      style: {
+        color:   visited ? '#FFFFFF' : '#91FF05',
+        weight:  visited ? 3 : 4,
+        opacity: visited ? 0.6 : 0.8
+      }
+    }).addTo(_map);
+  });
 
   // Marqueurs
   POINTS.forEach(point => {
