@@ -8,11 +8,11 @@ const MAX_DIST  = 5; // km — au-delà : pas de recentrage auto
 
 const POINTS = [
   { id: 1, coords: [43.5668329, 6.1803599], color: '#F5A623' },
-  { id: 2, coords: [43.5651712, 6.1797828], color: '#4DB8FF' },
+  { id: 2, coords: [43.5629170, 6.1834979], color: '#4DB8FF' },
   { id: 3, coords: [43.5636332, 6.1850868], color: '#A8E63D' },
-  { id: 4, coords: [43.5627300, 6.1827809], color: '#4DB8FF' },
-  { id: 5, coords: [43.5664300, 6.1827809], color: '#E05C3A' },
-  { id: 6, coords: [43.5679750, 6.1792471], color: '#F5A623' },
+  { id: 4, coords: [43.5627490, 6.1835985], color: '#4DB8FF' },
+  { id: 5, coords: [43.5679750, 6.1792471], color: '#E05C3A' },
+  { id: 6, coords: [43.5683589, 6.1813518], color: '#F5A623' },
 ];
 
 const SENTIER_GEOJSON = {
@@ -77,6 +77,11 @@ function initCarte() {
   }).addTo(_map);
 
   setTimeout(() => _map.invalidateSize(), 100);
+  setTimeout(() => _map.invalidateSize(), 300);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && _map) setTimeout(() => _map.invalidateSize(), 300);
+  });
 
   // Tracé du sentier — GeoJSON terrain
   L.geoJSON(SENTIER_GEOJSON, {
@@ -84,21 +89,14 @@ function initCarte() {
   }).addTo(_map);
 
   // Marqueurs
-  const completed = window.STATE.getCompletedCapsules();
-  const skipped   = window.STATE.getSkippedCapsules();
-
   POINTS.forEach(point => {
     const capsule    = window.CAPSULES ? window.CAPSULES.find(c => c.id === point.id) : null;
     const accessible = window.STATE.isCapsuleAccessible(point.id);
     const marker     = L.marker(point.coords, { icon: makeIcon(point, accessible) }).addTo(_map);
 
-    marker.on('click', () => {
-      if (accessible && capsule) {
-        openCapsuleSheet(capsule);
-      } else {
-        openLockedSheet();
-      }
-    });
+    if (accessible && capsule) {
+      marker.on('click', () => openCapsuleSheet(capsule));
+    }
   });
 
   // Bouton Me localiser
