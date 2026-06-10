@@ -6,11 +6,13 @@ function getCapsuleId() {
   return stored || 1;
 }
 
-function renderImageOrPlaceholder(src, alt, fallbackTheme) {
+function renderImageOrPlaceholder(src, alt, fallbackTheme, imageFit, imagePosition) {
   const themeColor = fallbackTheme || '#4DB8FF';
+  const fit = imageFit || 'cover';
+  const position = imagePosition || 'center';
   return `
     <div class="capsule-image-wrap" style="width:100%; height:100%; position:relative;">
-      <img src="${src}" alt="${alt}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+      <img src="${src}" alt="${alt}" style="width:100%; height:100%; object-fit:${fit}; object-position:${position};" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
       <div class="placeholder-image" style="display:none; position:absolute; inset:0; background: linear-gradient(135deg, ${themeColor}20 0%, var(--color-surface) 100%);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="5" width="18" height="14" rx="2"/>
@@ -46,7 +48,7 @@ function initCapsule() {
   const root = document.getElementById('capsule-root');
   root.innerHTML = `
     <div class="capsule-hero" style="position:relative; width:100%; height: clamp(200px, 32vh, 280px); overflow:hidden;">
-      ${renderImageOrPlaceholder(capsule.image, capsule.titre, capsule.theme_color)}
+      ${renderImageOrPlaceholder(capsule.image, capsule.titre, capsule.theme_color, capsule.image_fit, capsule.image_position)}
       <div style="position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,22,40,0.5) 0%, transparent 30%, rgba(10,22,40,0.6) 70%, var(--color-bg) 100%);"></div>
 
       <div style="position:absolute; top: calc(12px + var(--safe-top)); left:16px; right:16px; display:flex; justify-content:space-between; align-items:center;">
