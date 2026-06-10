@@ -3,16 +3,16 @@ let _userMarker = null;
 let _userAcc    = null;
 let _firstGPS   = true;
 
-const CENTER    = [43.5668, 6.1772];
+const CENTER    = [43.5640, 6.1800];
 const MAX_DIST  = 5; // km — au-delà : pas de recentrage auto
 
 const POINTS = [
-  { id: 1, coords: [43.5685, 6.1773], color: '#F5A623' },
-  { id: 2, coords: [43.5668, 6.1778], color: '#4DB8FF' },
-  { id: 3, coords: [43.5656, 6.1771], color: '#A8E63D' },
-  { id: 4, coords: [43.5648, 6.1782], color: '#4DB8FF' },
-  { id: 5, coords: [43.5679, 6.1761], color: '#E05C3A' },
-  { id: 6, coords: [43.5681, 6.1765], color: '#F5A623' },
+  { id: 1, coords: [43.5672, 6.1812], color: '#F5A623' },
+  { id: 2, coords: [43.5642, 6.1808], color: '#4DB8FF' },
+  { id: 3, coords: [43.5618, 6.1798], color: '#A8E63D' },
+  { id: 4, coords: [43.5608, 6.1788], color: '#4DB8FF' },
+  { id: 5, coords: [43.5603, 6.1793], color: '#E05C3A' },
+  { id: 6, coords: [43.5678, 6.1798], color: '#F5A623' },
 ];
 
 function distKm(a, b) {
@@ -26,22 +26,17 @@ function distKm(a, b) {
 }
 
 function makeIcon(point, accessible) {
-  const fill   = accessible ? point.color : 'rgba(60,80,110,0.8)';
-  const stroke = accessible ? 'white' : 'rgba(255,255,255,0.25)';
-  const inner  = accessible
-    ? `<text x="18" y="18" text-anchor="middle" dominant-baseline="central"
-         fill="white" font-weight="700" font-size="14"
-         font-family="DM Sans,sans-serif">${point.id}</text>`
-    : `<g transform="translate(18,19)">
-         <rect x="-5" y="-1" width="10" height="7" rx="1.5"
-               fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
-         <path d="M-3,-1 L-3,-4 a3,3 0 0 1 6,0 L3,-1"
-               fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.4"
-               stroke-linecap="round"/>
-       </g>`;
+  const fill         = accessible ? point.color : 'rgba(255,255,255,0.25)';
+  const strokeColor  = 'white';
+  const strokeOpacity = accessible ? '1' : '0.5';
+  const strokeDash   = accessible ? '' : 'stroke-dasharray="4 3"';
+  const numOpacity   = accessible ? '1' : '0.5';
   const html = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
-    <circle cx="18" cy="18" r="16" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
-    ${inner}
+    <circle cx="18" cy="18" r="16" fill="${fill}"
+            stroke="${strokeColor}" stroke-opacity="${strokeOpacity}" stroke-width="2" ${strokeDash}/>
+    <text x="18" y="18" text-anchor="middle" dominant-baseline="central"
+          fill="white" fill-opacity="${numOpacity}" font-weight="700" font-size="14"
+          font-family="DM Sans,sans-serif">${point.id}</text>
   </svg>`;
   return L.divIcon({ html, className: '', iconSize: [36, 36], iconAnchor: [18, 18] });
 }
@@ -60,7 +55,7 @@ function initCarte() {
 
   _map = L.map('map', {
     center: CENTER,
-    zoom: 17,
+    zoom: 16,
     zoomControl: false,
     attributionControl: true
   });

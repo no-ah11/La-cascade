@@ -62,6 +62,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+/* Pages sans scroll vertical (carte, accueil) */
+body.no-scroll {
+  overflow: hidden;
 }
 
 body {
