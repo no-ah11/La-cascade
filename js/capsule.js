@@ -115,6 +115,18 @@ function initCapsule() {
           <div class="muted" style="font-size:12px; margin-top:8px; text-align:center;">Si l'audio ne joue pas, le fichier n'est pas encore disponible.</div>
         </div>
 
+        ${capsule.schema ? `
+        <button class="media-card anim-fade-in delay-500" style="opacity:0;" onclick="openSchema(${id})">
+          <div class="media-card-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <div class="media-card-text">
+            <div class="media-card-title">Comprendre en schéma</div>
+            <div class="media-card-subtitle">Diagramme explicatif</div>
+          </div>
+          <div class="media-card-arrow">→</div>
+        </button>` : ''}
+
       </div>
 
     </div>
@@ -255,6 +267,22 @@ function openPhotos(capsuleId) {
   requestAnimationFrame(() => lightbox.classList.add('open'));
 }
 
+function openSchema(capsuleId) {
+  const capsule = window.CAPSULES.find(c => c.id === capsuleId);
+  if (!capsule || !capsule.schema) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal" style="position:relative; max-height:85vh; overflow-y:auto;">
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+      <h3 style="margin-bottom:16px;">Comprendre en schéma</h3>
+      ${capsule.schema}
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('open'));
+}
+
 function toggleAudio(capsuleId) {
   const player = document.getElementById(`audio-player-${capsuleId}`);
   if (player) {
@@ -265,5 +293,6 @@ function toggleAudio(capsuleId) {
 if (typeof window !== 'undefined') {
   window.initCapsule = initCapsule;
   window.openPhotos = openPhotos;
+  window.openSchema = openSchema;
   window.toggleAudio = toggleAudio;
 }

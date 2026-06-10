@@ -281,17 +281,58 @@ function openScanner() {
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div class="modal" style="position:relative;">
-      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
-      <div style="text-align:center; padding:8px;">
-        <h3 style="margin-bottom:8px;">Scanner un repère</h3>
-        <p class="muted" style="font-size:14px;">Scanne un QR code sur un panneau du sanctuaire pour déverrouiller la capsule directement sur place.</p>
-        <button class="btn-primary" style="margin-top:20px;" onclick="this.closest('.modal-overlay').remove()">Compris</button>
+    <div class="modal" style="position:relative; padding:0; overflow:hidden; border-radius:var(--radius-lg);">
+      <button class="modal-close" id="scanner-close" style="position:absolute; top:12px; right:12px; z-index:10;">✕</button>
+      <div style="padding:16px 20px 10px;">
+        <h3 style="margin-bottom:4px;">Scanner un repère</h3>
+        <p class="muted" style="font-size:13px;">Pointe la caméra vers le QR code sur le panneau.</p>
       </div>
+      <div id="qr-reader" style="width:100%;"></div>
+      <div id="qr-result" style="padding:10px 20px 16px; font-size:13px; color:var(--color-text-muted); text-align:center; min-height:36px;"></div>
     </div>
   `;
   document.body.appendChild(modal);
   requestAnimationFrame(() => modal.classList.add('open'));
+
+  if (typeof Html5Qrcode === 'undefined') {
+    document.getElementById('qr-result').textContent = 'Scanner non disponible hors-ligne.';
+    return;
+  }
+
+  const scanner = new Html5Qrcode('qr-reader');
+
+  scanner.start(
+    { facingMode: 'environment' },
+    { fps: 10, qrbox: { width: 240, height: 240 } },
+    (decodedText) => {
+      let capsuleId = null;
+      const matchUrl   = decodedText.match(/capsule\.html\?id=(\d+)/);
+      const matchShort = decodedText.match(/^capsule:(\d+)$/);
+      const matchNum   = decodedText.match(/^[1-6]$/);
+      if (matchUrl)   capsuleId = parseInt(matchUrl[1]);
+      else if (matchShort) capsuleId = parseInt(matchShort[1]);
+      else if (matchNum)   capsuleId = parseInt(matchNum[0]);
+
+      if (capsuleId && capsuleId >= 1 && capsuleId <= 6) {
+        scanner.stop().then(() => {
+          modal.classList.remove('open');
+          setTimeout(() => { modal.remove(); openCapsule(capsuleId); }, 200);
+        });
+      } else {
+        document.getElementById('qr-result').textContent = 'QR code non reconnu.';
+      }
+    },
+    () => {}
+  ).catch(() => {
+    document.getElementById('qr-result').textContent = 'Accès à la caméra refusé ou indisponible.';
+  });
+
+  modal.querySelector('#scanner-close').addEventListener('click', () => {
+    scanner.stop().catch(() => {}).finally(() => {
+      modal.classList.remove('open');
+      setTimeout(() => modal.remove(), 250);
+    });
+  });
 }
 
 if (typeof window !== 'undefined') {
