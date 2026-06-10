@@ -12,7 +12,7 @@ const CAPSULES = [
 
 Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on embrasse d'un seul regard le village médiéval, la plaine cultivée et les collines boisées qui annoncent la garrigue. C'est ici que commence ton circuit.`,
     saviez_vous: "La cloche de l'église, fondue à la fin du XVIᵉ siècle, sonne encore aujourd'hui les heures du village.",
-    image: "assets/images/capsule-1.jpg",
+    image: "assets/images/EGLISE.jpg",
     audio: "assets/videos/capsule-1-audio.mp3",
     photos: ["assets/images/capsule-1-photo-1.jpg", "assets/images/capsule-1-photo-2.jpg", "assets/images/capsule-1-photo-3.jpg"],
     duree_audio: "2 min",
