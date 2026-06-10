@@ -10,7 +10,7 @@ const POINTS = [
   { id: 1, coords: [43.5668329, 6.1803599], color: '#F5A623' },
   { id: 2, coords: [43.5629170, 6.1834979], color: '#4DB8FF' },
   { id: 3, coords: [43.5636332, 6.1850868], color: '#A8E63D' },
-  { id: 4, coords: [43.5627490, 6.1835985], color: '#4DB8FF' },
+  { id: 4, coords: [43.56643, 6.1827809], color: '#0A4A8A' },
   { id: 5, coords: [43.5679750, 6.1792471], color: '#E05C3A' },
   { id: 6, coords: [43.5683589, 6.1813518], color: '#F5A623' },
 ];
