@@ -183,20 +183,17 @@ ul, ol {
 /* Page transitions */
 body {
   opacity: 1;
-  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+  transition: opacity 200ms var(--ease-out);
 }
 body.page-exit {
   opacity: 0;
-  transform: translateY(-10px);
 }
 body.page-enter {
   opacity: 0;
-  transform: translateY(10px);
 }
 body.page-loaded {
   opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+  transition: opacity 300ms var(--ease-out);
 }
 
 /* Scrollbar */
