@@ -24,7 +24,7 @@
     .ob-slide {
       width: 50%;
       flex-shrink: 0;
-      min-height: calc(100vh - calc(96px + var(--safe-bottom)));
+      min-height: calc(100dvh - 96px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -59,7 +59,7 @@
 
   <!-- Contenu slider -->
   <div style="position:relative; z-index:1; overflow:hidden;
-              padding-bottom:calc(96px + var(--safe-bottom));">
+              min-height:100dvh; display:flex; flex-direction:column;">
     <div class="ob-track" id="ob-slider">
 
       <!-- Slide 1 — Le sanctuaire -->
@@ -110,14 +110,17 @@
       </div>
 
     </div>
-  </div>
 
-  <!-- CTA fixe -->
-  <div class="cta-fixed-bottom" style="position:fixed; z-index:2;">
-    <button class="btn-primary" id="ob-next-btn"
-      style="background:linear-gradient(135deg,#74c7f5 0%,#50B1FE 100%); color:#0A1628;">
-      Suivant <span aria-hidden="true">→</span>
-    </button>
+    <div style="margin-top:auto; padding:24px 20px;
+                padding-bottom:max(24px, env(safe-area-inset-bottom));
+                background:linear-gradient(to top, #0A1628 60%, rgba(10,22,40,0.85) 85%, transparent);">
+      <div style="max-width:480px; margin:0 auto;">
+        <button class="btn-primary" id="ob-next-btn"
+          style="background:linear-gradient(135deg,#74c7f5 0%,#50B1FE 100%); color:#0A1628;">
+          Suivant <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="js/navigation.js"></script>

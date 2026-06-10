@@ -141,7 +141,7 @@ function initCapsule() {
 
     <div class="cta-fixed-bottom">
       <div style="display:flex; gap:10px;">
-        <button id="cta-skip" onclick="window.STATE.markCapsuleSkipped(${id}); navigateTo('${nextUrl}');"
+        <button id="cta-skip"
           style="flex:0 0 40%; padding:15px 12px; border-radius:var(--radius-pill);
                  border:1px solid rgba(255,255,255,0.4); background:transparent;
                  color:var(--color-text); font-size:15px; font-weight:600; cursor:pointer;">
@@ -163,6 +163,13 @@ function initCapsule() {
         localStorage.setItem('coracia_quiz_capsule', id);
         navigateTo(`quiz.html?capsule=${id}`);
       };
+    }
+    const skip = document.getElementById('cta-skip');
+    if (skip) {
+      skip.addEventListener('click', () => {
+        window.STATE.markCapsuleSkipped(id);
+        navigateTo(nextUrl);
+      });
     }
   }, 1200);
 
