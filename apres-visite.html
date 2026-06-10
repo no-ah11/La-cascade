@@ -74,11 +74,7 @@
         </div>
         <div style="flex:1;">
           <h3 style="margin-bottom:4px;">Quiz sur le lieu</h3>
-          <p class="muted" style="font-size:14px; margin-bottom:10px;">Teste ce que tu as appris sur les lieux visités.</p>
-          <div style="display:flex; gap:8px;">
-            <span class="badge badge-green">5 questions</span>
-            <span class="badge">3 min</span>
-          </div>
+          <p class="muted" style="font-size:14px;">Teste ce que tu as appris sur les lieux visités.</p>
         </div>
       </div>
       <button class="btn-primary" style="margin-top:16px;" data-nav="quiz.html">
@@ -210,9 +206,10 @@
 
     function revivreParcours() {
       if (confirm('Revivre le parcours réinitialise ta progression. Continuer ?')) {
-        STATE.reset();
-        localStorage.removeItem('coracia_visited');
-        navigateTo('accueil.html');
+        ['coracia_state','coracia_visited','coracia_completed','coracia_couleurs',
+         'coracia_benediction','coracia_current_capsule','coracia_quiz_capsule']
+          .forEach(k => localStorage.removeItem(k));
+        window.location.href = 'accueil.html';
       }
     }
 
