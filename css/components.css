@@ -1090,12 +1090,11 @@
   opacity: 0.5;
 }
 .parcours-cta-fixed {
-  position: fixed;
-  bottom: calc(60px + var(--safe-bottom));
-  left: 0;
-  right: 0;
-  padding: 16px 18px 8px;
-  background: linear-gradient(to top, var(--color-bg) 55%, rgba(10, 22, 40, 0) 100%);
+  position: sticky;
+  top: 0;
+  padding: 10px 18px;
+  background: var(--color-bg);
+  border-bottom: 1px solid rgba(80, 177, 254, 0.12);
   z-index: 50;
   pointer-events: none;
 }
