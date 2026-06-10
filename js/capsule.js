@@ -98,17 +98,6 @@ function initCapsule() {
           <div class="media-card-arrow">→</div>
         </button>
 
-        <button class="media-card anim-fade-in delay-300" style="opacity:0;" onclick="openVideo(${id})">
-          <div class="media-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <div class="media-card-text">
-            <div class="media-card-title">Vidéo</div>
-            <div class="media-card-subtitle">Découvre en images</div>
-          </div>
-          <div class="media-card-arrow">→</div>
-        </button>
-
         <button class="media-card anim-fade-in delay-400" style="opacity:0;" onclick="toggleAudio(${id})">
           <div class="media-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
@@ -125,16 +114,6 @@ function initCapsule() {
           <div class="muted" style="font-size:12px; margin-top:8px; text-align:center;">Si l'audio ne joue pas, le fichier n'est pas encore disponible.</div>
         </div>
 
-        <button class="media-card anim-fade-in delay-400" style="opacity:0;" onclick="openSchema(${id})">
-          <div class="media-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-          </div>
-          <div class="media-card-text">
-            <div class="media-card-title">Comprendre en image</div>
-            <div class="media-card-subtitle">Schéma légendé du lieu</div>
-          </div>
-          <div class="media-card-arrow">→</div>
-        </button>
       </div>
 
     </div>
@@ -275,25 +254,6 @@ function openPhotos(capsuleId) {
   requestAnimationFrame(() => lightbox.classList.add('open'));
 }
 
-function openVideo(capsuleId) {
-  const capsule = window.CAPSULES.find(c => c.id === capsuleId);
-  if (!capsule) return;
-
-  const lightbox = document.createElement('div');
-  lightbox.className = 'lightbox';
-  lightbox.innerHTML = `
-    <button class="lightbox-close">✕</button>
-    <div class="lightbox-content">
-      <video controls autoplay style="width:100%;" onerror="this.outerHTML='<div class=&quot;placeholder-image&quot; style=&quot;width:90vw; max-width:500px; height:300px;&quot;><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;><polygon points=&quot;5 3 19 12 5 21 5 3&quot;/></svg><span>Vidéo à venir</span></div>';">
-        <source src="${capsule.video}" type="video/mp4">
-      </video>
-    </div>
-  `;
-  document.body.appendChild(lightbox);
-  lightbox.querySelector('.lightbox-close').onclick = () => { lightbox.classList.remove('open'); setTimeout(() => lightbox.remove(), 200); };
-  requestAnimationFrame(() => lightbox.classList.add('open'));
-}
-
 function toggleAudio(capsuleId) {
   const player = document.getElementById(`audio-player-${capsuleId}`);
   if (player) {
@@ -301,27 +261,8 @@ function toggleAudio(capsuleId) {
   }
 }
 
-function openSchema(capsuleId) {
-  const capsule = window.CAPSULES.find(c => c.id === capsuleId);
-  if (!capsule) return;
-
-  const lightbox = document.createElement('div');
-  lightbox.className = 'lightbox';
-  lightbox.innerHTML = `
-    <button class="lightbox-close">✕</button>
-    <div class="lightbox-content">
-      <img src="${capsule.schema}" alt="Schéma" onerror="this.outerHTML='<div class=&quot;placeholder-image&quot; style=&quot;width:90vw; max-width:500px; height:400px;&quot;><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/></svg><span>Schéma à venir</span></div>';"/>
-    </div>
-  `;
-  document.body.appendChild(lightbox);
-  lightbox.querySelector('.lightbox-close').onclick = () => { lightbox.classList.remove('open'); setTimeout(() => lightbox.remove(), 200); };
-  requestAnimationFrame(() => lightbox.classList.add('open'));
-}
-
 if (typeof window !== 'undefined') {
   window.initCapsule = initCapsule;
   window.openPhotos = openPhotos;
-  window.openVideo = openVideo;
   window.toggleAudio = toggleAudio;
-  window.openSchema = openSchema;
 }

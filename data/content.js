@@ -13,9 +13,7 @@ const CAPSULES = [
 Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on embrasse d'un seul regard le village médiéval, la plaine cultivée et les collines boisées qui annoncent la garrigue. C'est ici que commence ton circuit.`,
     saviez_vous: "La cloche de l'église, fondue à la fin du XVIᵉ siècle, sonne encore aujourd'hui les heures du village.",
     image: "assets/images/capsule-1.jpg",
-    video: "assets/videos/capsule-1.mp4",
     audio: "assets/videos/capsule-1-audio.mp3",
-    schema: "assets/images/capsule-1-schema.jpg",
     photos: ["assets/images/capsule-1-photo-1.jpg", "assets/images/capsule-1-photo-2.jpg", "assets/images/capsule-1-photo-3.jpg"],
     duree_audio: "2 min",
     pos: { x: 295, y: 90 }
@@ -34,9 +32,7 @@ Son emplacement est aussi celui d'un point d'observation : depuis le parvis, on 
 Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de mousses fossilisées y dessinent encore la trame du vivant qui l'a fait naître.`,
     saviez_vous: "À Sillans, le tuff se forme encore aujourd'hui. La cascade fabrique sa propre roche, lentement, à la vitesse de quelques millimètres par siècle.",
     image: "assets/images/capsule-2.jpg",
-    video: "assets/videos/capsule-2.mp4",
     audio: "assets/videos/capsule-2-audio.mp3",
-    schema: "assets/images/capsule-2-schema.jpg",
     photos: ["assets/images/capsule-2-photo-1.jpg", "assets/images/capsule-2-photo-2.jpg", "assets/images/capsule-2-photo-3.jpg"],
     duree_audio: "2 min",
     pos: { x: 320, y: 230 }
@@ -55,9 +51,7 @@ Pose la main sur la pierre : elle garde la mémoire de l'eau. Les empreintes de 
 Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à peu, les voix plus fines : insectes, chant des fauvettes, frémissement des feuilles. C'est ici que la forêt commence à se confier.`,
     saviez_vous: "Le martin-pêcheur, ce petit oiseau bleu et orange, peut plonger jusqu'à 1 m de profondeur pour attraper de petits poissons.",
     image: "assets/images/capsule-3.jpg",
-    video: "assets/videos/capsule-3.mp4",
     audio: "assets/videos/capsule-3-audio.mp3",
-    schema: "assets/images/capsule-3-schema.jpg",
     photos: ["assets/images/capsule-3-photo-1.jpg", "assets/images/capsule-3-photo-2.jpg", "assets/images/capsule-3-photo-3.jpg"],
     duree_audio: "3 min",
     pos: { x: 270, y: 350 }
@@ -76,9 +70,7 @@ Reste un instant immobile. Le tympan capte le grondement de l'eau, puis, peu à 
 Son eau est chargée en calcaire dissous, hérité de la traversée des couches géologiques de la garrigue. C'est ce calcaire qui, en se déposant, sculpte les concrétions du tuff et donne au site sa physionomie si particulière.`,
     saviez_vous: "La cascade de Sillans mesure environ 42 mètres de hauteur. Son débit peut décupler en quelques heures lors des épisodes méditerranéens d'automne.",
     image: "assets/images/capsule-4.jpg",
-    video: "assets/videos/capsule-4.mp4",
     audio: "assets/videos/capsule-4-audio.mp3",
-    schema: "assets/images/capsule-4-schema.jpg",
     photos: ["assets/images/capsule-4-photo-1.jpg", "assets/images/capsule-4-photo-2.jpg", "assets/images/capsule-4-photo-3.jpg"],
     duree_audio: "3 min",
     pos: { x: 200, y: 490 }
@@ -97,9 +89,7 @@ Son eau est chargée en calcaire dissous, hérité de la traversée des couches 
 Mais le site fait face à des risques bien réels aujourd'hui. Chaque été, des centaines de milliers de visiteurs foulent ces chemins. En 2021, plus de 224 000 personnes ont fréquenté le site en deux mois. Cette pression provoque des incidents : cigarettes jetées en pleine garrigue, baigneurs dans la vasque interdite, dégradations des infrastructures. En période de risque incendie, le dispositif ZAPEF peut restreindre l'accès au site entre 10h et 18h pour protéger tout le monde.`,
     saviez_vous: "En juillet 2025, la ZAPEF a été activée 3 jours. Le 27 juillet, 2 010 visiteurs ont fréquenté la Rive Gauche en une seule journée — et 10 cigarettes ont quand même été signalées ce jour-là.",
     image: "assets/images/capsule-5.jpg",
-    video: "assets/videos/capsule-5.mp4",
     audio: "assets/videos/capsule-5-audio.mp3",
-    schema: "assets/images/capsule-5-schema.jpg",
     photos: ["assets/images/capsule-5-photo-1.jpg", "assets/images/capsule-5-photo-2.jpg", "assets/images/capsule-5-photo-3.jpg"],
     duree_audio: "3 min",
     pos: { x: 85, y: 350 }
@@ -118,9 +108,7 @@ Mais le site fait face à des risques bien réels aujourd'hui. Chaque été, des
 Lève les yeux : sur les linteaux, des cadrans solaires et des dates gravées rappellent qui a bâti, qui a remanié, qui a habité. Les fontaines, alimentées par les eaux du plateau, témoignent d'une époque où l'eau publique était au cœur de la vie quotidienne. Ton circuit s'achève ici, dans le tissu vivant du village.`,
     saviez_vous: "En 2022, 28 sacs de 110 litres de déchets ont été collectés sur la seule Rive Gauche en une saison. Chaque déchet laissé sur place finit dans la Bresque.",
     image: "assets/images/capsule-6.jpg",
-    video: "assets/videos/capsule-6.mp4",
     audio: "assets/videos/capsule-6-audio.mp3",
-    schema: "assets/images/capsule-6-schema.jpg",
     photos: ["assets/images/capsule-6-photo-1.jpg", "assets/images/capsule-6-photo-2.jpg", "assets/images/capsule-6-photo-3.jpg"],
     duree_audio: "2 min",
     pos: { x: 130, y: 170 }
