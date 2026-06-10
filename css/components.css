@@ -1094,13 +1094,14 @@
   bottom: calc(var(--nav-height) + var(--safe-bottom));
   left: 0;
   right: 0;
-  padding: 120px 18px 14px;
+  padding: 28vh 18px 14px;
   background: linear-gradient(
     to bottom,
-    transparent       0%,
-    rgba(10,22,40,.25) 28%,
-    rgba(10,22,40,.72) 55%,
-    var(--color-bg)   76%
+    transparent        0%,
+    rgba(10,22,40,.18) 22%,
+    rgba(10,22,40,.55) 45%,
+    rgba(10,22,40,.88) 65%,
+    var(--color-bg)    80%
   );
   z-index: 50;
   pointer-events: none;
