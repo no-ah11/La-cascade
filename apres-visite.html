@@ -57,7 +57,7 @@
     <div class="card anim-slide-up" style="padding: 18px;">
       <div style="display:flex; align-items:flex-start; gap:16px;">
         <div style="text-align:center;">
-          <img src="assets/icons/logo-sillans.svg" alt="Sillans-la-Cascade" width="48" height="42" />
+          <img src="assets/icons/logo-sillans.svg" id="apres-logo" alt="Sillans-la-Cascade" width="64" height="56" />
           <div style="font-size:11px; color: var(--color-text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:4px;">Sillans</div>
         </div>
         <div style="flex:1;">
@@ -140,6 +140,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const count = Math.max(0, parseInt(localStorage.getItem('coracia_couleurs') || '0'));
+      const apresLogo = document.getElementById('apres-logo');
+      if (apresLogo) apresLogo.src = STATE.getCoraciaLogo(count);
       const ORDER = window.CORACIA_COLORS_ORDER;
       const LABELS = window.COULEUR_LABELS;
       const display = document.getElementById('couleurs-display');
