@@ -1091,10 +1091,11 @@
 }
 .parcours-cta-fixed {
   position: fixed;
-  bottom: calc(var(--nav-height) + var(--safe-bottom));
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   padding: 28vh 18px 14px;
+  padding-top: 28svh;
   background: linear-gradient(
     to bottom,
     transparent        0%,
